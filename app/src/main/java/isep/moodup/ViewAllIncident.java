@@ -62,16 +62,15 @@ public class ViewAllIncident extends AppCompatActivity{
                         JSONObject jsonObj = new JSONObject(jsonStr);
 
                         // Getting JSON Array node
-                        JSONArray contacts = jsonObj.getJSONArray("result");
+                        JSONArray incidents = jsonObj.getJSONArray("result");
 
-                        // looping through All Contacts
-                        for (int i = 0; i < contacts.length(); i++) {
-                            JSONObject c = contacts.getJSONObject(i);
+                        // looping through All Incidents
+                        for (int i = 0; i < incidents.length(); i++) {
+                            JSONObject c = incidents.getJSONObject(i);
 
                             String description = c.getString("description");
                             String title = c.getString("title");
 
-                            // tmp hash map for single contact
                             HashMap<String, String> incident = new HashMap<>();
 
                             // adding each child node to HashMap key => value

@@ -23,6 +23,7 @@ app.get('/getAllIncidents', function(req,resp){
 				tempCont.release();
 				if(!!error){
 					console.log('Error in the query');
+					resp.json("");
 				} else{
 					 resp.json({"result":rows});
 				}
