@@ -11,30 +11,11 @@
     tools:context="isep.moodup.MainActivity">
 
     <Button
-        android:text="GET"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="80dp"
-        android:layout_marginStart="80dp"
-        android:layout_marginTop="48dp"
-        android:id="@+id/button"
-        android:onClick="routage"/>
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Hello World!"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:id="@+id/textView" />
-
-    <ListView
-        android:id="@+id/liste"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@+id/button"
+        android:layout_height="wrap_content"
+        android:text="Voir les incidents"
+        android:id="@+id/buttonView"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginTop="32dp" />
+        android:layout_alignParentStart="true" />
+
 </RelativeLayout>

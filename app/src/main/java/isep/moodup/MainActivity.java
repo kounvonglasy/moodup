@@ -1,25 +1,28 @@
 package isep.moodup;
 
-import android.os.AsyncTask;
-import android.app.Activity;
 import android.view.View;
-import android.widget.ListView;
+import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.widget.Button;
+import android.content.Intent;
 
-public class MainActivity extends Activity {
+public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
-        private ListView liste;
+    private Button buttonView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        liste = (ListView) findViewById(R.id.liste); //liste in Java
+        buttonView = (Button) findViewById(R.id.buttonView);
+        buttonView.setOnClickListener(this);
     }
 
-    public void routage(View view){
-        AsyncTask reseau = new Reseau();
-        reseau.execute(this,liste);
 
+    @Override
+    public void onClick(View v) {
+        if(v == buttonView){
+            startActivity(new Intent(this,ViewAllIncident.class));
+        }
     }
 }
