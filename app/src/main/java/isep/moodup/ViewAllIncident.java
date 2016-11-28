@@ -13,21 +13,25 @@ import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.Toast;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.HashMap;
+
 import android.util.Log;
 
 
-public class ViewAllIncident extends AppCompatActivity{
+public class ViewAllIncident extends AppCompatActivity {
 
     private ListView listView;
     private ProgressDialog pDialog;
     private String TAG = ViewAllIncident.class.getSimpleName();
     private static String url = "http://10.0.2.2:8888/getAllIncidents";
     ArrayList<HashMap<String, String>> incidentList;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,7 +41,7 @@ public class ViewAllIncident extends AppCompatActivity{
         new GetIncidents().execute();
     }
 
-    private class GetIncidents extends AsyncTask<Void, Void, Void>{
+    private class GetIncidents extends AsyncTask<Void, Void, Void> {
 
         @Override
         protected void onPreExecute() {
@@ -50,66 +54,66 @@ public class ViewAllIncident extends AppCompatActivity{
 
         }
 
-            @Override
-            protected Void doInBackground(Void... arg0) {
-                HttpHandler sh = new HttpHandler();
+        @Override
+        protected Void doInBackground(Void... arg0) {
+            HttpHandler sh = new HttpHandler();
 
-                // Making a request to url and getting response
-                String jsonStr = sh.makeServiceCall(url);
+            // Making a request to url and getting response
+            String jsonStr = sh.makeServiceCall(url);
 
-                if (jsonStr != null) {
-                    try {
-                        JSONObject jsonObj = new JSONObject(jsonStr);
+            if (jsonStr != null) {
+                try {
+                    JSONObject jsonObj = new JSONObject(jsonStr);
 
-                        // Getting JSON Array node
-                        JSONArray incidents = jsonObj.getJSONArray("result");
+                    // Getting JSON Array node
+                    JSONArray incidents = jsonObj.getJSONArray("result");
 
-                        // looping through All Incidents
-                        for (int i = 0; i < incidents.length(); i++) {
-                            JSONObject c = incidents.getJSONObject(i);
+                    // looping through All Incidents
+                    for (int i = 0; i < incidents.length(); i++) {
+                        JSONObject c = incidents.getJSONObject(i);
 
-                            String description = c.getString("description");
-                            String title = c.getString("title");
+                        String description = c.getString("description");
+                        String title = c.getString("title");
 
-                            HashMap<String, String> incident = new HashMap<>();
+                        HashMap<String, String> incident = new HashMap<>();
 
-                            // adding each child node to HashMap key => value
-                            incident.put("title", title);
-                            incident.put("description", description);
-                            // adding incident to incident list
-                            incidentList.add(incident);
-                        }
-                    } catch (final JSONException e) {
-                        runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                Toast.makeText(getApplicationContext(),
-                                        "Json parsing error: " + e.getMessage(),
-                                        Toast.LENGTH_LONG)
-                                        .show();
-                            }
-                        });
-
+                        // adding each child node to HashMap key => value
+                        incident.put("title", title);
+                        incident.put("description", description);
+                        // adding incident to incident list
+                        incidentList.add(incident);
                     }
-                } else {
-                    Log.e(TAG, "Couldn't get json from server.");
+                } catch (final JSONException e) {
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
                             Toast.makeText(getApplicationContext(),
-                                    "Couldn't get json from server. Check LogCat for possible errors!",
+                                    "Json parsing error: " + e.getMessage(),
                                     Toast.LENGTH_LONG)
                                     .show();
                         }
                     });
 
                 }
+            } else {
+                Log.e(TAG, "Couldn't get json from server.");
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Toast.makeText(getApplicationContext(),
+                                "Couldn't get json from server. Check LogCat for possible errors!",
+                                Toast.LENGTH_LONG)
+                                .show();
+                    }
+                });
 
-                return null;
             }
 
-            @Override
-            protected void onPostExecute(Void result){
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void result) {
             super.onPostExecute(result);
             // Dismiss the progress dialog
             if (pDialog.isShowing())
@@ -119,9 +123,9 @@ public class ViewAllIncident extends AppCompatActivity{
              * */
             ListAdapter adapter = new SimpleAdapter(
                     ViewAllIncident.this, incidentList,
-                    R.layout.list_incident, new String[]{"title","description"}, new int[]{
-                    R.id.title,R.id.description});
-                listView.setAdapter(adapter);
+                    R.layout.list_incident, new String[]{"title", "description"}, new int[]{
+                    R.id.title, R.id.description});
+            listView.setAdapter(adapter);
         }
     }
 

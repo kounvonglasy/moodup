@@ -1,5 +1,6 @@
 var express = require("express");
 var mysql = require('mysql');
+var myParser = require("body-parser");
 var app = express();
 
 var connection = mysql.createPool({
@@ -30,6 +31,16 @@ app.get('/getAllIncidents', function(req,resp){
 			});
 		}
 	});
+});
+
+  app.use(myParser.urlencoded({extended : true}));
+  app.post("/addIncident", function(request, response) {
+    console.log(request.body); //This prints the JSON document received (if it is a JSON document)
+	console.log('Connected');
+	var query = connection.query('INSERT INTO incident SET ?', request.body, function(err, result) {
+	  // Neat!
+	});
+	console.log(query.sql);
 });
 
 app.listen(8888);
