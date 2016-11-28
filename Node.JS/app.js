@@ -19,7 +19,7 @@ app.get('/getAllIncidents', function(req,resp){
 			console.log('ERROR');
 		} else{
 			console.log('Connected');
-			tempCont.query("SELECT * FROM incident", function(error,rows,fields){
+			tempCont.query("SELECT i.title, i.description, u.name  FROM incident as i LEFT JOIN user as u ON i.idUser = u.idUser", function(error,rows,fields){
 				tempCont.release();
 				if(!!error){
 					console.log('Error in the query');
