@@ -12,7 +12,7 @@ var connection = mysql.createPool({
 	database: 'moodup'
 });
 
-app.get('/getAllIncidents', function(req,resp){
+app.get('/getAllIncidents', function(request,response){
 	//about mysql
 	connection.getConnection(function(error,tempCont){
 		if(!!error){
@@ -24,9 +24,10 @@ app.get('/getAllIncidents', function(req,resp){
 				tempCont.release();
 				if(!!error){
 					console.log('Error in the query');
-					resp.json("");
+					response.writeHead(200, {'Content-Type': 'text/plain'});
+					response.end('Error in the query \n');
 				} else{
-					 resp.json({"result":rows});
+					response.json({"result":rows});
 				}
 			});
 		}
@@ -38,7 +39,15 @@ app.get('/getAllIncidents', function(req,resp){
     console.log(request.body); //This prints the JSON document received (if it is a JSON document)
 	console.log('Connected');
 	var query = connection.query('INSERT INTO incident SET ?', request.body, function(err, result) {
-	  // Neat!
+	  if (err){
+		console.log('Could not add the incident.');
+		response.writeHead(200, {'Content-Type': 'text/plain'});
+		response.end('Could not add the incident.');
+	  }else{
+	    console.log('Incident added succesfully.');
+		response.writeHead(200, {'Content-Type': 'text/plain'});
+		response.end('Incident added succesfully.');
+	  }
 	});
 	console.log(query.sql);
 });
