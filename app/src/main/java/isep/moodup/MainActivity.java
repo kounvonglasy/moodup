@@ -77,7 +77,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 params.put("idType", idType);
 
                 HttpHandler rh = new HttpHandler();
-                String res = rh.sendPostRequest("http://10.0.2.2:8888/addIncident", params);
+                String res = rh.sendPostRequest(Config.URL_ADD_INCIDENT, params);
                 return res;
             }
         }
