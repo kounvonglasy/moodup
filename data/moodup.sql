@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Client :  127.0.0.1
--- Généré le :  Lun 28 Novembre 2016 à 11:24
+-- Généré le :  Dim 04 Décembre 2016 à 18:17
 -- Version du serveur :  5.7.11
 -- Version de PHP :  5.6.19
 
@@ -42,6 +42,18 @@ INSERT INTO `categorie` (`idCategorie`, `name`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Structure de la table `clickcount`
+--
+
+CREATE TABLE `clickcount` (
+  `idClickCount` int(11) NOT NULL,
+  `idIncident` int(11) NOT NULL,
+  `count` int(11) DEFAULT '0'
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
 -- Structure de la table `image`
 --
 
@@ -62,12 +74,10 @@ CREATE TABLE `incident` (
   `idIncident` int(11) NOT NULL,
   `idUser` int(11) NOT NULL,
   `title` varchar(45) DEFAULT NULL,
-  `creationDate` date DEFAULT NULL,
+  `creationDate` datetime DEFAULT NULL,
   `duration` varchar(45) DEFAULT NULL,
   `description` varchar(100) DEFAULT NULL,
   `address` varchar(45) DEFAULT NULL,
-  `abus` tinyint(1) DEFAULT NULL,
-  `like` tinyint(1) DEFAULT NULL,
   `idSeverite` int(11) NOT NULL,
   `idType` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -76,8 +86,9 @@ CREATE TABLE `incident` (
 -- Contenu de la table `incident`
 --
 
-INSERT INTO `incident` (`idIncident`, `idUser`, `title`, `creationDate`, `duration`, `description`, `address`, `abus`, `like`, `idSeverite`, `idType`) VALUES
-(1, 1, 'Probleme sur la ligne 4', '2016-11-09', NULL, 'Malaise voyageur à la station Montparnasse', NULL, NULL, NULL, 3, 1);
+INSERT INTO `incident` (`idIncident`, `idUser`, `title`, `creationDate`, `duration`, `description`, `address`, `idSeverite`, `idType`) VALUES
+(1, 1, 'Probleme sur la ligne 4', '2016-11-09 00:00:00', NULL, 'Malaise voyageur à la station Montparnasse', NULL, 3, 1),
+(2, 1, 'Accident sur la route', '2016-11-02 00:00:00', NULL, 'Sur la national 12', NULL, 4, 2);
 
 -- --------------------------------------------------------
 
@@ -142,7 +153,8 @@ CREATE TABLE `user` (
 --
 
 INSERT INTO `user` (`idUser`, `name`, `firstName`, `email`, `login`, `password`, `status`, `idImage`) VALUES
-(1, 'kounvonglasy', 'kevin', 'kounvonglaskevin@gmail.com', 'kkounvonglasy', 'test', NULL, NULL);
+(1, 'kounvonglasy', 'kevin', 'kounvonglaskevin@gmail.com', 'kkounvonglasy', 'test', NULL, NULL),
+(2, 'talhaoui', 'hassan', 'hassan.talhaoui@gmail.com', 'htalhaoui', 'test', NULL, NULL);
 
 --
 -- Index pour les tables exportées
@@ -153,6 +165,12 @@ INSERT INTO `user` (`idUser`, `name`, `firstName`, `email`, `login`, `password`,
 --
 ALTER TABLE `categorie`
   ADD PRIMARY KEY (`idCategorie`);
+
+--
+-- Index pour la table `clickcount`
+--
+ALTER TABLE `clickcount`
+  ADD PRIMARY KEY (`idClickCount`);
 
 --
 -- Index pour la table `image`
@@ -200,6 +218,11 @@ ALTER TABLE `user`
 ALTER TABLE `categorie`
   MODIFY `idCategorie` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 --
+-- AUTO_INCREMENT pour la table `clickcount`
+--
+ALTER TABLE `clickcount`
+  MODIFY `idClickCount` int(11) NOT NULL AUTO_INCREMENT;
+--
 -- AUTO_INCREMENT pour la table `image`
 --
 ALTER TABLE `image`
@@ -208,7 +231,7 @@ ALTER TABLE `image`
 -- AUTO_INCREMENT pour la table `incident`
 --
 ALTER TABLE `incident`
-  MODIFY `idIncident` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `idIncident` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 --
 -- AUTO_INCREMENT pour la table `severity`
 --
@@ -223,7 +246,7 @@ ALTER TABLE `type`
 -- AUTO_INCREMENT pour la table `user`
 --
 ALTER TABLE `user`
-  MODIFY `idUser` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `idUser` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 --
 -- Contraintes pour les tables exportées
 --

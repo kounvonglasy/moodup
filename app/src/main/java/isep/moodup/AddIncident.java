@@ -17,7 +17,10 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 
 /**
@@ -84,6 +87,9 @@ public class AddIncident  extends AppCompatActivity implements View.OnClickListe
         final Integer user = idUserList.get(indexUser);
         final Integer severite = idSeveriteList.get(indexSeverite);
         final Integer type = idTypeList.get(indexType);
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Date date = new Date();
+        final String creationDate = dateFormat.format(date);
 
         class AddIncidentTask extends AsyncTask<Void, Void, String> {
 
@@ -110,6 +116,7 @@ public class AddIncident  extends AppCompatActivity implements View.OnClickListe
                 params.put("idUser", Integer.toString(user));
                 params.put("idSeverite", Integer.toString(severite));
                 params.put("idType", Integer.toString(type));
+                params.put("creationDate", creationDate);
                 HttpHandler rh = new HttpHandler();
                 String res = rh.sendPostRequest(Config.URL_ADD_INCIDENT, params);
                 return res;
