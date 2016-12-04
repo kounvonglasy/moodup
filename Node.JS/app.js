@@ -34,9 +34,75 @@ app.get('/getAllIncidents', function(request,response){
 	});
 });
 
+app.get('/getAllUsers', function(request,response){
+	//about mysql
+	connection.getConnection(function(error,tempCont){
+		if(!!error){
+			tempCont.release();
+			console.log('ERROR');
+		} else{
+			console.log('Connected');
+			tempCont.query("SELECT u.idUser as id, u.name  FROM user as u", function(error,rows,fields){
+				tempCont.release();
+				if(!!error){
+					console.log('Error in the query');
+					response.writeHead(200, {'Content-Type': 'text/plain'});
+					response.end('Error in the query \n');
+				} else{
+					response.json({"result":rows});
+				}
+			});
+		}
+	});
+});
+
+app.get('/getAllSeverites', function(request,response){
+	//about mysql
+	connection.getConnection(function(error,tempCont){
+		if(!!error){
+			tempCont.release();
+			console.log('ERROR');
+		} else{
+			console.log('Connected');
+			tempCont.query("SELECT s.idSeverite as id, s.name  FROM severity as s", function(error,rows,fields){
+				tempCont.release();
+				if(!!error){
+					console.log('Error in the query');
+					response.writeHead(200, {'Content-Type': 'text/plain'});
+					response.end('Error in the query \n');
+				} else{
+					response.json({"result":rows});
+				}
+			});
+		}
+	});
+});
+
+app.get('/getAllTypes', function(request,response){
+	//about mysql
+	connection.getConnection(function(error,tempCont){
+		if(!!error){
+			tempCont.release();
+			console.log('ERROR');
+		} else{
+			console.log('Connected');
+			tempCont.query("SELECT t.idType as id, t.name  FROM type as t", function(error,rows,fields){
+				tempCont.release();
+				if(!!error){
+					console.log('Error in the query');
+					response.writeHead(200, {'Content-Type': 'text/plain'});
+					response.end('Error in the query \n');
+				} else{
+					response.json({"result":rows});
+				}
+			});
+		}
+	});
+});
+
   app.use(myParser.urlencoded({extended : true}));
   app.post("/addIncident", function(request, response) {
-    console.log(request.body); //This prints the JSON document received (if it is a JSON document)
+	console.log(request.body);
 	console.log('Connected');
 	var query = connection.query('INSERT INTO incident SET ?', request.body, function(err, result) {
 	  if (err){
@@ -47,7 +113,7 @@ app.get('/getAllIncidents', function(request,response){
 	    console.log('Incident added succesfully.');
 		response.writeHead(200, {'Content-Type': 'text/plain'});
 		response.end('Incident added succesfully.');
-	  }
+	  } 
 	});
 	console.log(query.sql);
 });

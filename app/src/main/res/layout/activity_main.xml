@@ -28,36 +28,36 @@
         android:id="@+id/editTextDescription"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
-
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Id User" />
-
-    <EditText
-        android:id="@+id/editTextIdUser"
+        android:text="User" />
+    <Spinner
+        android:id="@+id/editTextUser"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
-
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true" />
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Id Severite" />
-
-    <EditText
-        android:id="@+id/editTextIdSeverite"
+        android:text="Severite" />
+    <Spinner
+        android:id="@+id/editTextSeverite"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
-
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true" />
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Id Type" />
-
-    <EditText
-        android:id="@+id/editTextIdType"
+        android:text="Type" />
+    <Spinner
+        android:id="@+id/editTextType"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true" />
 
     <Button
         android:id="@+id/buttonAdd"

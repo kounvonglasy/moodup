@@ -29,7 +29,6 @@ public class ViewAllIncident extends AppCompatActivity {
     private ListView listView;
     private ProgressDialog pDialog;
     private String TAG = ViewAllIncident.class.getSimpleName();
-    private static String url = "http://10.0.2.2:8888/getAllIncidents";
     ArrayList<HashMap<String, String>> incidentList;
 
     @Override
@@ -59,7 +58,7 @@ public class ViewAllIncident extends AppCompatActivity {
             HttpHandler sh = new HttpHandler();
 
             // Making a request to url and getting response
-            String jsonStr = sh.makeServiceCall(url);
+            String jsonStr = sh.makeServiceCall(Config.URL_GET_ALL_INCIDENTS);
 
             if (jsonStr != null) {
                 try {
