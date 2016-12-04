@@ -20,6 +20,11 @@
             <category android:name="android.intent.category.DEFAULT" />
         </intent-filter>
         </activity>
+        <activity android:name=".AddIncident">    <intent-filter>
+            <action android:name="isep.moodup.AddIncident" />
+            <category android:name="android.intent.category.ADD" />
+        </intent-filter>
+        </activity>
     </application>
     <uses-permission
         android:name="android.permission.INTERNET"/>
