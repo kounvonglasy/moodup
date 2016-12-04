@@ -17,7 +17,6 @@ import android.widget.Spinner;
 import android.widget.ArrayAdapter;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
-import android.content.Context;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -64,9 +63,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setContentView(R.layout.activity_main);
 
         //Initializing spinners and views
-        setSpinner(R.id.editTextUser, "User", userList);
-        setSpinner(R.id.editTextSeverite, "Severity",severiteList);
-        setSpinner(R.id.editTextType,"Type", typeList);
+        setSpinner(R.id.editTextUser, userList);
+        setSpinner(R.id.editTextSeverite,severiteList);
+        setSpinner(R.id.editTextType, typeList);
 
         editTextTitle = (EditText) findViewById(R.id.editTextTitle);
         editTextDescription = (EditText) findViewById(R.id.editTextDescription);
@@ -77,7 +76,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         buttonAdd.setOnClickListener(this);
         buttonView.setOnClickListener(this);
     }
-    private void setSpinner(Integer id, String name, final ArrayList<String> list){
+    private void setSpinner(Integer id, final ArrayList<String> list){
         final Spinner spinner =(Spinner)findViewById(id);
         ArrayAdapter<String> adapter;
         adapter = new ArrayAdapter<>(MainActivity.this, android.R.layout.simple_list_item_1,list);
