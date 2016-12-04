@@ -1,7 +1,6 @@
 package isep.moodup;
 
 import android.app.ProgressDialog;
-import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -18,7 +17,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.sql.Wrapper;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -28,7 +26,11 @@ import java.util.HashMap;
 
 public class AddIncident  extends AppCompatActivity implements View.OnClickListener {
     private String TAG = ViewAllIncident.class.getSimpleName();
-    private Integer index;
+    //Defining indexes
+    private Integer indexUser;
+    private Integer indexSeverite;
+    private Integer indexType;
+
     //Defining lists
     private ArrayList<String> userList = new ArrayList<>();
     private ArrayList<Integer> idUserList = new ArrayList<>();
@@ -47,9 +49,11 @@ public class AddIncident  extends AppCompatActivity implements View.OnClickListe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.add_incident);
+
         //Get user list
         MyTaskParams params = new MyTaskParams(Config.URL_GET_ALL_USERS, userList, idUserList,R.id.editTextUser);
         new GetList().execute(params);
+
         //Get severite list
         params = new MyTaskParams(Config.URL_GET_ALL_SEVERITES, severiteList, idSeveriteList,R.id.editTextSeverite);
         new GetList().execute(params);
@@ -69,64 +73,51 @@ public class AddIncident  extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onClick(View v) {
         if(v == buttonAddIncident){
-            AddIncidentTask ai = new AddIncidentTask();
-            ai.execute();
+            addIncident();
         }
     }
 
-    private void setSpinner(Integer id, final ArrayList<String> list){
-        final Spinner spinner =(Spinner)findViewById(id);
-        ArrayAdapter<String> adapter;
-        adapter = new ArrayAdapter<>(AddIncident.this, android.R.layout.simple_list_item_1,list);
-        spinner.setAdapter(adapter);
-        //Adding setOnItemSelectedListener method on spinner.
-        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view,
-                                       int position, long id) {
-                Toast.makeText(AddIncident.this, spinner.getSelectedItem().toString(), Toast.LENGTH_LONG).show();
-                spinnerContent = spinner.getSelectedItem().toString();
-                index = list.indexOf(spinnerContent);
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-                // TODO Auto-generated method stub
-            }
-        });
-    }
     //Adding an incident
-    class AddIncidentTask extends AsyncTask<Void, Void, String> {
-        String title = editTextTitle.getText().toString().trim();
-        String description = editTextDescription.getText().toString().trim();
-        Integer user = idUserList.get(index);
-        Integer severite = idSeveriteList.get(index);
-        Integer type = idTypeList.get(index);
-        ProgressDialog loading;
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            loading = ProgressDialog.show(AddIncident.this, "Adding...", "Wait...", false, false);
+    private void addIncident() {
+        final String title = editTextTitle.getText().toString().trim();
+        final String description = editTextDescription.getText().toString().trim();
+        final Integer user = idUserList.get(indexUser);
+        final Integer severite = idSeveriteList.get(indexSeverite);
+        final Integer type = idTypeList.get(indexType);
+
+        class AddIncidentTask extends AsyncTask<Void, Void, String> {
+
+            ProgressDialog loading;
+
+            @Override
+            protected void onPreExecute() {
+                super.onPreExecute();
+                loading = ProgressDialog.show(AddIncident.this, "Adding...", "Wait...", false, false);
+            }
+
+            @Override
+            protected void onPostExecute(String s) {
+                super.onPostExecute(s);
+                loading.dismiss();
+                Toast.makeText(AddIncident.this, s, Toast.LENGTH_LONG).show();
+            }
+
+            @Override
+            protected String doInBackground(Void... v) {
+                HashMap<String, String> params = new HashMap<>();
+                params.put("title", title);
+                params.put("description", description);
+                params.put("idUser", Integer.toString(user));
+                params.put("idSeverite", Integer.toString(severite));
+                params.put("idType", Integer.toString(type));
+                HttpHandler rh = new HttpHandler();
+                String res = rh.sendPostRequest(Config.URL_ADD_INCIDENT, params);
+                return res;
+            }
         }
-        @Override
-        protected void onPostExecute(String s) {
-            super.onPostExecute(s);
-            loading.dismiss();
-            Toast.makeText(AddIncident.this, s, Toast.LENGTH_LONG).show();
-        }
-        @Override
-        protected String doInBackground(Void... v) {
-            HashMap<String, String> params = new HashMap<>();
-            params.put("title", title);
-            params.put("description", description);
-            params.put("idUser", Integer.toString(user));
-            params.put("idSeverite", Integer.toString(severite));
-            params.put("idType", Integer.toString(type));
-            HttpHandler rh = new HttpHandler();
-            String res = rh.sendPostRequest(Config.URL_ADD_INCIDENT, params);
-            return res;
-        }
+
+        AddIncidentTask ai = new AddIncidentTask();
+        ai.execute();
     }
 
     private static class MyTaskParams {
@@ -144,7 +135,6 @@ public class AddIncident  extends AppCompatActivity implements View.OnClickListe
     public class Wrapper
     {
         public ArrayList<String> list;
-        public ArrayList<Integer> idList;
         public Integer id;
     }
     private class GetList extends AsyncTask<MyTaskParams, Void, Wrapper> {
@@ -157,9 +147,40 @@ public class AddIncident  extends AppCompatActivity implements View.OnClickListe
         }
 
         @Override
-        protected void onPostExecute(Wrapper w) {
+        protected void onPostExecute(final Wrapper w) {
             loading.dismiss();
-            setSpinner(w.id, w.list);
+            final Spinner spinner =(Spinner)findViewById(w.id);
+            ArrayAdapter<String> adapter;
+            adapter = new ArrayAdapter<>(AddIncident.this, android.R.layout.simple_list_item_1,w.list);
+            spinner.setAdapter(adapter);
+            //Adding setOnItemSelectedListener method on spinner.
+            spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+
+                @Override
+                public void onItemSelected(AdapterView<?> parent, View view,
+                                           int position, long id) {
+                    Spinner spinner = (Spinner) parent;
+                    if(spinner.getId() == R.id.editTextUser)
+                    {
+                        spinnerContent = spinner.getSelectedItem().toString();
+                        indexUser = userList.indexOf(spinnerContent);
+                    }
+                    else if(spinner.getId() == R.id.editTextSeverite)
+                    {
+                        spinnerContent = spinner.getSelectedItem().toString();
+                        indexSeverite = severiteList.indexOf(spinnerContent);
+                    }
+                    else if(spinner.getId() == R.id.editTextType){
+                        spinnerContent = spinner.getSelectedItem().toString();
+                        indexType = typeList.indexOf(spinnerContent);
+                    }
+                }
+
+                @Override
+                public void onNothingSelected(AdapterView<?> parent) {
+                    // TODO Auto-generated method stub
+                }
+            });
         }
 
         @Override
@@ -182,7 +203,6 @@ public class AddIncident  extends AppCompatActivity implements View.OnClickListe
                     }
                     Wrapper w = new Wrapper();
                     w.list = params[0].list;
-                    w.idList = params[0].idList;
                     w.id = params[0].id;
                     return w;
                 } catch (final JSONException e) {
