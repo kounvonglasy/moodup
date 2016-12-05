@@ -3,7 +3,17 @@
     xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
     android:orientation="vertical"
     android:layout_height="match_parent"
-    tools:context="isep.moodup.AddIncident">
+    tools:context="isep.moodup.ViewIncident">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Incident id" />
+
+    <EditText
+        android:id="@+id/editTextId"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -29,8 +39,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="User" />
-    <Spinner
-        android:id="@+id/editSpinnerUser"
+
+    <EditText
+        android:id="@+id/editTextUser"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
@@ -41,19 +52,32 @@
         android:layout_height="wrap_content"
         android:text="Severite" />
 
-    <Spinner
-        android:id="@+id/editSpinnerSeverite"
+    <EditText
+        android:id="@+id/editTextSeverite"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true" />
+
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Type" />
 
-    <Spinner
-        android:id="@+id/editSpinnerType"
+    <EditText
+        android:id="@+id/editTextType"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Creation Date" />
+
+    <EditText
+        android:id="@+id/editTextCreationDate"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
@@ -63,6 +87,6 @@
         android:id="@+id/buttonAddIncident"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Ajouter l'incident" />
+        android:text="Modifier l'incident" />
 
 </LinearLayout>

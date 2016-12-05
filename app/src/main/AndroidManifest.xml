@@ -25,6 +25,11 @@
             <category android:name="android.intent.category.ADD" />
         </intent-filter>
         </activity>
+        <activity android:name=".ViewIncident">    <intent-filter>
+            <action android:name="isep.moodup.ViewIncident" />
+            <category android:name="android.intent.category.VIEW_INCIDENT" />
+        </intent-filter>
+        </activity>
     </application>
     <uses-permission
         android:name="android.permission.INTERNET"/>

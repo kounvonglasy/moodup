@@ -54,15 +54,15 @@ public class AddIncident  extends AppCompatActivity implements View.OnClickListe
         setContentView(R.layout.add_incident);
 
         //Get user list
-        MyTaskParams params = new MyTaskParams(Config.URL_GET_ALL_USERS, userList, idUserList,R.id.editTextUser);
+        MyTaskParams params = new MyTaskParams(Config.URL_GET_ALL_USERS, userList, idUserList,R.id.editSpinnerUser);
         new GetList().execute(params);
 
         //Get severite list
-        params = new MyTaskParams(Config.URL_GET_ALL_SEVERITES, severiteList, idSeveriteList,R.id.editTextSeverite);
+        params = new MyTaskParams(Config.URL_GET_ALL_SEVERITES, severiteList, idSeveriteList,R.id.editSpinnerSeverite);
         new GetList().execute(params);
 
         //Get type list
-        params = new MyTaskParams(Config.URL_GET_ALL_TYPES, typeList, idTypeList , R.id.editTextType);
+        params = new MyTaskParams(Config.URL_GET_ALL_TYPES, typeList, idTypeList , R.id.editSpinnerType);
         new GetList().execute(params);
 
         editTextTitle = (EditText) findViewById(R.id.editTextTitle);
@@ -111,12 +111,12 @@ public class AddIncident  extends AppCompatActivity implements View.OnClickListe
             @Override
             protected String doInBackground(Void... v) {
                 HashMap<String, String> params = new HashMap<>();
-                params.put("title", title);
-                params.put("description", description);
-                params.put("idUser", Integer.toString(user));
-                params.put("idSeverite", Integer.toString(severite));
-                params.put("idType", Integer.toString(type));
-                params.put("creationDate", creationDate);
+                params.put(Config.KEY_INCIDENT_TITLE, title);
+                params.put(Config.KEY_INCIDENT_DESCRIPTION, description);
+                params.put(Config.KEY_INCIDENT_USER, Integer.toString(user));
+                params.put(Config.KEY_INCIDENT_SEVERITE, Integer.toString(severite));
+                params.put(Config.KEY_INCIDENT_TYPE, Integer.toString(type));
+                params.put(Config.KEY_INCIDENT_CREATION_DATE, creationDate);
                 HttpHandler rh = new HttpHandler();
                 String res = rh.sendPostRequest(Config.URL_ADD_INCIDENT, params);
                 return res;
@@ -167,17 +167,17 @@ public class AddIncident  extends AppCompatActivity implements View.OnClickListe
                 public void onItemSelected(AdapterView<?> parent, View view,
                                            int position, long id) {
                     Spinner spinner = (Spinner) parent;
-                    if(spinner.getId() == R.id.editTextUser)
+                    if(spinner.getId() == R.id.editSpinnerUser)
                     {
                         spinnerContent = spinner.getSelectedItem().toString();
                         indexUser = userList.indexOf(spinnerContent);
                     }
-                    else if(spinner.getId() == R.id.editTextSeverite)
+                    else if(spinner.getId() == R.id.editSpinnerSeverite)
                     {
                         spinnerContent = spinner.getSelectedItem().toString();
                         indexSeverite = severiteList.indexOf(spinnerContent);
                     }
-                    else if(spinner.getId() == R.id.editTextType){
+                    else if(spinner.getId() == R.id.editSpinnerType){
                         spinnerContent = spinner.getSelectedItem().toString();
                         indexType = typeList.indexOf(spinnerContent);
                     }

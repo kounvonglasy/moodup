@@ -4,7 +4,6 @@ package isep.moodup;
  * Created by Kevin on 28/11/2016.
  */
 
-
 import android.app.ProgressDialog;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
@@ -22,9 +21,11 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import android.util.Log;
+import android.view.View;
+import android.widget.AdapterView;
+import android.content.Intent;
 
-
-public class ViewAllIncident extends AppCompatActivity {
+public class ViewAllIncident extends AppCompatActivity implements ListView.OnItemClickListener  {
 
     private ListView listView;
     private ProgressDialog pDialog;
@@ -37,6 +38,7 @@ public class ViewAllIncident extends AppCompatActivity {
         setContentView(R.layout.activity_view_all_incident);
         incidentList = new ArrayList<>();
         listView = (ListView) findViewById(R.id.listView);
+        listView.setOnItemClickListener(this);
         new GetIncidents().execute();
     }
 
@@ -65,20 +67,21 @@ public class ViewAllIncident extends AppCompatActivity {
                     JSONObject jsonObj = new JSONObject(jsonStr);
 
                     // Getting JSON Array node
-                    JSONArray incidents = jsonObj.getJSONArray("result");
+                    JSONArray incidents = jsonObj.getJSONArray(Config.TAG_JSON_ARRAY);
 
                     // looping through All Incidents
                     for (int i = 0; i < incidents.length(); i++) {
                         JSONObject c = incidents.getJSONObject(i);
-
-                        String description = c.getString("description");
-                        String title = c.getString("title");
+                        String id = c.getString(Config.INCIDENT_ID);
+                        String description = c.getString(Config.TAG_INCIDENT_DESCRIPTION);
+                        String title = c.getString(Config.TAG_INCIDENT_TITLE);
 
                         HashMap<String, String> incident = new HashMap<>();
 
                         // adding each child node to HashMap key => value
-                        incident.put("title", title);
-                        incident.put("description", description);
+                        incident.put(Config.TAG_INCIDENT_ID,id);
+                        incident.put(Config.TAG_INCIDENT_TITLE, title);
+                        incident.put(Config.TAG_INCIDENT_DESCRIPTION, description);
                         // adding incident to incident list
                         incidentList.add(incident);
                     }
@@ -122,10 +125,19 @@ public class ViewAllIncident extends AppCompatActivity {
              * */
             ListAdapter adapter = new SimpleAdapter(
                     ViewAllIncident.this, incidentList,
-                    R.layout.list_incident, new String[]{"title", "description"}, new int[]{
-                    R.id.title, R.id.description});
+                    R.layout.list_incident, new String[]{"id","title", "description"}, new int[]{
+                    R.id.id, R.id.title, R.id.description});
             listView.setAdapter(adapter);
         }
+    }
+
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        Intent intent = new Intent(this, ViewIncident.class);
+        HashMap<String,String> map =(HashMap)parent.getItemAtPosition(position);
+        String idIncident = map.get(Config.TAG_INCIDENT_ID).toString();
+        intent.putExtra(Config.INCIDENT_ID,idIncident);
+        startActivity(intent);
     }
 
 }

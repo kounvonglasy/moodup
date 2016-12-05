@@ -118,6 +118,28 @@ app.get('/getAllTypes', function(request,response){
 	console.log(query.sql);
 });
 
+app.get('/getIncident', function(request,response){
+	//about mysql
+	connection.getConnection(function(error,tempCont){
+		if(!!error){
+			tempCont.release();
+			console.log('ERROR');
+		} else{
+			console.log('Connected');
+			tempCont.query("SELECT title, description, idUser, idSeverite, idType, creationDate FROM incident where idIncident=?",request.query.id, function(error,rows,fields){
+				tempCont.release();
+				if(!!error){
+					console.log('Error in the query');
+					response.writeHead(200, {'Content-Type': 'text/plain'});
+					response.end('Error in the query \n');
+				} else{
+					response.json({"result":rows});
+				}
+			});
+		}
+	});
+});
+
 app.listen(8888);
 
 console.log("Server is running...");
