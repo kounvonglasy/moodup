@@ -29,24 +29,18 @@ import java.util.HashMap;
 
 public class AddIncident  extends AppCompatActivity implements View.OnClickListener {
     private String TAG = ViewAllIncident.class.getSimpleName();
-    //Defining indexes
-    private Integer indexUser;
-    private Integer indexSeverite;
-    private Integer indexType;
 
     //Defining lists
     private ArrayList<String> userList = new ArrayList<>();
-    private ArrayList<Integer> idUserList = new ArrayList<>();
     private ArrayList<String> severiteList = new ArrayList<>();
-    private ArrayList<Integer> idSeveriteList = new ArrayList<>();
     private ArrayList<String> typeList = new ArrayList<>();
-    private ArrayList<Integer> idTypeList = new ArrayList<>();
 
     //Defining views
     private EditText editTextTitle;
     private EditText editTextDescription;
-    private String spinnerContent;
-
+    private String spinnerUser;
+    private String spinnerSeverite;
+    private String spinnerType;
     private Button buttonAddIncident;
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,15 +48,15 @@ public class AddIncident  extends AppCompatActivity implements View.OnClickListe
         setContentView(R.layout.add_incident);
 
         //Get user list
-        MyTaskParams params = new MyTaskParams(Config.URL_GET_ALL_USERS, userList, idUserList,R.id.editSpinnerUser);
+        MyTaskParams params = new MyTaskParams(Config.URL_GET_ALL_USERS, userList,R.id.editSpinnerUser);
         new GetList().execute(params);
 
         //Get severite list
-        params = new MyTaskParams(Config.URL_GET_ALL_SEVERITES, severiteList, idSeveriteList,R.id.editSpinnerSeverite);
+        params = new MyTaskParams(Config.URL_GET_ALL_SEVERITES, severiteList,R.id.editSpinnerSeverite);
         new GetList().execute(params);
 
         //Get type list
-        params = new MyTaskParams(Config.URL_GET_ALL_TYPES, typeList, idTypeList , R.id.editSpinnerType);
+        params = new MyTaskParams(Config.URL_GET_ALL_TYPES, typeList , R.id.editSpinnerType);
         new GetList().execute(params);
 
         editTextTitle = (EditText) findViewById(R.id.editTextTitle);
@@ -84,9 +78,9 @@ public class AddIncident  extends AppCompatActivity implements View.OnClickListe
     private void addIncident() {
         final String title = editTextTitle.getText().toString().trim();
         final String description = editTextDescription.getText().toString().trim();
-        final Integer user = idUserList.get(indexUser);
-        final Integer severite = idSeveriteList.get(indexSeverite);
-        final Integer type = idTypeList.get(indexType);
+        final String user = spinnerUser;
+        final String severite = spinnerSeverite;
+        final String type = spinnerType;
         DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         Date date = new Date();
         final String creationDate = dateFormat.format(date);
@@ -113,9 +107,9 @@ public class AddIncident  extends AppCompatActivity implements View.OnClickListe
                 HashMap<String, String> params = new HashMap<>();
                 params.put(Config.KEY_INCIDENT_TITLE, title);
                 params.put(Config.KEY_INCIDENT_DESCRIPTION, description);
-                params.put(Config.KEY_INCIDENT_USER, Integer.toString(user));
-                params.put(Config.KEY_INCIDENT_SEVERITE, Integer.toString(severite));
-                params.put(Config.KEY_INCIDENT_TYPE, Integer.toString(type));
+                params.put(Config.KEY_INCIDENT_USER_NAME, user);
+                params.put(Config.KEY_INCIDENT_SEVERITE_NAME, severite);
+                params.put(Config.KEY_INCIDENT_TYPE_NAME, type);
                 params.put(Config.KEY_INCIDENT_CREATION_DATE, creationDate);
                 HttpHandler rh = new HttpHandler();
                 String res = rh.sendPostRequest(Config.URL_ADD_INCIDENT, params);
@@ -130,12 +124,10 @@ public class AddIncident  extends AppCompatActivity implements View.OnClickListe
     private static class MyTaskParams {
         String URL;
         ArrayList<String> list;
-        ArrayList<Integer> idList;
         Integer id;
-        MyTaskParams(String URL, ArrayList<String> list, ArrayList<Integer> idList,Integer id) {
+        MyTaskParams(String URL, ArrayList<String> list,Integer id) {
             this.URL = URL;
             this.list = list;
-            this.idList = idList;
             this.id = id;
         }
     }
@@ -169,17 +161,14 @@ public class AddIncident  extends AppCompatActivity implements View.OnClickListe
                     Spinner spinner = (Spinner) parent;
                     if(spinner.getId() == R.id.editSpinnerUser)
                     {
-                        spinnerContent = spinner.getSelectedItem().toString();
-                        indexUser = userList.indexOf(spinnerContent);
+                        spinnerUser = spinner.getSelectedItem().toString();
                     }
                     else if(spinner.getId() == R.id.editSpinnerSeverite)
                     {
-                        spinnerContent = spinner.getSelectedItem().toString();
-                        indexSeverite = severiteList.indexOf(spinnerContent);
+                        spinnerSeverite = spinner.getSelectedItem().toString();
                     }
                     else if(spinner.getId() == R.id.editSpinnerType){
-                        spinnerContent = spinner.getSelectedItem().toString();
-                        indexType = typeList.indexOf(spinnerContent);
+                        spinnerType = spinner.getSelectedItem().toString();
                     }
                 }
 
@@ -204,9 +193,7 @@ public class AddIncident  extends AppCompatActivity implements View.OnClickListe
                     for (int i = 0; i < results.length(); i++) {
                         JSONObject c = results.getJSONObject(i);
                         String name = c.getString("name");
-                        String id = c.getString("id");
                         params[0].list.add(name);
-                        params[0].idList.add(Integer.parseInt(id));
                     }
                     Wrapper w = new Wrapper();
                     w.list = params[0].list;

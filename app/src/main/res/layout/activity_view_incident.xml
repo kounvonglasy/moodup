@@ -84,9 +84,22 @@
         android:layout_centerVertical="true" />
 
     <Button
-        android:id="@+id/buttonAddIncident"
+        android:id="@+id/buttonUpdateIncident"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Modifier l'incident" />
+
+    <Button
+        android:id="@+id/buttonDeleteIncident"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Supprimer l'incident" />
+
+    <Button
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:onClick="ReturnHome"
+        android:text="Retour à la page précédente" />
+
 
 </LinearLayout>

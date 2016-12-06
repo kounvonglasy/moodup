@@ -28,9 +28,9 @@ import android.content.Intent;
 public class ViewAllIncident extends AppCompatActivity implements ListView.OnItemClickListener  {
 
     private ListView listView;
-    private ProgressDialog pDialog;
     private String TAG = ViewAllIncident.class.getSimpleName();
     ArrayList<HashMap<String, String>> incidentList;
+    private String JSON_STRING;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,97 +39,94 @@ public class ViewAllIncident extends AppCompatActivity implements ListView.OnIte
         incidentList = new ArrayList<>();
         listView = (ListView) findViewById(R.id.listView);
         listView.setOnItemClickListener(this);
-        new GetIncidents().execute();
+        getIncidents();
     }
 
-    private class GetIncidents extends AsyncTask<Void, Void, Void> {
+    private void showIncident(){
+        if (JSON_STRING != null) {
+            try {
+                JSONObject jsonObj = new JSONObject(JSON_STRING);
 
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            // Showing progress dialog
-            pDialog = new ProgressDialog(ViewAllIncident.this);
-            pDialog.setMessage("Please wait...");
-            pDialog.setCancelable(false);
-            pDialog.show();
+                // Getting JSON Array node
+                JSONArray incidents = jsonObj.getJSONArray(Config.TAG_JSON_ARRAY);
 
-        }
+                // looping through All Incidents
+                for (int i = 0; i < incidents.length(); i++) {
+                    JSONObject c = incidents.getJSONObject(i);
+                    String id = c.getString(Config.INCIDENT_ID);
+                    String description = c.getString(Config.TAG_INCIDENT_DESCRIPTION);
+                    String title = c.getString(Config.TAG_INCIDENT_TITLE);
 
-        @Override
-        protected Void doInBackground(Void... arg0) {
-            HttpHandler sh = new HttpHandler();
+                    HashMap<String, String> incident = new HashMap<>();
 
-            // Making a request to url and getting response
-            String jsonStr = sh.makeServiceCall(Config.URL_GET_ALL_INCIDENTS);
-
-            if (jsonStr != null) {
-                try {
-                    JSONObject jsonObj = new JSONObject(jsonStr);
-
-                    // Getting JSON Array node
-                    JSONArray incidents = jsonObj.getJSONArray(Config.TAG_JSON_ARRAY);
-
-                    // looping through All Incidents
-                    for (int i = 0; i < incidents.length(); i++) {
-                        JSONObject c = incidents.getJSONObject(i);
-                        String id = c.getString(Config.INCIDENT_ID);
-                        String description = c.getString(Config.TAG_INCIDENT_DESCRIPTION);
-                        String title = c.getString(Config.TAG_INCIDENT_TITLE);
-
-                        HashMap<String, String> incident = new HashMap<>();
-
-                        // adding each child node to HashMap key => value
-                        incident.put(Config.TAG_INCIDENT_ID,id);
-                        incident.put(Config.TAG_INCIDENT_TITLE, title);
-                        incident.put(Config.TAG_INCIDENT_DESCRIPTION, description);
-                        // adding incident to incident list
-                        incidentList.add(incident);
-                    }
-                } catch (final JSONException e) {
-                    runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            Toast.makeText(getApplicationContext(),
-                                    "Json parsing error: " + e.getMessage(),
-                                    Toast.LENGTH_LONG)
-                                    .show();
-                        }
-                    });
-
+                    // adding each child node to HashMap key => value
+                    incident.put(Config.TAG_INCIDENT_ID,id);
+                    incident.put(Config.TAG_INCIDENT_TITLE, title);
+                    incident.put(Config.TAG_INCIDENT_DESCRIPTION, description);
+                    // adding incident to incident list
+                    incidentList.add(incident);
                 }
-            } else {
-                Log.e(TAG, "Couldn't get json from server.");
+            } catch (final JSONException e) {
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
                         Toast.makeText(getApplicationContext(),
-                                "Couldn't get json from server. Check LogCat for possible errors!",
+                                "Json parsing error: " + e.getMessage(),
                                 Toast.LENGTH_LONG)
                                 .show();
                     }
                 });
 
             }
+        } else {
+            Log.e(TAG, "Couldn't get json from server.");
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    Toast.makeText(getApplicationContext(),
+                            "Couldn't get json from server. Check LogCat for possible errors!",
+                            Toast.LENGTH_LONG)
+                            .show();
+                }
+            });
 
-            return null;
+        }
+        ListAdapter adapter = new SimpleAdapter(
+                ViewAllIncident.this, incidentList, R.layout.list_incident,
+                new String[]{Config.TAG_INCIDENT_ID,Config.TAG_INCIDENT_TITLE,Config.TAG_INCIDENT_DESCRIPTION},
+                new int[]{R.id.id, R.id.title, R.id.description});
+        listView.setAdapter(adapter);
+
+    }
+    private void getIncidents(){
+       class GetIncidents extends AsyncTask<Void, Void, String> {
+
+           ProgressDialog loading;
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            loading = ProgressDialog.show(ViewAllIncident.this,"Fetching Data","Wait...",false,false);
         }
 
-        @Override
-        protected void onPostExecute(Void result) {
-            super.onPostExecute(result);
-            // Dismiss the progress dialog
-            if (pDialog.isShowing())
-                pDialog.dismiss();
-            /**
-             * Updating parsed JSON data into ListView
-             * */
-            ListAdapter adapter = new SimpleAdapter(
-                    ViewAllIncident.this, incidentList,
-                    R.layout.list_incident, new String[]{"id","title", "description"}, new int[]{
-                    R.id.id, R.id.title, R.id.description});
-            listView.setAdapter(adapter);
+       @Override
+       protected void onPostExecute(String s) {
+           super.onPostExecute(s);
+           loading.dismiss();
+           JSON_STRING = s;
+           showIncident();
+       }
+
+
+           @Override
+        protected String doInBackground(Void... params) {
+            HttpHandler sh = new HttpHandler();
+            // Making a request to url and getting response
+            String jsonStr = sh.makeServiceCall(Config.URL_GET_ALL_INCIDENTS);
+            return jsonStr;
         }
     }
+        GetIncidents gi = new GetIncidents();
+        gi.execute();}
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
