@@ -7,7 +7,7 @@ package isep.moodup;
 public class Config {
     //Address of our scripts of the CRUD
     //en local => http://10.0.2.2:8888/addIncident
-    public static final String URL_ADD_INCIDENT="http://young-journey-48135.herokuapp.com/addIncident";
+    public static final String URL_ADD_INCIDENT = "http://young-journey-48135.herokuapp.com/addIncident";
     //en local => http://10.0.2.2:8888/getAllIncidents
     public static final String URL_GET_ALL_INCIDENTS = "http://young-journey-48135.herokuapp.com/getAllIncidents";
     //en local => http://10.0.2.2:8888/getAllUsers
@@ -33,14 +33,14 @@ public class Config {
     public static final String KEY_INCIDENT_CREATION_DATE = "creationDate";
 
     //JSON tags
-    public static final String TAG_JSON_ARRAY="result";
-    public static final String TAG_INCIDENT_ID="id";
-    public static final String TAG_INCIDENT_TITLE="title";
-    public static final String TAG_INCIDENT_DESCRIPTION="description";
-    public static final String TAG_INCIDENT_USER="userName";
-    public static final String TAG_INCIDENT_SEVERITE="severiteName";
-    public static final String TAG_INCIDENT_TYPE="typeName";
-    public static final String TAG_INCIDENT_CREATION_DATE="creationDate";
+    public static final String TAG_JSON_ARRAY = "result";
+    public static final String TAG_INCIDENT_ID = "id";
+    public static final String TAG_INCIDENT_TITLE = "title";
+    public static final String TAG_INCIDENT_DESCRIPTION = "description";
+    public static final String TAG_INCIDENT_USER = "userName";
+    public static final String TAG_INCIDENT_SEVERITE = "severiteName";
+    public static final String TAG_INCIDENT_TYPE = "typeName";
+    public static final String TAG_INCIDENT_CREATION_DATE = "creationDate";
 
     //incident id to pass with intent
     public static final String INCIDENT_ID = "idIncident";

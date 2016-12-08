@@ -17,6 +17,7 @@ import android.widget.EditText;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
 import android.widget.Toast;
 
 import java.text.DateFormat;
@@ -24,13 +25,14 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+
 import android.widget.Button;
 import android.view.View;
 import android.support.v7.app.AlertDialog;
 import android.content.DialogInterface;
 import android.widget.Spinner;
 
-public class ViewIncident extends AppCompatActivity implements View.OnClickListener{
+public class ViewIncident extends AppCompatActivity implements View.OnClickListener {
     private String TAG = ViewIncident.class.getSimpleName();
     private EditText editTextTitle;
     private EditText editTextDescription;
@@ -60,15 +62,15 @@ public class ViewIncident extends AppCompatActivity implements View.OnClickListe
         editTextDescription = (EditText) findViewById(R.id.editTextDescription);
 
         //Get user list
-        ViewIncident.MyTaskParams params = new ViewIncident.MyTaskParams(Config.URL_GET_ALL_USERS, userList,R.id.editSpinnerUser);
+        ViewIncident.MyTaskParams params = new ViewIncident.MyTaskParams(Config.URL_GET_ALL_USERS, userList, R.id.editSpinnerUser);
         new ViewIncident.GetList().execute(params);
 
         //Get severite list
-        params = new ViewIncident.MyTaskParams(Config.URL_GET_ALL_SEVERITES, severiteList,R.id.editSpinnerSeverite);
+        params = new ViewIncident.MyTaskParams(Config.URL_GET_ALL_SEVERITES, severiteList, R.id.editSpinnerSeverite);
         new ViewIncident.GetList().execute(params);
 
         //Get type list
-        params = new ViewIncident.MyTaskParams(Config.URL_GET_ALL_TYPES, typeList , R.id.editSpinnerType);
+        params = new ViewIncident.MyTaskParams(Config.URL_GET_ALL_TYPES, typeList, R.id.editSpinnerType);
         new ViewIncident.GetList().execute(params);
 
         getIncident();
@@ -81,13 +83,14 @@ public class ViewIncident extends AppCompatActivity implements View.OnClickListe
 
     }
 
-    private void getIncident(){
-        class GetIncident extends AsyncTask<Void,Void,String>{
+    private void getIncident() {
+        class GetIncident extends AsyncTask<Void, Void, String> {
             ProgressDialog loading;
+
             @Override
             protected void onPreExecute() {
                 super.onPreExecute();
-                loading = ProgressDialog.show(ViewIncident.this,"Fetching...","Wait...",false,false);
+                loading = ProgressDialog.show(ViewIncident.this, "Fetching...", "Wait...", false, false);
             }
 
             @Override
@@ -108,7 +111,7 @@ public class ViewIncident extends AppCompatActivity implements View.OnClickListe
         ge.execute();
     }
 
-    private void showIncident(String json){
+    private void showIncident(String json) {
         try {
             JSONObject jsonObject = new JSONObject(json);
             JSONArray result = jsonObject.getJSONArray(Config.TAG_JSON_ARRAY);
@@ -131,28 +134,28 @@ public class ViewIncident extends AppCompatActivity implements View.OnClickListe
         }
     }
 
-    private void selectSpinnerValue(Spinner spinner, String myString)
-    {
-        for(int i = 0; i < spinner.getCount(); i++){
-            if(spinner.getItemAtPosition(i).toString().equals(myString)){
+    private void selectSpinnerValue(Spinner spinner, String myString) {
+        for (int i = 0; i < spinner.getCount(); i++) {
+            if (spinner.getItemAtPosition(i).toString().equals(myString)) {
                 spinner.setSelection(i);
                 break;
             }
         }
     }
+
     private static class MyTaskParams {
         String URL;
         ArrayList<String> list;
         Integer id;
-        MyTaskParams(String URL, ArrayList<String> list,Integer id) {
+
+        MyTaskParams(String URL, ArrayList<String> list, Integer id) {
             this.URL = URL;
             this.list = list;
             this.id = id;
         }
     }
 
-    private class Wrapper
-    {
+    private class Wrapper {
         public ArrayList<String> list;
         public Integer id;
     }
@@ -195,6 +198,7 @@ public class ViewIncident extends AppCompatActivity implements View.OnClickListe
                 }
             });
         }
+
         @Override
         protected Wrapper doInBackground(ViewIncident.MyTaskParams... params) {
             HttpHandler sh = new HttpHandler();
@@ -244,7 +248,7 @@ public class ViewIncident extends AppCompatActivity implements View.OnClickListe
         }
     }
 
-    private void updateIncident(){
+    private void updateIncident() {
         final String title = editTextTitle.getText().toString().trim();
         final String description = editTextDescription.getText().toString().trim();
         final String severiteName = spinnerSeverite;
@@ -254,33 +258,34 @@ public class ViewIncident extends AppCompatActivity implements View.OnClickListe
         Date date = new Date();
         final String creationDate = dateFormat.format(date);
 
-        class UpdateIncident extends AsyncTask<Void,Void,String>{
+        class UpdateIncident extends AsyncTask<Void, Void, String> {
             ProgressDialog loading;
+
             @Override
             protected void onPreExecute() {
                 super.onPreExecute();
-                loading = ProgressDialog.show(ViewIncident.this,"Updating...","Wait...",false,false);
+                loading = ProgressDialog.show(ViewIncident.this, "Updating...", "Wait...", false, false);
             }
 
             @Override
             protected void onPostExecute(String s) {
                 super.onPostExecute(s);
                 loading.dismiss();
-                Toast.makeText(ViewIncident.this,s,Toast.LENGTH_LONG).show();
+                Toast.makeText(ViewIncident.this, s, Toast.LENGTH_LONG).show();
             }
 
             @Override
             protected String doInBackground(Void... params) {
-                HashMap<String,String> hashMap = new HashMap<>();
-                hashMap.put(Config.KEY_INCIDENT_ID,id);
-                hashMap.put(Config.KEY_INCIDENT_TITLE,title);
-                hashMap.put(Config.KEY_INCIDENT_DESCRIPTION,description);
-                hashMap.put(Config.KEY_INCIDENT_SEVERITE_NAME,severiteName);
-                hashMap.put(Config.KEY_INCIDENT_TYPE_NAME,typeName);
-                hashMap.put(Config.KEY_INCIDENT_USER_NAME,userName);
-                hashMap.put(Config.KEY_INCIDENT_CREATION_DATE,creationDate);
+                HashMap<String, String> hashMap = new HashMap<>();
+                hashMap.put(Config.KEY_INCIDENT_ID, id);
+                hashMap.put(Config.KEY_INCIDENT_TITLE, title);
+                hashMap.put(Config.KEY_INCIDENT_DESCRIPTION, description);
+                hashMap.put(Config.KEY_INCIDENT_SEVERITE_NAME, severiteName);
+                hashMap.put(Config.KEY_INCIDENT_TYPE_NAME, typeName);
+                hashMap.put(Config.KEY_INCIDENT_USER_NAME, userName);
+                hashMap.put(Config.KEY_INCIDENT_CREATION_DATE, creationDate);
                 HttpHandler rh = new HttpHandler();
-                String s = rh.sendPostRequest(Config.URL_UPDATE_INCIDENT,hashMap);
+                String s = rh.sendPostRequest(Config.URL_UPDATE_INCIDENT, hashMap);
                 return s;
             }
         }
@@ -288,8 +293,8 @@ public class ViewIncident extends AppCompatActivity implements View.OnClickListe
         ui.execute();
     }
 
-    private void deleteIncident(){
-        class DeleteIncident extends AsyncTask<Void,Void,String> {
+    private void deleteIncident() {
+        class DeleteIncident extends AsyncTask<Void, Void, String> {
             ProgressDialog loading;
 
             @Override
@@ -317,7 +322,7 @@ public class ViewIncident extends AppCompatActivity implements View.OnClickListe
         di.execute();
     }
 
-    private void confirmDeleteIncident(){
+    private void confirmDeleteIncident() {
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
         alertDialogBuilder.setMessage("Are you sure you want to delete this incident?");
 
@@ -326,7 +331,7 @@ public class ViewIncident extends AppCompatActivity implements View.OnClickListe
                     @Override
                     public void onClick(DialogInterface arg0, int arg1) {
                         deleteIncident();
-                        startActivity(new Intent(ViewIncident.this,ViewAllIncident.class));
+                        startActivity(new Intent(ViewIncident.this, ViewAllIncident.class));
                     }
                 });
 
@@ -342,17 +347,17 @@ public class ViewIncident extends AppCompatActivity implements View.OnClickListe
         alertDialog.show();
     }
 
-    public void ReturnHome(View view){
+    public void ReturnHome(View view) {
         super.onBackPressed();
-        startActivity(new Intent(this,ViewAllIncident.class));
+        startActivity(new Intent(this, ViewAllIncident.class));
     }
 
     @Override
     public void onClick(View v) {
-        if(v == buttonUpdate){
+        if (v == buttonUpdate) {
             updateIncident();
         }
-        if(v == buttonDelete){
+        if (v == buttonDelete) {
             confirmDeleteIncident();
         }
     }

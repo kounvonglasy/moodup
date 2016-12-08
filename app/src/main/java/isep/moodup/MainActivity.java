@@ -27,11 +27,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void onClick(View v) {
-        if(v == buttonAdd){
-            startActivity(new Intent(this,AddIncident.class));
+        if (v == buttonAdd) {
+            startActivity(new Intent(this, AddIncident.class));
         }
-        if(v == buttonView){
-            startActivity(new Intent(this,ViewAllIncident.class));
+        if (v == buttonView) {
+            startActivity(new Intent(this, ViewAllIncident.class));
         }
     }
 }

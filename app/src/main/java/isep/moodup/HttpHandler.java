@@ -1,4 +1,5 @@
 package isep.moodup;
+
 import android.util.Log;
 
 import java.io.BufferedInputStream;
@@ -74,7 +75,7 @@ public class HttpHandler {
                 sb = new StringBuilder();
                 String response;
                 //Reading server response
-                while ((response = br.readLine()) != null){
+                while ((response = br.readLine()) != null) {
                     sb.append(response);
                 }
             }
@@ -85,18 +86,18 @@ public class HttpHandler {
         return sb.toString();
     }
 
-    public String sendGetRequestParam(String requestURL, String id){
-        StringBuilder sb =new StringBuilder();
+    public String sendGetRequestParam(String requestURL, String id) {
+        StringBuilder sb = new StringBuilder();
         try {
-            URL url = new URL(requestURL+id);
+            URL url = new URL(requestURL + id);
             HttpURLConnection con = (HttpURLConnection) url.openConnection();
             BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(con.getInputStream()));
 
             String s;
-            while((s=bufferedReader.readLine())!=null){
-                sb.append(s+"\n");
+            while ((s = bufferedReader.readLine()) != null) {
+                sb.append(s + "\n");
             }
-        }catch(Exception e){
+        } catch (Exception e) {
         }
         return sb.toString();
     }

@@ -25,9 +25,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.content.Intent;
 
-import java.text.SimpleDateFormat;
-
-public class ViewAllIncident extends AppCompatActivity implements ListView.OnItemClickListener  {
+public class ViewAllIncident extends AppCompatActivity implements ListView.OnItemClickListener {
 
     private ListView listView;
     private String TAG = ViewAllIncident.class.getSimpleName();
@@ -44,7 +42,7 @@ public class ViewAllIncident extends AppCompatActivity implements ListView.OnIte
         getIncidents();
     }
 
-    private void showIncident(){
+    private void showIncident() {
         if (JSON_STRING != null) {
             try {
                 JSONObject jsonObj = new JSONObject(JSON_STRING);
@@ -61,10 +59,10 @@ public class ViewAllIncident extends AppCompatActivity implements ListView.OnIte
                     String creationDate = c.getString(Config.TAG_INCIDENT_CREATION_DATE);
                     HashMap<String, String> incident = new HashMap<>();
                     // adding each child node to HashMap key => value
-                    incident.put(Config.TAG_INCIDENT_ID,id);
+                    incident.put(Config.TAG_INCIDENT_ID, id);
                     incident.put(Config.TAG_INCIDENT_TITLE, title);
                     incident.put(Config.TAG_INCIDENT_DESCRIPTION, description);
-                    incident.put(Config.TAG_INCIDENT_CREATION_DATE,creationDate);
+                    incident.put(Config.TAG_INCIDENT_CREATION_DATE, creationDate);
                     // adding incident to incident list
                     incidentList.add(incident);
                 }
@@ -95,48 +93,50 @@ public class ViewAllIncident extends AppCompatActivity implements ListView.OnIte
         }
         ListAdapter adapter = new SimpleAdapter(
                 ViewAllIncident.this, incidentList, R.layout.list_incident,
-                new String[]{Config.TAG_INCIDENT_TITLE,Config.TAG_INCIDENT_DESCRIPTION, Config.TAG_INCIDENT_CREATION_DATE},
+                new String[]{Config.TAG_INCIDENT_TITLE, Config.TAG_INCIDENT_DESCRIPTION, Config.TAG_INCIDENT_CREATION_DATE},
                 new int[]{R.id.title, R.id.description, R.id.creationDate});
         listView.setAdapter(adapter);
 
     }
-    private void getIncidents(){
-       class GetIncidents extends AsyncTask<Void, Void, String> {
 
-           ProgressDialog loading;
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            loading = ProgressDialog.show(ViewAllIncident.this,"Fetching Data","Wait...",false,false);
+    private void getIncidents() {
+        class GetIncidents extends AsyncTask<Void, Void, String> {
+
+            ProgressDialog loading;
+
+            @Override
+            protected void onPreExecute() {
+                super.onPreExecute();
+                loading = ProgressDialog.show(ViewAllIncident.this, "Fetching Data", "Wait...", false, false);
+            }
+
+            @Override
+            protected void onPostExecute(String s) {
+                super.onPostExecute(s);
+                loading.dismiss();
+                JSON_STRING = s;
+                showIncident();
+            }
+
+
+            @Override
+            protected String doInBackground(Void... params) {
+                HttpHandler sh = new HttpHandler();
+                // Making a request to url and getting response
+                String jsonStr = sh.makeServiceCall(Config.URL_GET_ALL_INCIDENTS);
+                return jsonStr;
+            }
         }
-
-       @Override
-       protected void onPostExecute(String s) {
-           super.onPostExecute(s);
-           loading.dismiss();
-           JSON_STRING = s;
-           showIncident();
-       }
-
-
-           @Override
-        protected String doInBackground(Void... params) {
-            HttpHandler sh = new HttpHandler();
-            // Making a request to url and getting response
-            String jsonStr = sh.makeServiceCall(Config.URL_GET_ALL_INCIDENTS);
-            return jsonStr;
-        }
-    }
         GetIncidents gi = new GetIncidents();
-        gi.execute();}
+        gi.execute();
+    }
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         Intent intent = new Intent(this, ViewIncident.class);
-        HashMap<String,String> map =(HashMap)parent.getItemAtPosition(position);
+        HashMap<String, String> map = (HashMap) parent.getItemAtPosition(position);
         String idIncident = map.get(Config.TAG_INCIDENT_ID).toString();
-        intent.putExtra(Config.INCIDENT_ID,idIncident);
+        intent.putExtra(Config.INCIDENT_ID, idIncident);
         startActivity(intent);
     }
-
 }
