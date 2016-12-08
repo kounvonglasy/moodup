@@ -131,7 +131,7 @@ public class AddIncident  extends AppCompatActivity implements View.OnClickListe
             this.id = id;
         }
     }
-    public class Wrapper
+    private class Wrapper
     {
         public ArrayList<String> list;
         public Integer id;

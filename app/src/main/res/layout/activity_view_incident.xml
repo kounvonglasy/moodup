@@ -40,8 +40,8 @@
         android:layout_height="wrap_content"
         android:text="User" />
 
-    <EditText
-        android:id="@+id/editTextUser"
+    <Spinner
+        android:id="@+id/editSpinnerUser"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
@@ -52,8 +52,8 @@
         android:layout_height="wrap_content"
         android:text="Severite" />
 
-    <EditText
-        android:id="@+id/editTextSeverite"
+    <Spinner
+        android:id="@+id/editSpinnerSeverite"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
@@ -64,8 +64,8 @@
         android:layout_height="wrap_content"
         android:text="Type" />
 
-    <EditText
-        android:id="@+id/editTextType"
+    <Spinner
+        android:id="@+id/editSpinnerType"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"

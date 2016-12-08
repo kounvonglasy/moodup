@@ -9,6 +9,9 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
 
 import org.json.JSONArray;
@@ -18,24 +21,33 @@ import android.widget.Toast;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import android.widget.Button;
 import android.view.View;
 import android.support.v7.app.AlertDialog;
 import android.content.DialogInterface;
+import android.widget.Spinner;
 
 public class ViewIncident extends AppCompatActivity implements View.OnClickListener{
+    private String TAG = ViewIncident.class.getSimpleName();
     private EditText editTextId;
     private EditText editTextTitle;
     private EditText editTextDescription;
-    private EditText editTextUser;
-    private EditText editTextSeverite;
-    private EditText editTextType;
     private EditText editTextCreationDate;
     private String id;
     private Button buttonUpdate;
     private Button buttonDelete;
+
+    private String spinnerUser;
+    private String spinnerSeverite;
+    private String spinnerType;
+
+    //Defining lists
+    private ArrayList<String> userList = new ArrayList<>();
+    private ArrayList<String> severiteList = new ArrayList<>();
+    private ArrayList<String> typeList = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,21 +61,28 @@ public class ViewIncident extends AppCompatActivity implements View.OnClickListe
         editTextId = (EditText) findViewById(R.id.editTextId);
         editTextTitle = (EditText) findViewById(R.id.editTextTitle);
         editTextDescription = (EditText) findViewById(R.id.editTextDescription);
-        editTextUser = (EditText) findViewById(R.id.editTextUser);
-        editTextSeverite = (EditText) findViewById(R.id.editTextSeverite);
-        editTextType = (EditText) findViewById(R.id.editTextType);
+        editTextId.setText(id);
         editTextCreationDate = (EditText) findViewById(R.id.editTextCreationDate);
+
+        //Get user list
+        ViewIncident.MyTaskParams params = new ViewIncident.MyTaskParams(Config.URL_GET_ALL_USERS, userList,R.id.editSpinnerUser);
+        new ViewIncident.GetList().execute(params);
+
+        //Get severite list
+        params = new ViewIncident.MyTaskParams(Config.URL_GET_ALL_SEVERITES, severiteList,R.id.editSpinnerSeverite);
+        new ViewIncident.GetList().execute(params);
+
+        //Get type list
+        params = new ViewIncident.MyTaskParams(Config.URL_GET_ALL_TYPES, typeList , R.id.editSpinnerType);
+        new ViewIncident.GetList().execute(params);
+
+        getIncident();
 
         buttonUpdate = (Button) findViewById(R.id.buttonUpdateIncident);
         buttonDelete = (Button) findViewById(R.id.buttonDeleteIncident);
 
         buttonUpdate.setOnClickListener(this);
         buttonDelete.setOnClickListener(this);
-
-
-        editTextId.setText(id);
-
-        getIncident();
 
     }
 
@@ -101,29 +120,143 @@ public class ViewIncident extends AppCompatActivity implements View.OnClickListe
             JSONObject c = result.getJSONObject(0);
             String title = c.getString(Config.TAG_INCIDENT_TITLE);
             String description = c.getString(Config.TAG_INCIDENT_DESCRIPTION);
-            String user = c.getString(Config.TAG_INCIDENT_USER);
-            String severite = c.getString(Config.TAG_INCIDENT_SEVERITE);
-            String type = c.getString(Config.TAG_INCIDENT_TYPE);
             String creationDate = c.getString(Config.TAG_INCIDENT_CREATION_DATE);
-
+            String userName = c.getString(Config.TAG_INCIDENT_USER);
+            String severiteName = c.getString(Config.TAG_INCIDENT_SEVERITE);
+            String typeName = c.getString(Config.TAG_INCIDENT_TYPE);
             editTextTitle.setText(title);
             editTextDescription.setText(description);
-            editTextUser.setText(user);
-            editTextSeverite.setText(severite);
-            editTextType.setText(type);
             editTextCreationDate.setText(creationDate);
-
+            Spinner spinner = (Spinner) findViewById(R.id.editSpinnerUser);
+            selectSpinnerValue(spinner, userName);
+            spinner = (Spinner) findViewById(R.id.editSpinnerSeverite);
+            selectSpinnerValue(spinner, severiteName);
+            spinner = (Spinner) findViewById(R.id.editSpinnerType);
+            selectSpinnerValue(spinner, typeName);
         } catch (JSONException e) {
             e.printStackTrace();
+        }
+    }
+
+    private void selectSpinnerValue(Spinner spinner, String myString)
+    {
+        for(int i = 0; i < spinner.getCount(); i++){
+            if(spinner.getItemAtPosition(i).toString().equals(myString)){
+                spinner.setSelection(i);
+                break;
+            }
+        }
+    }
+    private static class MyTaskParams {
+        String URL;
+        ArrayList<String> list;
+        Integer id;
+        MyTaskParams(String URL, ArrayList<String> list,Integer id) {
+            this.URL = URL;
+            this.list = list;
+            this.id = id;
+        }
+    }
+
+    private class Wrapper
+    {
+        public ArrayList<String> list;
+        public Integer id;
+    }
+
+    private class GetList extends AsyncTask<ViewIncident.MyTaskParams, Void, Wrapper> {
+        ProgressDialog loading;
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            // Showing progress dialog
+            loading = ProgressDialog.show(ViewIncident.this, "Adding...", "Wait...", false, false);
+        }
+
+        @Override
+        protected void onPostExecute(final Wrapper w) {
+            loading.dismiss();
+            final Spinner spinner = (Spinner) findViewById(w.id);
+            ArrayAdapter<String> adapter;
+            adapter = new ArrayAdapter<>(ViewIncident.this, android.R.layout.simple_list_item_1, w.list);
+            spinner.setAdapter(adapter);
+            spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+
+                @Override
+                public void onItemSelected(AdapterView<?> parent, View view,
+                                           int position, long id) {
+                    Spinner spinner = (Spinner) parent;
+                    if (spinner.getId() == R.id.editSpinnerUser) {
+                        spinnerUser = spinner.getSelectedItem().toString();
+                    } else if (spinner.getId() == R.id.editSpinnerSeverite) {
+                        spinnerSeverite = spinner.getSelectedItem().toString();
+                    } else if (spinner.getId() == R.id.editSpinnerType) {
+                        spinnerType = spinner.getSelectedItem().toString();
+                    }
+                }
+
+                @Override
+                public void onNothingSelected(AdapterView<?> parent) {
+                    // TODO Auto-generated method stub
+                }
+            });
+        }
+        @Override
+        protected Wrapper doInBackground(ViewIncident.MyTaskParams... params) {
+            HttpHandler sh = new HttpHandler();
+            // Making a request to url and getting response
+            String jsonStr = sh.makeServiceCall(params[0].URL);
+            if (jsonStr != null) {
+                try {
+                    JSONObject jsonObj = new JSONObject(jsonStr);
+                    // Getting JSON Array node
+                    JSONArray results = jsonObj.getJSONArray("result");
+                    // looping through all results
+                    for (int i = 0; i < results.length(); i++) {
+                        JSONObject c = results.getJSONObject(i);
+                        String name = c.getString("name");
+                        params[0].list.add(name);
+                    }
+                    Wrapper w = new Wrapper();
+                    w.list = params[0].list;
+                    w.id = params[0].id;
+                    return w;
+                } catch (final JSONException e) {
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            Toast.makeText(getApplicationContext(),
+                                    "Json parsing error: " + e.getMessage(),
+                                    Toast.LENGTH_LONG)
+                                    .show();
+                        }
+                    });
+
+                }
+            } else {
+                Log.e(TAG, "Couldn't get json from server.");
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Toast.makeText(getApplicationContext(),
+                                "Couldn't get json from server. Check LogCat for possible errors!",
+                                Toast.LENGTH_LONG)
+                                .show();
+                    }
+                });
+
+            }
+            return null;
         }
     }
 
     private void updateIncident(){
         final String title = editTextTitle.getText().toString().trim();
         final String description = editTextDescription.getText().toString().trim();
-        final String severiteName = editTextSeverite.getText().toString().trim();
-        final String typeName = editTextType.getText().toString().trim();
-        final String userName = editTextUser.getText().toString().trim();
+        final String severiteName = spinnerSeverite;
+        final String typeName = spinnerType;
+        final String userName = spinnerUser;
         DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         Date date = new Date();
         final String creationDate = dateFormat.format(date);
@@ -153,18 +286,13 @@ public class ViewIncident extends AppCompatActivity implements View.OnClickListe
                 hashMap.put(Config.KEY_INCIDENT_TYPE_NAME,typeName);
                 hashMap.put(Config.KEY_INCIDENT_USER_NAME,userName);
                 hashMap.put(Config.KEY_INCIDENT_CREATION_DATE,creationDate);
-
                 HttpHandler rh = new HttpHandler();
-
                 String s = rh.sendPostRequest(Config.URL_UPDATE_INCIDENT,hashMap);
-
                 return s;
             }
         }
-
         UpdateIncident ui = new UpdateIncident();
         ui.execute();
-
     }
 
     private void deleteIncident(){
@@ -231,7 +359,6 @@ public class ViewIncident extends AppCompatActivity implements View.OnClickListe
         if(v == buttonUpdate){
             updateIncident();
         }
-
         if(v == buttonDelete){
             confirmDeleteIncident();
         }
