@@ -9,7 +9,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         >
-        <activity android:name=".MainActivity" android:screenOrientation="portrait">
+        <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -20,12 +20,12 @@
             <category android:name="android.intent.category.DEFAULT" />
         </intent-filter>
         </activity>
-        <activity android:name=".AddIncident">    <intent-filter>
+        <activity android:name=".AddIncident" android:screenOrientation="portrait">    <intent-filter>
             <action android:name="isep.moodup.AddIncident" />
             <category android:name="android.intent.category.ADD" />
         </intent-filter>
         </activity>
-        <activity android:name=".ViewIncident">    <intent-filter>
+        <activity android:name=".ViewIncident"  android:screenOrientation="portrait">    <intent-filter>
             <action android:name="isep.moodup.ViewIncident" />
             <category android:name="android.intent.category.VIEW_INCIDENT" />
         </intent-filter>

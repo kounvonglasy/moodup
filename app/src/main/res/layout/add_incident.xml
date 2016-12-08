@@ -65,4 +65,10 @@
         android:layout_height="wrap_content"
         android:text="Ajouter l'incident" />
 
+    <Button
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:onClick="ReturnHome"
+        android:text="Retour à la page précédente" />
+
 </LinearLayout>

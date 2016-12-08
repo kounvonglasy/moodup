@@ -1,6 +1,7 @@
 package isep.moodup;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -226,7 +227,10 @@ public class AddIncident  extends AppCompatActivity implements View.OnClickListe
             }
             return null;
         }
-
     }
 
+    public void ReturnHome(View view){
+        super.onBackPressed();
+        startActivity(new Intent(this,ViewAllIncident.class));
+    }
 }

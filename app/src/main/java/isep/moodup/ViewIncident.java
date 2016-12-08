@@ -32,10 +32,8 @@ import android.widget.Spinner;
 
 public class ViewIncident extends AppCompatActivity implements View.OnClickListener{
     private String TAG = ViewIncident.class.getSimpleName();
-    private EditText editTextId;
     private EditText editTextTitle;
     private EditText editTextDescription;
-    private EditText editTextCreationDate;
     private String id;
     private Button buttonUpdate;
     private Button buttonDelete;
@@ -60,7 +58,6 @@ public class ViewIncident extends AppCompatActivity implements View.OnClickListe
 
         editTextTitle = (EditText) findViewById(R.id.editTextTitle);
         editTextDescription = (EditText) findViewById(R.id.editTextDescription);
-        editTextCreationDate = (EditText) findViewById(R.id.editTextCreationDate);
 
         //Get user list
         ViewIncident.MyTaskParams params = new ViewIncident.MyTaskParams(Config.URL_GET_ALL_USERS, userList,R.id.editSpinnerUser);
@@ -118,13 +115,11 @@ public class ViewIncident extends AppCompatActivity implements View.OnClickListe
             JSONObject c = result.getJSONObject(0);
             String title = c.getString(Config.TAG_INCIDENT_TITLE);
             String description = c.getString(Config.TAG_INCIDENT_DESCRIPTION);
-            String creationDate = c.getString(Config.TAG_INCIDENT_CREATION_DATE);
             String userName = c.getString(Config.TAG_INCIDENT_USER);
             String severiteName = c.getString(Config.TAG_INCIDENT_SEVERITE);
             String typeName = c.getString(Config.TAG_INCIDENT_TYPE);
             editTextTitle.setText(title);
             editTextDescription.setText(description);
-            editTextCreationDate.setText(creationDate);
             Spinner spinner = (Spinner) findViewById(R.id.editSpinnerUser);
             selectSpinnerValue(spinner, userName);
             spinner = (Spinner) findViewById(R.id.editSpinnerSeverite);

@@ -25,6 +25,8 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.content.Intent;
 
+import java.text.SimpleDateFormat;
+
 public class ViewAllIncident extends AppCompatActivity implements ListView.OnItemClickListener  {
 
     private ListView listView;
@@ -56,13 +58,13 @@ public class ViewAllIncident extends AppCompatActivity implements ListView.OnIte
                     String id = c.getString(Config.INCIDENT_ID);
                     String description = c.getString(Config.TAG_INCIDENT_DESCRIPTION);
                     String title = c.getString(Config.TAG_INCIDENT_TITLE);
-
+                    String creationDate = c.getString(Config.TAG_INCIDENT_CREATION_DATE);
                     HashMap<String, String> incident = new HashMap<>();
-
                     // adding each child node to HashMap key => value
                     incident.put(Config.TAG_INCIDENT_ID,id);
                     incident.put(Config.TAG_INCIDENT_TITLE, title);
                     incident.put(Config.TAG_INCIDENT_DESCRIPTION, description);
+                    incident.put(Config.TAG_INCIDENT_CREATION_DATE,creationDate);
                     // adding incident to incident list
                     incidentList.add(incident);
                 }
@@ -93,8 +95,8 @@ public class ViewAllIncident extends AppCompatActivity implements ListView.OnIte
         }
         ListAdapter adapter = new SimpleAdapter(
                 ViewAllIncident.this, incidentList, R.layout.list_incident,
-                new String[]{Config.TAG_INCIDENT_TITLE,Config.TAG_INCIDENT_DESCRIPTION},
-                new int[]{R.id.title, R.id.description});
+                new String[]{Config.TAG_INCIDENT_TITLE,Config.TAG_INCIDENT_DESCRIPTION, Config.TAG_INCIDENT_CREATION_DATE},
+                new int[]{R.id.title, R.id.description, R.id.creationDate});
         listView.setAdapter(adapter);
 
     }
