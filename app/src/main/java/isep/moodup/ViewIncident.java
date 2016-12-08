@@ -58,10 +58,8 @@ public class ViewIncident extends AppCompatActivity implements View.OnClickListe
 
         id = intent.getStringExtra(Config.INCIDENT_ID);
 
-        editTextId = (EditText) findViewById(R.id.editTextId);
         editTextTitle = (EditText) findViewById(R.id.editTextTitle);
         editTextDescription = (EditText) findViewById(R.id.editTextDescription);
-        editTextId.setText(id);
         editTextCreationDate = (EditText) findViewById(R.id.editTextCreationDate);
 
         //Get user list

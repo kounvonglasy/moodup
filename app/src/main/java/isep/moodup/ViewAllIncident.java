@@ -93,8 +93,8 @@ public class ViewAllIncident extends AppCompatActivity implements ListView.OnIte
         }
         ListAdapter adapter = new SimpleAdapter(
                 ViewAllIncident.this, incidentList, R.layout.list_incident,
-                new String[]{Config.TAG_INCIDENT_ID,Config.TAG_INCIDENT_TITLE,Config.TAG_INCIDENT_DESCRIPTION},
-                new int[]{R.id.id, R.id.title, R.id.description});
+                new String[]{Config.TAG_INCIDENT_TITLE,Config.TAG_INCIDENT_DESCRIPTION},
+                new int[]{R.id.title, R.id.description});
         listView.setAdapter(adapter);
 
     }
