@@ -18,17 +18,14 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 
 /**
  * Created by Kevin on 04/12/2016.
  */
 
-public class AddIncident  extends AppCompatActivity implements View.OnClickListener {
+public class AddIncident extends AppCompatActivity implements View.OnClickListener {
     private String TAG = ViewAllIncident.class.getSimpleName();
 
     //Defining lists
@@ -39,6 +36,7 @@ public class AddIncident  extends AppCompatActivity implements View.OnClickListe
     //Defining views
     private EditText editTextTitle;
     private EditText editTextDescription;
+    private EditText editTextDuration;
     private String spinnerUser;
     private String spinnerSeverite;
     private String spinnerType;
@@ -49,19 +47,20 @@ public class AddIncident  extends AppCompatActivity implements View.OnClickListe
         setContentView(R.layout.add_incident);
 
         //Get user list
-        MyTaskParams params = new MyTaskParams(Config.URL_GET_ALL_USERS, userList,R.id.editSpinnerUser);
+        MyTaskParams params = new MyTaskParams(Config.URL_GET_ALL_USERS, userList, R.id.editSpinnerUser);
         new GetList().execute(params);
 
         //Get severite list
-        params = new MyTaskParams(Config.URL_GET_ALL_SEVERITES, severiteList,R.id.editSpinnerSeverite);
+        params = new MyTaskParams(Config.URL_GET_ALL_SEVERITES, severiteList, R.id.editSpinnerSeverite);
         new GetList().execute(params);
 
         //Get type list
-        params = new MyTaskParams(Config.URL_GET_ALL_TYPES, typeList , R.id.editSpinnerType);
+        params = new MyTaskParams(Config.URL_GET_ALL_TYPES, typeList, R.id.editSpinnerType);
         new GetList().execute(params);
 
         editTextTitle = (EditText) findViewById(R.id.editTextTitle);
         editTextDescription = (EditText) findViewById(R.id.editTextDescription);
+        editTextDuration = (EditText) findViewById(R.id.editTextDuration);
 
         buttonAddIncident = (Button) findViewById(R.id.buttonAddIncident);
         //Setting listeners to button
@@ -70,7 +69,7 @@ public class AddIncident  extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void onClick(View v) {
-        if(v == buttonAddIncident){
+        if (v == buttonAddIncident) {
             addIncident();
         }
     }
@@ -79,6 +78,7 @@ public class AddIncident  extends AppCompatActivity implements View.OnClickListe
     private void addIncident() {
         final String title = editTextTitle.getText().toString().trim();
         final String description = editTextDescription.getText().toString().trim();
+        final String duration = editTextDuration.getText().toString().trim();
         final String user = spinnerUser;
         final String severite = spinnerSeverite;
         final String type = spinnerType;
@@ -105,6 +105,7 @@ public class AddIncident  extends AppCompatActivity implements View.OnClickListe
                 HashMap<String, String> params = new HashMap<>();
                 params.put(Config.KEY_INCIDENT_TITLE, title);
                 params.put(Config.KEY_INCIDENT_DESCRIPTION, description);
+                params.put(Config.KEY_INCIDENT_DURATION, duration);
                 params.put(Config.KEY_INCIDENT_USER_NAME, user);
                 params.put(Config.KEY_INCIDENT_SEVERITE_NAME, severite);
                 params.put(Config.KEY_INCIDENT_TYPE_NAME, type);
@@ -122,19 +123,22 @@ public class AddIncident  extends AppCompatActivity implements View.OnClickListe
         String URL;
         ArrayList<String> list;
         Integer id;
-        MyTaskParams(String URL, ArrayList<String> list,Integer id) {
+
+        MyTaskParams(String URL, ArrayList<String> list, Integer id) {
             this.URL = URL;
             this.list = list;
             this.id = id;
         }
     }
-    private class Wrapper
-    {
+
+    private class Wrapper {
         public ArrayList<String> list;
         public Integer id;
     }
+
     private class GetList extends AsyncTask<MyTaskParams, Void, Wrapper> {
         ProgressDialog loading;
+
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
@@ -145,9 +149,9 @@ public class AddIncident  extends AppCompatActivity implements View.OnClickListe
         @Override
         protected void onPostExecute(final Wrapper w) {
             loading.dismiss();
-            final Spinner spinner =(Spinner)findViewById(w.id);
+            final Spinner spinner = (Spinner) findViewById(w.id);
             ArrayAdapter<String> adapter;
-            adapter = new ArrayAdapter<>(AddIncident.this, android.R.layout.simple_list_item_1,w.list);
+            adapter = new ArrayAdapter<>(AddIncident.this, android.R.layout.simple_list_item_1, w.list);
             spinner.setAdapter(adapter);
             //Adding setOnItemSelectedListener method on spinner.
             spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -156,15 +160,11 @@ public class AddIncident  extends AppCompatActivity implements View.OnClickListe
                 public void onItemSelected(AdapterView<?> parent, View view,
                                            int position, long id) {
                     Spinner spinner = (Spinner) parent;
-                    if(spinner.getId() == R.id.editSpinnerUser)
-                    {
+                    if (spinner.getId() == R.id.editSpinnerUser) {
                         spinnerUser = spinner.getSelectedItem().toString();
-                    }
-                    else if(spinner.getId() == R.id.editSpinnerSeverite)
-                    {
+                    } else if (spinner.getId() == R.id.editSpinnerSeverite) {
                         spinnerSeverite = spinner.getSelectedItem().toString();
-                    }
-                    else if(spinner.getId() == R.id.editSpinnerType){
+                    } else if (spinner.getId() == R.id.editSpinnerType) {
                         spinnerType = spinner.getSelectedItem().toString();
                     }
                 }
@@ -225,7 +225,7 @@ public class AddIncident  extends AppCompatActivity implements View.OnClickListe
         }
     }
 
-    public void ReturnHome(View view){
+    public void ReturnHome(View view) {
         super.onBackPressed();
         startActivity(new Intent(this, ViewAllIncident.class));
     }

@@ -23,7 +23,7 @@ app.get('/getAllIncidents', function(request,response){
 			console.log('ERROR');
 		} else{
 			console.log('Connected');
-			tempCont.query("SELECT i.idIncident,i.title, i.description, i.creationDate, u.name FROM incident as i LEFT JOIN user as u ON i.idUser = u.idUser", function(error,rows,fields){
+			tempCont.query("SELECT i.idIncident,i.title, i.description, i.creationDate FROM incident as i LEFT JOIN user as u ON i.idUser = u.idUser", function(error,rows,fields){
 				tempCont.release();
 				if(!!error){
 					console.log('Error in the query');
@@ -111,7 +111,7 @@ app.get('/getIncident', function(request,response){
 			console.log('ERROR');
 		} else{
 			console.log('Connected');
-			tempCont.query("SELECT i.title, i.description, u.name as userName ,s.name as severiteName, t.name as typeName, creationDate FROM incident i LEFT JOIN user u ON u.idUser = i.idUser LEFT JOIN severity s ON s.idSeverite = i.idSeverite LEFT JOIN type t ON t.idType = i.idType where i.idIncident=?",request.query.id, function(error,rows,fields){
+			tempCont.query("SELECT i.title, i.description, u.name as userName ,s.name as severiteName, t.name as typeName, creationDate, i.duration FROM incident i LEFT JOIN user u ON u.idUser = i.idUser LEFT JOIN severity s ON s.idSeverite = i.idSeverite LEFT JOIN type t ON t.idType = i.idType where i.idIncident=?",request.query.id, function(error,rows,fields){
 				tempCont.release();
 				if(!!error){
 					console.log('Error in the query');
@@ -134,7 +134,7 @@ app.post("/addIncident", function(request, response) {
 		var idSeverite = JSON.parse(JSON.stringify(results[0]))[0].idSeverite;
 		var idType = JSON.parse(JSON.stringify(results[1]))[0].idType;
 		var idUser = JSON.parse(JSON.stringify(results[2]))[0].idUser;
-		var query = connection.query('INSERT INTO incident(title,description,idUser,idSeverite,idType,creationDate)  VALUES (?,?,?,?,?,?)', [request.body.title, request.body.description, idUser ,idSeverite, idType,getDateTime()], function(err, result) {
+		var query = connection.query('INSERT INTO incident(title,description,idUser,idSeverite,idType,creationDate,duration)  VALUES (?,?,?,?,?,?,?)', [request.body.title, request.body.description, idUser ,idSeverite, idType,getDateTime(),parseInt(request.body.duration,10)], function(err, result) {
 			if (err){
 				console.log('Could not add the incident.');
 				console.log(err);
@@ -158,7 +158,7 @@ app.post("/updateIncident", function(request, response) {
 		var idSeverite = JSON.parse(JSON.stringify(results[0]))[0].idSeverite;
 		var idType = JSON.parse(JSON.stringify(results[1]))[0].idType;
 		var idUser = JSON.parse(JSON.stringify(results[2]))[0].idUser;
-		var query = connection.query('UPDATE incident SET title=?,description=?,idUser=?,idSeverite=?,idType=?,creationDate=? WHERE idIncident=?', [request.body.title, request.body.description, idUser ,idSeverite, idType,getDateTime(),request.body.idIncident], function(err, result) {
+		var query = connection.query('UPDATE incident SET title=?,description=?,idUser=?,idSeverite=?,idType=?,creationDate=?,duration=? WHERE idIncident=?', [request.body.title, request.body.description, idUser ,idSeverite, idType,getDateTime(),parseInt(request.body.duration,10),request.body.idIncident], function(err, result) {
 		  if (err){
 			console.log('Could not update the incident.');
 			console.log(err);
@@ -195,7 +195,8 @@ app.get('/deleteIncident', function(request,response){
 		}
 	});
 });
-/*
+/* 
+//For batch
 function printstuff()
 {
 	console.log("This is my text");

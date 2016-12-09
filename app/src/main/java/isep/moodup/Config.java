@@ -30,6 +30,7 @@ public class Config {
     public static final String KEY_INCIDENT_USER_NAME = "userName";
     public static final String KEY_INCIDENT_SEVERITE_NAME = "severiteName";
     public static final String KEY_INCIDENT_TYPE_NAME = "typeName";
+    public static final String KEY_INCIDENT_DURATION = "duration";
 
     //JSON tags
     public static final String TAG_JSON_ARRAY = "result";
@@ -40,6 +41,7 @@ public class Config {
     public static final String TAG_INCIDENT_SEVERITE = "severiteName";
     public static final String TAG_INCIDENT_TYPE = "typeName";
     public static final String TAG_INCIDENT_CREATION_DATE = "creationDate";
+    public static final String TAG_INCIDENT_DURATION = "duration";
 
     //incident id to pass with intent
     public static final String INCIDENT_ID = "idIncident";

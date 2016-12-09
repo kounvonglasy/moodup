@@ -20,10 +20,7 @@ import org.json.JSONObject;
 
 import android.widget.Toast;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 
 import android.widget.Button;
@@ -36,6 +33,7 @@ public class ViewIncident extends AppCompatActivity implements View.OnClickListe
     private String TAG = ViewIncident.class.getSimpleName();
     private EditText editTextTitle;
     private EditText editTextDescription;
+    private EditText editTextDuration;
     private String id;
     private Button buttonUpdate;
     private Button buttonDelete;
@@ -60,6 +58,7 @@ public class ViewIncident extends AppCompatActivity implements View.OnClickListe
 
         editTextTitle = (EditText) findViewById(R.id.editTextTitle);
         editTextDescription = (EditText) findViewById(R.id.editTextDescription);
+        editTextDuration = (EditText) findViewById(R.id.editTextDuration);
 
         //Get user list
         ViewIncident.MyTaskParams params = new ViewIncident.MyTaskParams(Config.URL_GET_ALL_USERS, userList, R.id.editSpinnerUser);
@@ -118,11 +117,14 @@ public class ViewIncident extends AppCompatActivity implements View.OnClickListe
             JSONObject c = result.getJSONObject(0);
             String title = c.getString(Config.TAG_INCIDENT_TITLE);
             String description = c.getString(Config.TAG_INCIDENT_DESCRIPTION);
+            String duration = c.getString(Config.TAG_INCIDENT_DURATION);
             String userName = c.getString(Config.TAG_INCIDENT_USER);
             String severiteName = c.getString(Config.TAG_INCIDENT_SEVERITE);
             String typeName = c.getString(Config.TAG_INCIDENT_TYPE);
+
             editTextTitle.setText(title);
             editTextDescription.setText(description);
+            editTextDuration.setText(duration);
             Spinner spinner = (Spinner) findViewById(R.id.editSpinnerUser);
             selectSpinnerValue(spinner, userName);
             spinner = (Spinner) findViewById(R.id.editSpinnerSeverite);
@@ -251,6 +253,7 @@ public class ViewIncident extends AppCompatActivity implements View.OnClickListe
     private void updateIncident() {
         final String title = editTextTitle.getText().toString().trim();
         final String description = editTextDescription.getText().toString().trim();
+        final String duration = editTextDuration.getText().toString().trim();
         final String severiteName = spinnerSeverite;
         final String typeName = spinnerType;
         final String userName = spinnerUser;
@@ -280,6 +283,7 @@ public class ViewIncident extends AppCompatActivity implements View.OnClickListe
                 hashMap.put(Config.KEY_INCIDENT_SEVERITE_NAME, severiteName);
                 hashMap.put(Config.KEY_INCIDENT_TYPE_NAME, typeName);
                 hashMap.put(Config.KEY_INCIDENT_USER_NAME, userName);
+                hashMap.put(Config.KEY_INCIDENT_DURATION, duration);
                 HttpHandler rh = new HttpHandler();
                 String s = rh.sendPostRequest(Config.URL_UPDATE_INCIDENT, hashMap);
                 return s;
