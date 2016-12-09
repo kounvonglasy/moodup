@@ -2,6 +2,7 @@ var express = require("express");
 var mysql = require('mysql');
 var myParser = require("body-parser");
 var app = express();
+var dateFormat = require('dateformat');
 
 var connection = mysql.createPool({
 	//properties
@@ -195,14 +196,47 @@ app.get('/deleteIncident', function(request,response){
 		}
 	});
 });
-/* 
+
 //For batch
-function printstuff()
+function printStuff()
 {
-	console.log("This is my text");
+	console.log("This text appears every 2 seconds");
+		connection.getConnection(function(error,tempCont){
+		if(!!error){
+			tempCont.release();
+			console.log('ERROR');
+		} else{
+			console.log('Connected');
+			tempCont.query("SELECT i.idIncident, i.duration, i.creationDate FROM incident i", function(error,rows,fields){
+				tempCont.release();
+				if(!!error){
+					console.log('Error in the query');
+					console.log(error);
+				} else{
+					//console.log(rows);
+					  rows.forEach(function(row) {
+					  // CurDate < DBDate + duration    2015 > 2013 + 12
+						var creationDate = new Date(row.creationDate).toISOString().
+						replace(/T/, ' ').      // replace T with a space
+						replace(/\..+/, '');     // delete the dot and everything after
+						console.log("creationDate: " + creationDate);
+						console.log("duration: " + row.duration);
+						var now = dateFormat(new Date(),"yyyy-mm-dd HH:mm:ss");
+						console.log("now: " + now);
+						var diffMs = (new Date(creationDate) - new Date(now)); // milliseconds between now & Christmas
+						var diffDays = Math.round(diffMs / 86400000); // days
+						var diffHrs = Math.round((diffMs % 86400000) / 3600000); // hours
+						var diffMins = Math.round(((diffMs % 86400000) % 3600000) / 60000); // minutes
+						console.log("difference: " + diffHrs + " hours, " + diffMins);
+					  });
+				}
+			});
+		}
+	});
+
 }
 
-setInterval(printstuff,2000);*/
+setInterval(printStuff,2000);
 
 function getDateTime() {
     var date = new Date();
