@@ -158,7 +158,7 @@ app.post("/updateIncident", function(request, response) {
 		var idSeverite = JSON.parse(JSON.stringify(results[0]))[0].idSeverite;
 		var idType = JSON.parse(JSON.stringify(results[1]))[0].idType;
 		var idUser = JSON.parse(JSON.stringify(results[2]))[0].idUser;
-		var query = connection.query('UPDATE incident SET title=?,description=?,idUser=?,idSeverite=?,idType=?,creationDate=? WHERE idIncident=?', [request.body.title, request.body.description, idUser ,idSeverite, idType,request.body.creationDate,request.body.idIncident], function(err, result) {
+		var query = connection.query('UPDATE incident SET title=?,description=?,idUser=?,idSeverite=?,idType=?,creationDate=? WHERE idIncident=?', [request.body.title, request.body.description, idUser ,idSeverite, idType,getDateTime(),request.body.idIncident], function(err, result) {
 		  if (err){
 			console.log('Could not update the incident.');
 			console.log(err);

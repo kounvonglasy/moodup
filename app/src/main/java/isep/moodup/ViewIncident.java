@@ -254,9 +254,6 @@ public class ViewIncident extends AppCompatActivity implements View.OnClickListe
         final String severiteName = spinnerSeverite;
         final String typeName = spinnerType;
         final String userName = spinnerUser;
-        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        Date date = new Date();
-        final String creationDate = dateFormat.format(date);
 
         class UpdateIncident extends AsyncTask<Void, Void, String> {
             ProgressDialog loading;
@@ -283,7 +280,6 @@ public class ViewIncident extends AppCompatActivity implements View.OnClickListe
                 hashMap.put(Config.KEY_INCIDENT_SEVERITE_NAME, severiteName);
                 hashMap.put(Config.KEY_INCIDENT_TYPE_NAME, typeName);
                 hashMap.put(Config.KEY_INCIDENT_USER_NAME, userName);
-                hashMap.put(Config.KEY_INCIDENT_CREATION_DATE, creationDate);
                 HttpHandler rh = new HttpHandler();
                 String s = rh.sendPostRequest(Config.URL_UPDATE_INCIDENT, hashMap);
                 return s;

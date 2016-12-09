@@ -82,9 +82,6 @@ public class AddIncident  extends AppCompatActivity implements View.OnClickListe
         final String user = spinnerUser;
         final String severite = spinnerSeverite;
         final String type = spinnerType;
-        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        Date date = new Date();
-        final String creationDate = dateFormat.format(date);
 
         class AddIncidentTask extends AsyncTask<Void, Void, String> {
 
@@ -111,7 +108,6 @@ public class AddIncident  extends AppCompatActivity implements View.OnClickListe
                 params.put(Config.KEY_INCIDENT_USER_NAME, user);
                 params.put(Config.KEY_INCIDENT_SEVERITE_NAME, severite);
                 params.put(Config.KEY_INCIDENT_TYPE_NAME, type);
-                params.put(Config.KEY_INCIDENT_CREATION_DATE, creationDate);
                 HttpHandler rh = new HttpHandler();
                 String res = rh.sendPostRequest(Config.URL_ADD_INCIDENT, params);
                 return res;
