@@ -23,7 +23,7 @@ app.get('/getAllIncidents', function(request,response){
 			console.log('ERROR');
 		} else{
 			console.log('Connected');
-			tempCont.query("SELECT i.idIncident,i.title, i.description, u.name  FROM incident as i LEFT JOIN user as u ON i.idUser = u.idUser", function(error,rows,fields){
+			tempCont.query("SELECT i.idIncident,i.title, i.description, i.creationDate, u.name FROM incident as i LEFT JOIN user as u ON i.idUser = u.idUser", function(error,rows,fields){
 				tempCont.release();
 				if(!!error){
 					console.log('Error in the query');
@@ -134,7 +134,7 @@ app.post("/addIncident", function(request, response) {
 		var idSeverite = JSON.parse(JSON.stringify(results[0]))[0].idSeverite;
 		var idType = JSON.parse(JSON.stringify(results[1]))[0].idType;
 		var idUser = JSON.parse(JSON.stringify(results[2]))[0].idUser;
-		var query = connection.query('INSERT INTO incident(title,description,idUser,idSeverite,idType,creationDate)  VALUES (?,?,?,?,?,?)', [request.body.title, request.body.description, idUser ,idSeverite, idType,request.body.creationDate], function(err, result) {
+		var query = connection.query('INSERT INTO incident(title,description,idUser,idSeverite,idType,creationDate)  VALUES (?,?,?,?,?,?)', [request.body.title, request.body.description, idUser ,idSeverite, idType,getDateTime()], function(err, result) {
 			if (err){
 				console.log('Could not add the incident.');
 				console.log(err);
@@ -195,6 +195,29 @@ app.get('/deleteIncident', function(request,response){
 		}
 	});
 });
+/*
+function printstuff()
+{
+	console.log("This is my text");
+}
+
+setInterval(printstuff,2000);*/
+
+function getDateTime() {
+    var date = new Date();
+    var hour = date.getHours();
+    hour = (hour < 10 ? "0" : "") + hour;
+    var min  = date.getMinutes();
+    min = (min < 10 ? "0" : "") + min;
+    var sec  = date.getSeconds();
+    sec = (sec < 10 ? "0" : "") + sec;
+    var year = date.getFullYear();
+    var month = date.getMonth() + 1;
+    month = (month < 10 ? "0" : "") + month;
+    var day  = date.getDate();
+    day = (day < 10 ? "0" : "") + day;
+    return year + "-" + month + "-" + day + " " + hour + ":" + min + ":" + sec;
+}
 
 app.listen(8888);
 
