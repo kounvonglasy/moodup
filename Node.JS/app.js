@@ -117,6 +117,7 @@ app.get('/getIncident', function(request,response){
 				tempCont.release();
 				if(!!error){
 					console.log('Error in the query');
+					console.log(error);
 					response.writeHead(200, {'Content-Type': 'text/plain'});
 					response.end('Error in the query \n');
 				} else{
@@ -188,6 +189,7 @@ app.post("/updateIncident", function(request, response) {
 			var query = connection.query('UPDATE incident SET title=?,description=?,idUser=?,idSeverite=?,idType=?,creationDate=?,duration=? WHERE idIncident=?', [request.body.title, request.body.description, idUser ,idSeverite, idType,getDateTime(),parseInt(request.body.duration,10),request.body.idIncident], function(err, result) {
 			  if (err){
 				console.log('Could not update the incident.');
+				console.log(err);
 				response.writeHead(200, {'Content-Type': 'text/plain'});
 				response.end('Could not update the incident.');
 			  }else{
@@ -217,6 +219,7 @@ app.get('/deleteIncident', function(request,response){
 				tempCont.release();
 				if(!!error){
 					console.log('Error in the query');
+					console.log(error);
 					response.writeHead(200, {'Content-Type': 'text/plain'});
 					response.end('Error in the query \n');
 				} else{
@@ -238,8 +241,10 @@ function deleteIncident()
 		} else{
 			console.log('Connected');
 			tempCont.query("SELECT i.idIncident, i.duration, i.creationDate FROM incident i", function(error,rows,fields){
+				tempCont.release();
 				if(!!error){
-					console.log('Error in the select query');
+					console.log('Error in the query');
+					console.log(error);
 				} else{
 					rows.forEach(function(row) {
 						var idIncident = row.idIncident;
@@ -255,11 +260,14 @@ function deleteIncident()
 						if(totalDiff > 0 && totalDiff > duration){
 							tempCont.query("DELETE FROM incident WHERE idIncident=?",idIncident, function(error,rows,fields){
 								if(!!error){
-									console.log('Error in the delete query');
+									console.log('Error in the query');
+									console.log(error);
 								} else{
 									console.log('Incident succesfully deleted');
 								}
 							});
+						}else {
+							console.log("No alert");
 						}
 					});
 				}
