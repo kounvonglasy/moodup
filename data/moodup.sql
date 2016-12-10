@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Client :  127.0.0.1
--- Généré le :  Dim 04 Décembre 2016 à 18:17
+-- Généré le :  Sam 10 Décembre 2016 à 23:12
 -- Version du serveur :  5.7.11
 -- Version de PHP :  5.6.19
 
@@ -75,20 +75,12 @@ CREATE TABLE `incident` (
   `idUser` int(11) NOT NULL,
   `title` varchar(45) DEFAULT NULL,
   `creationDate` datetime DEFAULT NULL,
-  `duration` varchar(45) DEFAULT NULL,
+  `duration` int(11) NOT NULL DEFAULT '10',
   `description` varchar(100) DEFAULT NULL,
   `address` varchar(45) DEFAULT NULL,
   `idSeverite` int(11) NOT NULL,
   `idType` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Contenu de la table `incident`
---
-
-INSERT INTO `incident` (`idIncident`, `idUser`, `title`, `creationDate`, `duration`, `description`, `address`, `idSeverite`, `idType`) VALUES
-(1, 1, 'Probleme sur la ligne 4', '2016-11-09 00:00:00', NULL, 'Malaise voyageur à la station Montparnasse', NULL, 3, 1),
-(2, 1, 'Accident sur la route', '2016-11-02 00:00:00', NULL, 'Sur la national 12', NULL, 4, 2);
 
 -- --------------------------------------------------------
 
@@ -154,7 +146,10 @@ CREATE TABLE `user` (
 
 INSERT INTO `user` (`idUser`, `name`, `firstName`, `email`, `login`, `password`, `status`, `idImage`) VALUES
 (1, 'kounvonglasy', 'kevin', 'kounvonglaskevin@gmail.com', 'kkounvonglasy', 'test', NULL, NULL),
-(2, 'talhaoui', 'hassan', 'hassan.talhaoui@gmail.com', 'htalhaoui', 'test', NULL, NULL);
+(2, 'talhaoui', 'hassan', 'hassan.talhaoui@gmail.com', 'htalhaoui', 'test', NULL, NULL),
+(3, 'Liu', 'Hang', 'liu.hang@gmail.com', 'liuhang', 'test', NULL, NULL),
+(4, 'Berrahil', 'Karim', 'karim.berrahil@gmail.com', 'kberrahil', 'test', NULL, NULL),
+(5, 'simion', 'evy', 'evy.simion@gmail.com', 'esimion', 'test', NULL, NULL);
 
 --
 -- Index pour les tables exportées
@@ -231,7 +226,7 @@ ALTER TABLE `image`
 -- AUTO_INCREMENT pour la table `incident`
 --
 ALTER TABLE `incident`
-  MODIFY `idIncident` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `idIncident` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
 --
 -- AUTO_INCREMENT pour la table `severity`
 --
@@ -246,7 +241,7 @@ ALTER TABLE `type`
 -- AUTO_INCREMENT pour la table `user`
 --
 ALTER TABLE `user`
-  MODIFY `idUser` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `idUser` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 --
 -- Contraintes pour les tables exportées
 --
