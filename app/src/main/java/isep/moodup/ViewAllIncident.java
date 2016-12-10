@@ -117,7 +117,8 @@ public class ViewAllIncident extends AppCompatActivity implements ListView.OnIte
                 JSON_STRING = s;
                 showIncident();
             }
-            
+
+
             @Override
             protected String doInBackground(Void... params) {
                 HttpHandler sh = new HttpHandler();
