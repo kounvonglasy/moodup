@@ -117,8 +117,7 @@ public class ViewAllIncident extends AppCompatActivity implements ListView.OnIte
                 JSON_STRING = s;
                 showIncident();
             }
-
-
+            
             @Override
             protected String doInBackground(Void... params) {
                 HttpHandler sh = new HttpHandler();
@@ -138,5 +137,10 @@ public class ViewAllIncident extends AppCompatActivity implements ListView.OnIte
         String idIncident = map.get(Config.TAG_INCIDENT_ID).toString();
         intent.putExtra(Config.INCIDENT_ID, idIncident);
         startActivity(intent);
+    }
+
+    public void ReturnHome(View view) {
+        super.onBackPressed();
+        startActivity(new Intent(this, MainActivity.class));
     }
 }

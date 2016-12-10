@@ -117,7 +117,6 @@ app.get('/getIncident', function(request,response){
 				tempCont.release();
 				if(!!error){
 					console.log('Error in the query');
-					console.log(error);
 					response.writeHead(200, {'Content-Type': 'text/plain'});
 					response.end('Error in the query \n');
 				} else{
@@ -130,50 +129,81 @@ app.get('/getIncident', function(request,response){
 
 app.post("/addIncident", function(request, response) {
   	console.log('Connected');
-	connection.query('SELECT idSeverite from severity WHERE name=? ; SELECT idType from type WHERE name=?; SELECT idUser from user WHERE name=?', [request.body.severiteName, request.body.typeName, request.body.userName], function(err, results) {
-		if (err) throw err;
-		  // `results` is an array with one element for every statement in the query:
-		var idSeverite = JSON.parse(JSON.stringify(results[0]))[0].idSeverite;
-		var idType = JSON.parse(JSON.stringify(results[1]))[0].idType;
-		var idUser = JSON.parse(JSON.stringify(results[2]))[0].idUser;
-		var query = connection.query('INSERT INTO incident(title,description,idUser,idSeverite,idType,creationDate,duration)  VALUES (?,?,?,?,?,?,?)', [request.body.title, request.body.description, idUser ,idSeverite, idType,getDateTime(),parseInt(request.body.duration,10)], function(err, result) {
-			if (err){
-				console.log('Could not add the incident.');
-				console.log(err);
-				response.writeHead(200, {'Content-Type': 'text/plain'});
-				response.end('Could not add the incident.');
-			}else{
-				console.log('Incident added succesfully.');
-				response.writeHead(200, {'Content-Type': 'text/plain'});
-				response.end('Incident added succesfully.');
-			}
+	try {
+    // the synchronous code that we want to catch thrown errors on
+		if(!request.body.title || ! request.body.description){
+			var err = new Error('Could not update the incident. Title field and description field must not be empty.')
+			throw err
+		}
+		if (request.body.duration != parseInt(request.body.duration,10)){
+			var err = new Error('Could not update the incident. Parsing error. The duration must be a number.')
+			throw err
+		}
+		connection.query('SELECT idSeverite from severity WHERE name=? ; SELECT idType from type WHERE name=?; SELECT idUser from user WHERE name=?', [request.body.severiteName, request.body.typeName, request.body.userName], function(err, results) {
+			if (err) throw err;
+			  // `results` is an array with one element for every statement in the query:
+			var idSeverite = JSON.parse(JSON.stringify(results[0]))[0].idSeverite;
+			var idType = JSON.parse(JSON.stringify(results[1]))[0].idType;
+			var idUser = JSON.parse(JSON.stringify(results[2]))[0].idUser;
+			var query = connection.query('INSERT INTO incident(title,description,idUser,idSeverite,idType,creationDate,duration)  VALUES (?,?,?,?,?,?,?)', [request.body.title, request.body.description, idUser ,idSeverite, idType,getDateTime(),parseInt(request.body.duration,10)], function(err, result) {
+				if (err){
+					console.log('Could not add the incident.');
+					console.log(err);
+					response.writeHead(200, {'Content-Type': 'text/plain'});
+					response.end('Could not add the incident.');
+				}else{
+					console.log('Incident added succesfully.');
+					response.writeHead(200, {'Content-Type': 'text/plain'});
+					response.end('Incident added succesfully.');
+				}
+			});
+			console.log(query.sql);
 		});
-		console.log(query.sql);
-	});
+	} catch (err) {
+		// handle the error safely
+		response.writeHead(200, {'Content-Type': 'text/plain'});
+		console.log(err);
+		response.end(err.message);
+	}
 });
 
 app.post("/updateIncident", function(request, response) {
 	console.log('Connected');
-	connection.query('SELECT idSeverite from severity WHERE name=? ; SELECT idType from type WHERE name=?; SELECT idUser from user WHERE name=?',[request.body.severiteName, request.body.typeName, request.body.userName], function(err, results) {
-		if (err) throw err;
-		// `results` is an array with one element for every statement in the query:
-		var idSeverite = JSON.parse(JSON.stringify(results[0]))[0].idSeverite;
-		var idType = JSON.parse(JSON.stringify(results[1]))[0].idType;
-		var idUser = JSON.parse(JSON.stringify(results[2]))[0].idUser;
-		var query = connection.query('UPDATE incident SET title=?,description=?,idUser=?,idSeverite=?,idType=?,creationDate=?,duration=? WHERE idIncident=?', [request.body.title, request.body.description, idUser ,idSeverite, idType,getDateTime(),parseInt(request.body.duration,10),request.body.idIncident], function(err, result) {
-		  if (err){
-			console.log('Could not update the incident.');
-			console.log(err);
-			response.writeHead(200, {'Content-Type': 'text/plain'});
-			response.end('Could not update the incident.');
-		  }else{
-			console.log('Incident updated succesfully.');
-			response.writeHead(200, {'Content-Type': 'text/plain'});
-			response.end('Incident updated succesfully.');
-		  } 
+	try {
+    // the synchronous code that we want to catch thrown errors on
+		if(!request.body.title || ! request.body.description){
+			var err = new Error('Could not update the incident. Title field and description field must not be empty.')
+			throw err
+		}
+		if (request.body.duration != parseInt(request.body.duration,10)){
+			var err = new Error('Could not update the incident. Parsing error. The duration must be a number.')
+			throw err
+		}
+		connection.query('SELECT idSeverite from severity WHERE name=? ; SELECT idType from type WHERE name=?; SELECT idUser from user WHERE name=?',[request.body.severiteName, request.body.typeName, request.body.userName], function(err, results) {
+			if (err) throw err;
+			// `results` is an array with one element for every statement in the query:
+			var idSeverite = JSON.parse(JSON.stringify(results[0]))[0].idSeverite;
+			var idType = JSON.parse(JSON.stringify(results[1]))[0].idType;
+			var idUser = JSON.parse(JSON.stringify(results[2]))[0].idUser;
+			var query = connection.query('UPDATE incident SET title=?,description=?,idUser=?,idSeverite=?,idType=?,creationDate=?,duration=? WHERE idIncident=?', [request.body.title, request.body.description, idUser ,idSeverite, idType,getDateTime(),parseInt(request.body.duration,10),request.body.idIncident], function(err, result) {
+			  if (err){
+				console.log('Could not update the incident.');
+				response.writeHead(200, {'Content-Type': 'text/plain'});
+				response.end('Could not update the incident.');
+			  }else{
+				console.log('Incident updated succesfully.');
+				response.writeHead(200, {'Content-Type': 'text/plain'});
+				response.end('Incident updated succesfully.');
+			  } 
+			});
+			console.log(query.sql);
 		});
-		console.log(query.sql);
-	});
+	} catch (err) {
+		// handle the error safely
+		response.writeHead(200, {'Content-Type': 'text/plain'});
+		console.log(err);
+		response.end(err.message);
+	}
 });
 
 app.get('/deleteIncident', function(request,response){
@@ -187,7 +217,6 @@ app.get('/deleteIncident', function(request,response){
 				tempCont.release();
 				if(!!error){
 					console.log('Error in the query');
-					console.log(error);
 					response.writeHead(200, {'Content-Type': 'text/plain'});
 					response.end('Error in the query \n');
 				} else{
@@ -209,10 +238,8 @@ function deleteIncident()
 		} else{
 			console.log('Connected');
 			tempCont.query("SELECT i.idIncident, i.duration, i.creationDate FROM incident i", function(error,rows,fields){
-				tempCont.release();
 				if(!!error){
-					console.log('Error in the query');
-					console.log(error);
+					console.log('Error in the select query');
 				} else{
 					rows.forEach(function(row) {
 						var idIncident = row.idIncident;
@@ -228,14 +255,11 @@ function deleteIncident()
 						if(totalDiff > 0 && totalDiff > duration){
 							tempCont.query("DELETE FROM incident WHERE idIncident=?",idIncident, function(error,rows,fields){
 								if(!!error){
-									console.log('Error in the query');
-									console.log(error);
+									console.log('Error in the delete query');
 								} else{
 									console.log('Incident succesfully deleted');
 								}
 							});
-						}else {
-							console.log("No alert");
 						}
 					});
 				}
