@@ -11,7 +11,8 @@ var connection = mysql.createPool({
 	user: 'root',
 	password: '',
 	database: 'moodup',
-	multipleStatements : true
+	multipleStatements : true,
+	timezone: 'utc'
 });
 
 app.use(myParser.urlencoded({extended : true}));
@@ -198,9 +199,9 @@ app.get('/deleteIncident', function(request,response){
 });
 
 //For batch
-function printStuff()
+function deleteIncident()
 {
-	console.log("This text appears every 2 seconds");
+	console.log("Check every 2 seconds");
 		connection.getConnection(function(error,tempCont){
 		if(!!error){
 			tempCont.release();
@@ -213,22 +214,30 @@ function printStuff()
 					console.log('Error in the query');
 					console.log(error);
 				} else{
-					//console.log(rows);
-					  rows.forEach(function(row) {
-					  // CurDate < DBDate + duration    2015 > 2013 + 12
+					rows.forEach(function(row) {
+						var idIncident = row.idIncident;
+						var duration = row.duration;
 						var creationDate = new Date(row.creationDate).toISOString().
 						replace(/T/, ' ').      // replace T with a space
 						replace(/\..+/, '');     // delete the dot and everything after
-						console.log("creationDate: " + creationDate);
-						console.log("duration: " + row.duration);
-						var now = dateFormat(new Date(),"yyyy-mm-dd HH:mm:ss");
-						console.log("now: " + now);
-						var diffMs = (new Date(creationDate) - new Date(now)); // milliseconds between now & Christmas
-						var diffDays = Math.round(diffMs / 86400000); // days
+						var now = dateFormat(new Date(),"yyyy-mm-dd HH:MM:ss");
+						var diffMs = (new Date(now) - new Date(creationDate)); // milliseconds between now & creationDate
 						var diffHrs = Math.round((diffMs % 86400000) / 3600000); // hours
-						var diffMins = Math.round(((diffMs % 86400000) % 3600000) / 60000); // minutes
-						console.log("difference: " + diffHrs + " hours, " + diffMins);
-					  });
+						var diffMins = ((diffMs % 86400000) % 3600000) / 60000; // minutes
+						totalDiff = diffHrs * 60 + diffMins ;
+						if(totalDiff > 0 && totalDiff > duration){
+							tempCont.query("DELETE FROM incident WHERE idIncident=?",idIncident, function(error,rows,fields){
+								if(!!error){
+									console.log('Error in the query');
+									console.log(error);
+								} else{
+									console.log('Incident succesfully deleted');
+								}
+							});
+						}else {
+							console.log("No alert");
+						}
+					});
 				}
 			});
 		}
@@ -236,22 +245,11 @@ function printStuff()
 
 }
 
-setInterval(printStuff,2000);
+setInterval(deleteIncident,2000);
 
 function getDateTime() {
-    var date = new Date();
-    var hour = date.getHours();
-    hour = (hour < 10 ? "0" : "") + hour;
-    var min  = date.getMinutes();
-    min = (min < 10 ? "0" : "") + min;
-    var sec  = date.getSeconds();
-    sec = (sec < 10 ? "0" : "") + sec;
-    var year = date.getFullYear();
-    var month = date.getMonth() + 1;
-    month = (month < 10 ? "0" : "") + month;
-    var day  = date.getDate();
-    day = (day < 10 ? "0" : "") + day;
-    return year + "-" + month + "-" + day + " " + hour + ":" + min + ":" + sec;
+	var now = dateFormat(new Date(),"yyyy-mm-dd HH:MM:ss");
+	return now;
 }
 
 app.listen(8888);
