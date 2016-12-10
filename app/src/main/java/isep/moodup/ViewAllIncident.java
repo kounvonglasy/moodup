@@ -22,6 +22,7 @@ import java.util.HashMap;
 
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.AdapterView;
 import android.content.Intent;
 
@@ -38,6 +39,14 @@ public class ViewAllIncident extends AppCompatActivity implements ListView.OnIte
         setContentView(R.layout.activity_view_all_incident);
         incidentList = new ArrayList<>();
         listView = (ListView) findViewById(R.id.listView);
+        Button btnReturnHome = new Button(this);
+        btnReturnHome.setText("Retour à la page précédente");
+        btnReturnHome.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                ReturnHome(v);
+            }
+        });
+        listView.addFooterView(btnReturnHome);
         listView.setOnItemClickListener(this);
         getIncidents();
     }
