@@ -8,9 +8,10 @@ import android.content.Intent;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
-    private Button buttonAdd;
+    private Button buttonAddIncident;
     private Button buttonView;
     private Button buttonMap;
+    private Button buttonAddUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -18,19 +19,21 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         //Set content view
         setContentView(R.layout.activity_main);
 
-        buttonAdd = (Button) findViewById(R.id.buttonAdd);
+        buttonAddIncident = (Button) findViewById(R.id.buttonAddIncident);
         buttonView = (Button) findViewById(R.id.buttonView);
         buttonMap = (Button) findViewById(R.id.buttonMap);
+        buttonAddUser = (Button) findViewById(R.id.buttonAddUser);
 
         //Setting listeners to button
-        buttonAdd.setOnClickListener(this);
+        buttonAddIncident.setOnClickListener(this);
         buttonView.setOnClickListener(this);
         buttonMap.setOnClickListener(this);
+        buttonAddUser.setOnClickListener(this);
     }
 
     @Override
     public void onClick(View v) {
-        if (v == buttonAdd) {
+        if (v == buttonAddIncident) {
             startActivity(new Intent(this, AddIncident.class));
         }
         else if (v == buttonView) {
@@ -38,6 +41,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
         else if (v == buttonMap) {
             startActivity(new Intent(this, MapsActivity.class));
+        }
+        else if (v == buttonAddUser) {
+            startActivity(new Intent(this, RegistrationUser.class));
         }
     }
 }

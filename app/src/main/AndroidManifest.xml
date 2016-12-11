@@ -36,6 +36,14 @@
                 <category android:name="android.intent.category.VIEW_INCIDENT" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".RegistrationUser"
+            android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="isep.moodup.RegistrationUser" />
+                <category android:name="android.intent.category.REGISTER" />
+            </intent-filter>
+        </activity>
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"

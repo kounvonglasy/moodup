@@ -23,6 +23,9 @@ public class Config {
     //en local => http://10.0.2.2:8888/deleteIncident?id=
     public static final String URL_DELETE_INCIDENT = "http://young-journey-48135.herokuapp.com/deleteIncident?id=";
 
+    //en local => http://10.0.2.2:8888/addUser
+    public static final String URL_ADD_USER = "http://young-journey-48135.herokuapp.com/addUser";
+
     //Keys that will be used to send the request to the server
     public static final String KEY_INCIDENT_ID = "idIncident";
     public static final String KEY_INCIDENT_TITLE = "title";
@@ -31,6 +34,13 @@ public class Config {
     public static final String KEY_INCIDENT_SEVERITE_NAME = "severiteName";
     public static final String KEY_INCIDENT_TYPE_NAME = "typeName";
     public static final String KEY_INCIDENT_DURATION = "duration";
+
+    public static final String KEY_USERNAME_NAME = "name";
+    public static final String KEY_USERNAME_FIRSTNAME = "firstName";
+    public static final String KEY_USERNAME_EMAIL = "email";
+    public static final String KEY_USERNAME_LOGIN = "login";
+    public static final String KEY_USERNAME_PASSWORD = "password";
+    public static final String KEY_USERNAME_PASSWORD_CONFIRM = "passwordConfirm";
 
     //JSON tags
     public static final String TAG_JSON_ARRAY = "result";

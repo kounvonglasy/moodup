@@ -227,6 +227,36 @@ app.get('/deleteIncident', function(request,response){
 	});
 });
 
+
+app.post("/addUser", function(request, response) {
+  	console.log('Connected');
+	try {
+		if(request.body.password === request.body.passwordConfirm){
+			var query = connection.query('INSERT INTO user(name,firstName,email,login,password)  VALUES (?,?,?,?,?)', [request.body.name, request.body.firstName,request.body.email,request.body.login,request.body.password], function(err, result) {
+				if (err){
+					console.log('Could not add the account.');
+					console.log(err);
+					response.writeHead(200, {'Content-Type': 'text/plain'});
+					response.end('Could not add the account.');
+				}else{
+					console.log('Account added succesfully.');
+					response.writeHead(200, {'Content-Type': 'text/plain'});
+					response.end('Account added succesfully.');
+				}
+			});
+			console.log(query.sql);
+		} else {
+			var err = new Error('The password and the confirmation password does not match.')
+			throw err
+		}
+	} catch (err) {
+		// handle the error safely
+		response.writeHead(200, {'Content-Type': 'text/plain'});
+		console.log(err);
+		response.end(err.message);
+	}
+});
+
 //For batch
 function deleteIncident()
 {

@@ -10,11 +10,10 @@
     tools:context="isep.moodup.MainActivity">
 
     <Button
-        android:id="@+id/buttonAdd"
+        android:id="@+id/buttonAddIncident"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Ajouter un incident" />
-
 
     <Button
         android:id="@+id/buttonView"
@@ -28,5 +27,10 @@
         android:layout_height="wrap_content"
         android:text="Voir la Carte des Incidents" />
 
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Inscription"
+        android:id="@+id/buttonAddUser"/>
 
 </LinearLayout>
