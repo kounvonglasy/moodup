@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Client :  127.0.0.1
--- Généré le :  Dim 11 Décembre 2016 à 12:39
+-- Généré le :  Dim 11 Décembre 2016 à 21:24
 -- Version du serveur :  5.7.11
 -- Version de PHP :  5.6.19
 
@@ -202,6 +202,8 @@ ALTER TABLE `type`
 ALTER TABLE `user`
   ADD PRIMARY KEY (`idUser`),
   ADD UNIQUE KEY `idImage_UNIQUE` (`idImage`),
+  ADD UNIQUE KEY `login` (`login`),
+  ADD UNIQUE KEY `email` (`email`),
   ADD KEY `fk_Utilisateur_Image1_idx` (`idImage`);
 
 --
@@ -227,7 +229,7 @@ ALTER TABLE `image`
 -- AUTO_INCREMENT pour la table `incident`
 --
 ALTER TABLE `incident`
-  MODIFY `idIncident` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `idIncident` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 --
 -- AUTO_INCREMENT pour la table `severity`
 --
@@ -242,7 +244,7 @@ ALTER TABLE `type`
 -- AUTO_INCREMENT pour la table `user`
 --
 ALTER TABLE `user`
-  MODIFY `idUser` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `idUser` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 --
 -- Contraintes pour les tables exportées
 --
