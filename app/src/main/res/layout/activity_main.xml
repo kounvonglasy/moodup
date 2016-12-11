@@ -15,10 +15,18 @@
         android:layout_height="wrap_content"
         android:text="Ajouter un incident" />
 
+
     <Button
         android:id="@+id/buttonView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Voir les incidents" />
+
+    <Button
+        android:id="@+id/buttonMap"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Voir la Carte des Incidents" />
+
 
 </LinearLayout>
