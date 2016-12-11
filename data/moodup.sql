@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Client :  127.0.0.1
--- Généré le :  Sam 10 Décembre 2016 à 23:12
+-- Généré le :  Dim 11 Décembre 2016 à 12:39
 -- Version du serveur :  5.7.11
 -- Version de PHP :  5.6.19
 
@@ -79,7 +79,8 @@ CREATE TABLE `incident` (
   `description` varchar(100) DEFAULT NULL,
   `address` varchar(45) DEFAULT NULL,
   `idSeverite` int(11) NOT NULL,
-  `idType` int(11) NOT NULL
+  `idType` int(11) NOT NULL,
+  `isConfirmed` tinyint(1) DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -226,7 +227,7 @@ ALTER TABLE `image`
 -- AUTO_INCREMENT pour la table `incident`
 --
 ALTER TABLE `incident`
-  MODIFY `idIncident` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
+  MODIFY `idIncident` int(11) NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT pour la table `severity`
 --
