@@ -3,6 +3,7 @@ var mysql = require('mysql');
 var myParser = require("body-parser");
 var app = express();
 var dateFormat = require('dateformat');
+var validator = require("email-validator");
 
 var connection = mysql.createPool({
 	//properties
@@ -172,7 +173,7 @@ app.post("/updateIncident", function(request, response) {
 	try {
     // the synchronous code that we want to catch thrown errors on
 		if(!request.body.title || ! request.body.description){
-			var err = new Error('Could not update the incident. Title field and description field must not be empty.')
+			var err = new Error('Could not update the incident. Title field or description field must not be empty.')
 			throw err
 		}
 		if (request.body.duration != parseInt(request.body.duration,10)){
@@ -231,15 +232,23 @@ app.get('/deleteIncident', function(request,response){
 app.post("/addUser", function(request, response) {
   	console.log('Connected');
 	try {
+		if(!request.body.name || !request.body.firstName || !request.body.email || !request.body.login || !request.body.password ){
+			var err = new Error('Could not add the account. The fields must not be empty.')
+			throw err
+		}
+		if (validator.validate(request.body.email) == false){
+			var err = new Error('Could not add the account. Check the email format')
+			throw err
+		}
 		if(request.body.password === request.body.passwordConfirm){
 			var query = connection.query('INSERT INTO user(name,firstName,email,login,password)  VALUES (?,?,?,?,?)', [request.body.name, request.body.firstName,request.body.email,request.body.login,request.body.password], function(err, result) {
 				if (err){
-					console.log('Could not add the account.');
+					console.log('Could not add the account. It already exists.');
 					console.log(err);
 					response.writeHead(200, {'Content-Type': 'text/plain'});
-					response.end('Could not add the account.');
+					response.end('Could not add the account. It already exists.');
 				}else{
-					console.log('Account added succesfully.');
+					console.log('Account added succesfully. It already exists.');
 					response.writeHead(200, {'Content-Type': 'text/plain'});
 					response.end('Account added succesfully.');
 				}

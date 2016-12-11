@@ -24,7 +24,7 @@ public class Config {
     public static final String URL_DELETE_INCIDENT = "http://young-journey-48135.herokuapp.com/deleteIncident?id=";
 
     //en local => http://10.0.2.2:8888/addUser
-    public static final String URL_ADD_USER = "http://young-journey-48135.herokuapp.com/addUser";
+    public static final String URL_ADD_USER = "http://10.0.2.2:8888/addUser";
 
     //Keys that will be used to send the request to the server
     public static final String KEY_INCIDENT_ID = "idIncident";
