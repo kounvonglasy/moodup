@@ -8,9 +8,7 @@ import android.app.ProgressDialog;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.widget.ListAdapter;
 import android.widget.ListView;
-import android.widget.SimpleAdapter;
 import android.widget.Toast;
 
 import org.json.JSONArray;
@@ -23,11 +21,10 @@ import java.util.HashMap;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.AdapterView;
 import android.content.Intent;
 
-public class ViewAllIncident extends AppCompatActivity implements ListView.OnItemClickListener {
-
+public class ViewAllIncident extends AppCompatActivity {
+    private IncidentListAdapter adapter;
     private ListView listView;
     private String TAG = ViewAllIncident.class.getSimpleName();
     ArrayList<HashMap<String, String>> incidentList;
@@ -46,9 +43,10 @@ public class ViewAllIncident extends AppCompatActivity implements ListView.OnIte
                 ReturnHome(v);
             }
         });
+        setupListViewAdapter();
         listView.addFooterView(btnReturnHome);
-        listView.setOnItemClickListener(this);
         getIncidents();
+
     }
 
     private void showIncident() {
@@ -66,14 +64,8 @@ public class ViewAllIncident extends AppCompatActivity implements ListView.OnIte
                     String description = c.getString(Config.TAG_INCIDENT_DESCRIPTION);
                     String title = c.getString(Config.TAG_INCIDENT_TITLE);
                     String creationDate = c.getString(Config.TAG_INCIDENT_CREATION_DATE);
-                    HashMap<String, String> incident = new HashMap<>();
-                    // adding each child node to HashMap key => value
-                    incident.put(Config.TAG_INCIDENT_ID, id);
-                    incident.put(Config.TAG_INCIDENT_TITLE, title);
-                    incident.put(Config.TAG_INCIDENT_DESCRIPTION, description);
-                    incident.put(Config.TAG_INCIDENT_CREATION_DATE, creationDate);
-                    // adding incident to incident list
-                    incidentList.add(incident);
+                    Incident incident = new Incident(id, description, title, creationDate);
+                    adapter.add(incident);
                 }
             } catch (final JSONException e) {
                 runOnUiThread(new Runnable() {
@@ -100,11 +92,6 @@ public class ViewAllIncident extends AppCompatActivity implements ListView.OnIte
             });
 
         }
-        ListAdapter adapter = new SimpleAdapter(
-                ViewAllIncident.this, incidentList, R.layout.list_incident,
-                new String[]{Config.TAG_INCIDENT_TITLE, Config.TAG_INCIDENT_DESCRIPTION, Config.TAG_INCIDENT_CREATION_DATE},
-                new int[]{R.id.title, R.id.description, R.id.creationDate});
-        listView.setAdapter(adapter);
 
     }
 
@@ -140,17 +127,30 @@ public class ViewAllIncident extends AppCompatActivity implements ListView.OnIte
         gi.execute();
     }
 
-    @Override
-    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+    public void ReturnHome(View view) {
+        super.onBackPressed();
+        startActivity(new Intent(this, MainActivity.class));
+    }
+
+    public void getIncidentOnClickHandler(View v) {
+        Incident item = (Incident) v.getTag();
         Intent intent = new Intent(this, ViewIncident.class);
-        HashMap<String, String> map = (HashMap) parent.getItemAtPosition(position);
-        String idIncident = map.get(Config.TAG_INCIDENT_ID).toString();
+        String idIncident = item.getId();
         intent.putExtra(Config.INCIDENT_ID, idIncident);
         startActivity(intent);
     }
 
-    public void ReturnHome(View view) {
-        super.onBackPressed();
-        startActivity(new Intent(this, MainActivity.class));
+    public void addLikeOnClickHandler(View v) {
+        //Working in Progress
+        Toast.makeText(getApplicationContext(),
+                "Incident liked",
+                Toast.LENGTH_LONG)
+                .show();
+    }
+
+    private void setupListViewAdapter() {
+        adapter = new IncidentListAdapter(ViewAllIncident.this, R.layout.list_incident, new ArrayList<Incident>());
+        ListView incidentListView = (ListView) findViewById(R.id.listView);
+        incidentListView.setAdapter(adapter);
     }
 }
