@@ -266,6 +266,66 @@ app.post("/addUser", function(request, response) {
 	}
 });
 
+app.post("/addLike", function(request, response) {
+	try {
+		var query = connection.query("INSERT INTO `like` (`idLike`, `idIncident`, `idUser`) VALUES (NULL, ?, ?)", [request.body.idIncident, request.body.idUser], function(err, result) {
+			if (err){
+				var s1 = err.message.slice(0, 12);
+				if(err.message.slice(0, 12) === 'ER_DUP_ENTRY'){
+					var query = connection.query('DELETE FROM `like` WHERE idIncident = ? and idUser = ?', [request.body.idIncident, request.body.idUser], function(err, result) {
+					  if (err){
+						console.log('Could not like this incident.');
+						response.writeHead(200, {'Content-Type': 'text/plain'});
+						response.end('Could not like this incident.');
+					  }else{
+						console.log('Incident unliked.');
+						response.writeHead(200, {'Content-Type': 'text/plain'});
+						response.end('Incident unliked.');
+					  } 
+					});
+				} else {
+					response.writeHead(200, {'Content-Type': 'text/plain'});
+					console.log(err);
+					response.end(err.message);
+				}
+			}else{
+				console.log('Incident liked.');
+				response.writeHead(200, {'Content-Type': 'text/plain'});
+				response.end('Incident liked.');
+			}
+		});
+		console.log(query.sql);
+	} catch (err) {
+		// handle the error safely
+		response.writeHead(200, {'Content-Type': 'text/plain'});
+		console.log(err);
+		response.end(err.message);
+	}
+});
+
+app.post("/checkLike", function(request, response) {
+  	console.log('Test');
+	try {
+		var query = connection.query("SELECT * from `like` WHERE idIncident=? and idUser=?", [request.body.idIncident, request.body.idUser], function(err, results) {	
+			response.writeHead(200, {'Content-Type': 'text/plain'});
+
+			if(JSON.stringify(results) != "[]"){
+				response.end("True");
+				console.log("True");
+			} else {
+				response.end("False");
+				console.log("False");
+			}
+		});
+		console.log(query.sql);
+	} catch (err) {
+		// handle the error safely
+		response.writeHead(200, {'Content-Type': 'text/plain'});
+		console.log(err);
+		response.end(err.message);
+	}
+});
+
 //For batch
 function deleteIncident()
 {

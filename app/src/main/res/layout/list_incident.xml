@@ -25,15 +25,14 @@
 
         <Button
             android:id="@+id/incident"
-            android:text="Edit this incident"
-            android:textSize="10sp"
             android:layout_width="105dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
             android:drawableRight="@android:drawable/ic_menu_edit"
             android:gravity="left|center_vertical"
-            android:layout_height="wrap_content"
             android:onClick="getIncidentOnClickHandler"
-            android:src="@android:drawable/ic_menu_edit"
-            android:layout_alignParentRight="true"/>
+            android:text="Edit this incident"
+            android:textSize="10sp" />
 
         <ImageButton
             android:id="@+id/like"

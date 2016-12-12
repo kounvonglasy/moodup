@@ -25,8 +25,13 @@ public class Config {
 
     //en local => http://10.0.2.2:8888/addUser
     public static final String URL_ADD_USER = "http://young-journey-48135.herokuapp.com/addUser";
+    //en local => http://10.0.2.2:8888/addLike
+    public static final String URL_ADD_LIKE = "http://young-journey-48135.herokuapp.com/addLike";
+    //en local => http://10.0.2.2:8888/checkLike
+    public static final String URL_CHECK_LIKE = "http://young-journey-48135.herokuapp.com/checkLike";
 
     //Keys that will be used to send the request to the server
+    //Incident
     public static final String KEY_INCIDENT_ID = "idIncident";
     public static final String KEY_INCIDENT_TITLE = "title";
     public static final String KEY_INCIDENT_DESCRIPTION = "description";
@@ -34,7 +39,9 @@ public class Config {
     public static final String KEY_INCIDENT_SEVERITE_NAME = "severiteName";
     public static final String KEY_INCIDENT_TYPE_NAME = "typeName";
     public static final String KEY_INCIDENT_DURATION = "duration";
+    public static final String KEY_INCIDENT_ID_USER = "idUser";
 
+    //User
     public static final String KEY_USERNAME_NAME = "name";
     public static final String KEY_USERNAME_FIRSTNAME = "firstName";
     public static final String KEY_USERNAME_EMAIL = "email";
@@ -44,7 +51,6 @@ public class Config {
 
     //JSON tags
     public static final String TAG_JSON_ARRAY = "result";
-    public static final String TAG_INCIDENT_ID = "id";
     public static final String TAG_INCIDENT_TITLE = "title";
     public static final String TAG_INCIDENT_DESCRIPTION = "description";
     public static final String TAG_INCIDENT_USER = "userName";
