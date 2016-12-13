@@ -64,7 +64,7 @@ public class ViewAllIncident extends AppCompatActivity {
                     String description = c.getString(Config.TAG_INCIDENT_DESCRIPTION);
                     String title = c.getString(Config.TAG_INCIDENT_TITLE);
                     String creationDate = c.getString(Config.TAG_INCIDENT_CREATION_DATE);
-                    Incident incident = new Incident(id, description, title, creationDate);
+                    Incident incident = new Incident(id, title, description, creationDate);
                     adapter.add(incident);
                 }
             } catch (final JSONException e) {

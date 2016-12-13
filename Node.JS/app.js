@@ -231,24 +231,40 @@ app.post("/updateIncident", function(request, response) {
 			var err = new Error('Could not update the incident. Parsing error. The duration must be a number.')
 			throw err
 		}
-		connection.query('SELECT idSeverite from severity WHERE name=? ; SELECT idType from type WHERE name=?; SELECT idUser from user WHERE name=?',[request.body.severiteName, request.body.typeName, request.body.userName], function(err, results) {
-			if (err) throw err;
-			// `results` is an array with one element for every statement in the query:
-			var idSeverite = JSON.parse(JSON.stringify(results[0]))[0].idSeverite;
-			var idType = JSON.parse(JSON.stringify(results[1]))[0].idType;
-			var idUser = JSON.parse(JSON.stringify(results[2]))[0].idUser;
-			var query = connection.query('UPDATE incident SET title=?,description=?,idUser=?,idSeverite=?,idType=?,creationDate=?,duration=? WHERE idIncident=?', [request.body.title, request.body.description, idUser ,idSeverite, idType,getDateTime(),parseInt(request.body.duration,10),request.body.idIncident], function(err, result) {
-			  if (err){
-				console.log('Could not update the incident.');
+		connection.getConnection(function(error,tempCont){
+			if(!!error){
+				tempCont.release();
+				console.log('ERROR');
 				response.writeHead(200, {'Content-Type': 'text/plain'});
-				response.end('Could not update the incident.');
-			  }else{
-				console.log('Incident updated succesfully.');
-				response.writeHead(200, {'Content-Type': 'text/plain'});
-				response.end('Incident updated succesfully.');
-			  } 
-			});
-			console.log(query.sql);
+				response.end('ERROR \n');
+			} else{
+				tempCont.query('SELECT idSeverite from severity WHERE name=? ; SELECT idType from type WHERE name=?; SELECT idUser from user WHERE name=?',[request.body.severiteName, request.body.typeName, request.body.userName], function(error, results) {
+					if(!!error){
+						tempCont.release();
+						console.log('ERROR');
+						response.writeHead(200, {'Content-Type': 'text/plain'});
+						response.end('ERROR \n');
+					} else {
+					// `results` is an array with one element for every statement in the query:
+					var idSeverite = JSON.parse(JSON.stringify(results[0]))[0].idSeverite;
+					var idType = JSON.parse(JSON.stringify(results[1]))[0].idType;
+					var idUser = JSON.parse(JSON.stringify(results[2]))[0].idUser;
+					var query = tempCont.query('UPDATE incident SET title=?,description=?,idUser=?,idSeverite=?,idType=?,creationDate=?,duration=? WHERE idIncident=?', [request.body.title, request.body.description, idUser ,idSeverite, idType,getDateTime(),parseInt(request.body.duration,10),request.body.idIncident], function(error, result) {
+					  tempCont.release();
+					  if (!!error){
+						console.log('Could not update the incident.');
+						response.writeHead(200, {'Content-Type': 'text/plain'});
+						response.end('Could not update the incident.');
+					  }else{
+						console.log('Incident updated succesfully.');
+						response.writeHead(200, {'Content-Type': 'text/plain'});
+						response.end('Incident updated succesfully.');
+					  } 
+					});
+					console.log(query.sql);
+					}
+				});			
+			}
 		});
 	} catch (err) {
 		// handle the error safely
@@ -294,10 +310,9 @@ app.post("/addUser", function(request, response) {
 		if(request.body.password === request.body.passwordConfirm){
 		 var password = saltHashPassword(request.body.password);
 		 console.log("password"+password.passwordHash);
-			var query = connection.query('INSERT INTO user(name,firstName,email,login,password)  VALUES (?,?,?,?,?)', [request.body.name, request.body.firstName,request.body.email,request.body.login,password.passwordHash], function(err, result) {
-				if (err){
+			var query = connection.query('INSERT INTO user(name,firstName,email,login,password)  VALUES (?,?,?,?,?)', [request.body.name, request.body.firstName,request.body.email,request.body.login,password.passwordHash], function(error, result) {
+				if (!!error){
 					console.log('Could not add the account. It already exists.');
-					console.log(err);
 					response.writeHead(200, {'Content-Type': 'text/plain'});
 					response.end('Could not add the account. It already exists.');
 				}else{
@@ -321,33 +336,42 @@ app.post("/addUser", function(request, response) {
 
 app.post("/addLike", function(request, response) {
 	try {
-		var query = connection.query("INSERT INTO `like` (`idLike`, `idIncident`, `idUser`) VALUES (NULL, ?, ?)", [request.body.idIncident, request.body.idUser], function(err, result) {
-			if (err){
-				var s1 = err.message.slice(0, 12);
-				if(err.message.slice(0, 12) === 'ER_DUP_ENTRY'){
-					var query = connection.query('DELETE FROM `like` WHERE idIncident = ? and idUser = ?', [request.body.idIncident, request.body.idUser], function(err, result) {
-					  if (err){
-						console.log('Could not like this incident.');
+		connection.getConnection(function(error,tempCont){
+			if(!!error){
+				tempCont.release();
+				console.log('ERROR');
+			} else{
+				var query = tempCont.query("INSERT INTO `like` (`idLike`, `idIncident`, `idUser`) VALUES (NULL, ?, ?)", [request.body.idIncident, request.body.idUser], function(error, result) {
+					if (!!error){
+						var errorMessage = error.message.slice(0, 12);
+						if(errorMessage === 'ER_DUP_ENTRY'){
+							var query = connection.query('DELETE FROM `like` WHERE idIncident = ? and idUser = ?', [request.body.idIncident, request.body.idUser], function(error, result) {
+							  tempCont.release();
+							  if (!!error){
+								console.log('Could not like this incident.');
+								response.writeHead(200, {'Content-Type': 'text/plain'});
+								response.end('Could not like this incident.');
+							  }else{
+								console.log('Incident unliked.');
+								response.writeHead(200, {'Content-Type': 'text/plain'});
+								response.end('Incident unliked.');
+							  } 
+							});
+						} else {
+							response.writeHead(200, {'Content-Type': 'text/plain'});
+							console.log(error);
+							response.end(error.message);
+						}
+					}else{
+						tempCont.release();
+						console.log('Incident liked.');
 						response.writeHead(200, {'Content-Type': 'text/plain'});
-						response.end('Could not like this incident.');
-					  }else{
-						console.log('Incident unliked.');
-						response.writeHead(200, {'Content-Type': 'text/plain'});
-						response.end('Incident unliked.');
-					  } 
-					});
-				} else {
-					response.writeHead(200, {'Content-Type': 'text/plain'});
-					console.log(err);
-					response.end(err.message);
-				}
-			}else{
-				console.log('Incident liked.');
-				response.writeHead(200, {'Content-Type': 'text/plain'});
-				response.end('Incident liked.');
+						response.end('Incident liked.');
+					}
+				});
+				console.log(query.sql);
 			}
 		});
-		console.log(query.sql);
 	} catch (err) {
 		// handle the error safely
 		response.writeHead(200, {'Content-Type': 'text/plain'});
@@ -421,8 +445,8 @@ function deleteIncident()
 							});
 						}
 					});
-		
-			}});
+				}
+			});
 		}
 	});
 
