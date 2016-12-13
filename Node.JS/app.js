@@ -4,6 +4,43 @@ var myParser = require("body-parser");
 var app = express();
 var dateFormat = require('dateformat');
 var validator = require("email-validator");
+var crypto = require('crypto');
+
+/**
+ * generates random string of characters i.e salt
+ * @function
+ * @param {number} length - Length of the random string.
+ */
+var genRandomString = function(length){
+    return crypto.randomBytes(Math.ceil(length/2))
+            .toString('hex') /** convert to hexadecimal format */
+            .slice(0,length);   /** return required number of characters */
+};
+
+/**
+ * hash password with sha512.
+ * @function
+ * @param {string} password - List of required fields.
+ * @param {string} salt - Data to be validated.
+ */
+var sha256 = function(password, salt){
+    var hash = crypto.createHmac('sha256', salt); /** Hashing algorithm sha512 */
+    hash.update(password);
+    var value = hash.digest('hex');
+    return {
+        salt:salt,
+        passwordHash:value
+    };
+};
+
+function saltHashPassword(userpassword) {
+    var salt = genRandomString(16); /** Gives us salt of length 16 */
+    var passwordData = sha256(userpassword, salt);
+    console.log('UserPassword = '+userpassword);
+    console.log('Passwordhash = '+passwordData.passwordHash);
+    console.log('\nSalt = '+passwordData.salt);
+	return passwordData;
+}
 
 var connection = mysql.createPool({
 	//properties
@@ -241,7 +278,9 @@ app.post("/addUser", function(request, response) {
 			throw err
 		}
 		if(request.body.password === request.body.passwordConfirm){
-			var query = connection.query('INSERT INTO user(name,firstName,email,login,password)  VALUES (?,?,?,?,?)', [request.body.name, request.body.firstName,request.body.email,request.body.login,request.body.password], function(err, result) {
+		 var password = saltHashPassword(request.body.password);
+		 console.log("password"+password.passwordHash);
+			var query = connection.query('INSERT INTO user(name,firstName,email,login,password)  VALUES (?,?,?,?,?)', [request.body.name, request.body.firstName,request.body.email,request.body.login,password.passwordHash], function(err, result) {
 				if (err){
 					console.log('Could not add the account. It already exists.');
 					console.log(err);
