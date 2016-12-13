@@ -344,7 +344,7 @@ function deleteIncident()
 		}
 	});
 
-}
+}}
 
 setInterval(deleteIncident,2000);
 
