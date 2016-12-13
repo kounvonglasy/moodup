@@ -146,50 +146,7 @@ public class ViewAllIncident extends AppCompatActivity {
         Incident item = (Incident) v.getTag();
         final String idUser = "1";
         final String idIncident = item.getId();
-        checkLike(idIncident, idUser);
         addLike(idIncident, idUser);
-    }
-
-    private void checkLike(final String idIncidentParam, final String idUserParam) {
-        class CheckLikeTask extends AsyncTask<Void, Void, String> {
-            String idIncident = idIncidentParam;
-            String idUser = idUserParam;
-            ProgressDialog loading;
-
-            @Override
-            protected void onPreExecute() {
-                super.onPreExecute();
-                loading = ProgressDialog.show(ViewAllIncident.this, "Checking...", "Wait...", false, false);
-            }
-
-            @Override
-            protected void onPostExecute(String s) {
-                super.onPostExecute(s);
-                loading.dismiss();
-                if (s.equals("True")) {
-                    ImageButton btn = (ImageButton) findViewById(R.id.like);
-                    btn.setImageResource(android.R.drawable.btn_star_big_off);
-                    //likeBtn.setVisibility(View.GONE);
-                    //unlikeBtn.setVisibility(View.VISIBLE);
-                } else {
-                    ImageButton btn = (ImageButton) findViewById(R.id.like);
-                    btn.setImageResource(android.R.drawable.btn_star_big_on);
-                }
-            }
-
-            @Override
-            protected String doInBackground(Void... v) {
-                HashMap<String, String> params = new HashMap<>();
-                params.put(Config.KEY_INCIDENT_ID_USER, idUser);
-                params.put(Config.KEY_INCIDENT_ID, idIncident);
-                HttpHandler rh = new HttpHandler();
-                String res = rh.sendPostRequest(Config.URL_CHECK_LIKE, params);
-                return res;
-            }
-        }
-
-        CheckLikeTask cl = new CheckLikeTask();
-        cl.execute();
     }
 
     private void addLike(final String idIncidentParam, final String idUserParam) {
