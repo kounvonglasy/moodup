@@ -303,8 +303,37 @@ app.post("/addLike", function(request, response) {
 	}
 });
 
+app.post('/login',function(request,response){
+    //Comment requperer les username et password？
+
+     console.log(request.body);
+    connection.getConnection(function(error,tempCont){
+        if(!!error){
+            tempCont.release();
+            console.log('ERROR');
+        }else{
+            console.log('Connected');
+
+            var query = connection.query('SELECT * FROM user WHERE login=? and password=?', [request.body.username,request.body.password]
+   , function(err, result) {
+            console.log(result);
+           var login = JSON.parse(JSON.stringify(result))[0].login;
+           var password = JSON.parse(JSON.stringify(result))[0].password;
+                   if(login&&password)     {
+                        console.log('success');
+                        response.writeHead(200, {'Content-Type': 'text/plain'});
+                        response.end('success');
+                   }                                       	  // Neat!
+                                                                   	});
+
+        }
+
+
+    });
+
+});
 //For batch
-function deleteIncident()
+/*function deleteIncident()
 {
 	console.log("Check every 2 seconds")
 		connection.getConnection(function(error,tempCont){
@@ -344,9 +373,9 @@ function deleteIncident()
 		}
 	});
 
-}}
+}*/
 
-setInterval(deleteIncident,2000);
+/*setInterval(deleteIncident,2000);*/
 
 function getDateTime() {
 	var now = dateFormat(new Date(),"yyyy-mm-dd HH:MM:ss");
