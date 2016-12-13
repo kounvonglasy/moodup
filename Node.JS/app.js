@@ -306,14 +306,14 @@ app.post("/addLike", function(request, response) {
 //For batch
 function deleteIncident()
 {
-	console.log("Check every 2 seconds")
+	console.log("Check every 2 seconds");
 		connection.getConnection(function(error,tempCont){
 		if(!!error){
 			tempCont.release();
 			console.log('ERROR');
 		} else{
 			console.log('Connected');
-			tempCont.query("SELECT i.idIncident, i.duratio.creationDate FROM incident i", function(error,rows,fields){
+			tempCont.query("SELECT i.idIncident, i.duration, i.creationDate FROM incident i", function(error,rows,fields){
 				tempCont.release();
 				if(!!error){
 					console.log('Error in the select query');
@@ -331,7 +331,7 @@ function deleteIncident()
 						totalDiff = diffHrs * 60 + diffMins ;
 						if(totalDiff > 0 && totalDiff > duration){
 							tempCont.query("DELETE FROM incident WHERE idIncident=?",idIncident, function(error,rows,fields){
-							if(!!error){
+								if(!!error){
 									console.log('Error in delete the query');
 								} else{
 									console.log('Incident succesfully deleted');
@@ -339,12 +339,12 @@ function deleteIncident()
 							});
 						}
 					});
-		
+				}
 			});
 		}
 	});
 
-}}
+}
 
 setInterval(deleteIncident,2000);
 
