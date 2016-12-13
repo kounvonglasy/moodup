@@ -177,25 +177,39 @@ app.post("/addIncident", function(request, response) {
 			var err = new Error('Could not update the incident. Parsing error. The duration must be a number.')
 			throw err
 		}
-		connection.query('SELECT idSeverite from severity WHERE name=? ; SELECT idType from type WHERE name=?; SELECT idUser from user WHERE name=?', [request.body.severiteName, request.body.typeName, request.body.userName], function(err, results) {
-			if (err) throw err;
-			  // `results` is an array with one element for every statement in the query:
-			var idSeverite = JSON.parse(JSON.stringify(results[0]))[0].idSeverite;
-			var idType = JSON.parse(JSON.stringify(results[1]))[0].idType;
-			var idUser = JSON.parse(JSON.stringify(results[2]))[0].idUser;
-			var query = connection.query('INSERT INTO incident(title,description,idUser,idSeverite,idType,creationDate,duration)  VALUES (?,?,?,?,?,?,?)', [request.body.title, request.body.description, idUser ,idSeverite, idType,getDateTime(),parseInt(request.body.duration,10)], function(err, result) {
-				if (err){
-					console.log('Could not add the incident.');
-					console.log(err);
+		connection.getConnection(function(error,tempCont){
+			if(!!error){
+				tempCont.release();
+				console.log('ERROR');
+				response.writeHead(200, {'Content-Type': 'text/plain'});
+				response.end('ERROR \n');
+			} else{
+				tempCont.query('SELECT idSeverite from severity WHERE name=? ; SELECT idType from type WHERE name=?; SELECT idUser from user WHERE name=?', [request.body.severiteName, request.body.typeName, request.body.userName], function(error, results) {		
+				if(!!error){
+					console.log('Error in the query');
 					response.writeHead(200, {'Content-Type': 'text/plain'});
-					response.end('Could not add the incident.');
-				}else{
-					console.log('Incident added succesfully.');
-					response.writeHead(200, {'Content-Type': 'text/plain'});
-					response.end('Incident added succesfully.');
+					response.end('Error in the query \n');
+				} else {
+					  // `results` is an array with one element for every statement in the query:
+					var idSeverite = JSON.parse(JSON.stringify(results[0]))[0].idSeverite;
+					var idType = JSON.parse(JSON.stringify(results[1]))[0].idType;
+					var idUser = JSON.parse(JSON.stringify(results[2]))[0].idUser;
+					var query = tempCont.query('INSERT INTO incident(title,description,idUser,idSeverite,idType,creationDate,duration)  VALUES (?,?,?,?,?,?,?)', [request.body.title, request.body.description, idUser ,idSeverite, idType,getDateTime(),parseInt(request.body.duration,10)], function(error, result) {
+						tempCont.release();
+						if (!!error){
+							console.log('Could not add the incident.');
+							response.writeHead(200, {'Content-Type': 'text/plain'});
+							response.end('Could not add the incident.');
+						}else{
+							console.log('Incident added succesfully.');
+							response.writeHead(200, {'Content-Type': 'text/plain'});
+							response.end('Incident added succesfully.');
+						}
+					});
+					console.log(query.sql);
 				}
 			});
-			console.log(query.sql);
+			}
 		});
 	} catch (err) {
 		// handle the error safely
