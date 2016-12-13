@@ -12,6 +12,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private Button buttonView;
     private Button buttonMap;
     private Button buttonAddUser;
+    private Button buttonLogin;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,12 +24,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         buttonView = (Button) findViewById(R.id.buttonView);
         buttonMap = (Button) findViewById(R.id.buttonMap);
         buttonAddUser = (Button) findViewById(R.id.buttonAddUser);
+        buttonLogin = (Button)  findViewById(R.id.buttonLogin);
 
         //Setting listeners to button
         buttonAddIncident.setOnClickListener(this);
         buttonView.setOnClickListener(this);
         buttonMap.setOnClickListener(this);
         buttonAddUser.setOnClickListener(this);
+        buttonLogin.setOnClickListener(this);
     }
 
     @Override
@@ -44,6 +47,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
         else if (v == buttonAddUser) {
             startActivity(new Intent(this, RegistrationUser.class));
+        }
+        else if (v == buttonLogin) {
+            startActivity(new Intent(this, LoginActivity.class));
         }
     }
 }

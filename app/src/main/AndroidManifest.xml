@@ -60,6 +60,21 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <activity android:name=".LoginActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.LOGIN" />
+                <category android:name="android.intent.category.LOGIN" />
+            </intent-filter>
+        </activity>
+
+        <activity
+            android:name=".UserProfile"
+            android:parentActivityName=".LoginActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="isep.moodup.LoginActivity" />
+        </activity>
         <uses-feature
             android:glEsVersion="0x00020000"
             android:required="true"/>

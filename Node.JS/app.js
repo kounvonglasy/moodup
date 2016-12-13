@@ -303,10 +303,39 @@ app.post("/addLike", function(request, response) {
 	}
 });
 
+app.post('/login',function(request,response){
+    //Comment requperer les username et password？
+
+     console.log(request.body);
+    connection.getConnection(function(error,tempCont){
+        if(!!error){
+            tempCont.release();
+            console.log('ERROR');
+        }else{
+            console.log('Connected');
+
+            var query = connection.query('SELECT * FROM user WHERE login=? and password=?', [request.body.username,request.body.password]
+   , function(err, result) {
+            console.log(result);
+           var login = JSON.parse(JSON.stringify(result))[0].login;
+           var password = JSON.parse(JSON.stringify(result))[0].password;
+                   if(login&&password)     {
+                        console.log('success');
+                        response.writeHead(200, {'Content-Type': 'text/plain'});
+                        response.end('success');
+                   }                                       	  // Neat!
+                                                                   	});
+
+        }
+
+
+    });
+
+});
 //For batch
 function deleteIncident()
 {
-	console.log("Check every 2 seconds");
+	console.log("Check every 2 seconds")
 		connection.getConnection(function(error,tempCont){
 		if(!!error){
 			tempCont.release();
@@ -331,7 +360,7 @@ function deleteIncident()
 						totalDiff = diffHrs * 60 + diffMins ;
 						if(totalDiff > 0 && totalDiff > duration){
 							tempCont.query("DELETE FROM incident WHERE idIncident=?",idIncident, function(error,rows,fields){
-								if(!!error){
+							if(!!error){
 									console.log('Error in delete the query');
 								} else{
 									console.log('Incident succesfully deleted');
@@ -339,8 +368,8 @@ function deleteIncident()
 							});
 						}
 					});
-				}
-			});
+		
+			}});
 		}
 	});
 
