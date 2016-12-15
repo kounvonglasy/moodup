@@ -345,9 +345,9 @@ app.post("/addLike", function(request, response) {
 					if (!!error){
 						var errorMessage = error.message.slice(0, 12);
 						if(errorMessage === 'ER_DUP_ENTRY'){
-							var query = connection.query('DELETE FROM `like` WHERE idIncident = ? and idUser = ?', [request.body.idIncident, request.body.idUser], function(error, result) {
+							var query = tempCont.query('DELETE FROM `like` WHERE idIncident = ? and idUser = ?', [request.body.idIncident, request.body.idUser], function(error, result) {
 							  tempCont.release();
-							  if (!!error){
+							  if (!!error){				
 								console.log('Could not like this incident.');
 								response.writeHead(200, {'Content-Type': 'text/plain'});
 								response.end('Could not like this incident.');
@@ -363,7 +363,18 @@ app.post("/addLike", function(request, response) {
 							response.end(error.message);
 						}
 					}else{
-						tempCont.release();
+						//Check whether the incident need to be confirm
+						var query = tempCont.query('SELECT idIncident, COUNT(*) as nbLike FROM `like` WHERE idIncident = ? GROUP BY idIncident', [request.body.idIncident], function(error, result) {
+							var nbLike = JSON.parse(JSON.stringify(result))[0].nbLike;
+							if(nbLike < 5 ){	
+								tempCont.release();
+							} else {//If the number of like > 5 then we set isConfirmed to true
+								var query = tempCont.query('UPDATE incident SET isConfirmed = true WHERE idIncident =?', [request.body.idIncident], function(error, result) {
+									tempCont.release();
+									console.log('isConfirmed updated to true');
+								});
+							}
+						});
 						console.log('Incident liked.');
 						response.writeHead(200, {'Content-Type': 'text/plain'});
 						response.end('Incident liked.');
