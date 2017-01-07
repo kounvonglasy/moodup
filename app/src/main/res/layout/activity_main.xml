@@ -3,8 +3,8 @@
     android:id="@+id/drawerLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-    <!-- The main content view -->
 
+    <!-- The main content view -->
     <LinearLayout
         android:id="@+id/mainContent"
         android:layout_width="match_parent"
@@ -14,17 +14,24 @@
         android:paddingLeft="@dimen/activity_horizontal_margin"
         android:paddingRight="@dimen/activity_horizontal_margin"
         android:paddingTop="@dimen/activity_vertical_margin"
-        android:weightSum="1">
+        >
+        <Button
+            android:id="@+id/buttonAddIncident"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Ajouter un incident" />
 
-        <ImageView
-            android:layout_width="340dp"
-            android:layout_height="157dp"
-            android:src="@drawable/logo_one"
-            android:layout_centerVertical="true"
-            android:layout_centerHorizontal="true"
-            android:id="@+id/imageView"
-            android:layout_weight="0.30"
-            android:paddingBottom="20dp"/>
+        <Button
+            android:id="@+id/buttonView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Voir les incidents" />
+
+        <Button
+            android:id="@+id/buttonMap"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Voir la Carte des Incidents" />
 
         <Button
             android:layout_width="match_parent"
@@ -38,8 +45,6 @@
             android:text="Login"
             android:id="@+id/buttonLogin"/>
     </LinearLayout>
-
-
     <!-- The navigation drawer -->
     <RelativeLayout
         android:layout_width="280dp"
