@@ -7,28 +7,30 @@
     tools:context="isep.moodup.BaseActivity">
 
     <!-- The main content view -->
-
     <LinearLayout
         android:id="@+id/mainContent"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <include layout="@layout/navigation_action" android:layout_width="match_parent" android:layout_height="wrap_content"/>
+        <include
+            layout="@layout/navigation_action"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
 
         <FrameLayout
+            android:id="@+id/content_frame"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:id="@+id/content_frame"/>
+            android:layout_height="match_parent" />
     </LinearLayout>
+
     <!-- The navigation drawer -->
     <android.support.design.widget.NavigationView
+        android:id="@+id/id_nav_menu"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_gravity="start"
-        android:id="@+id/id_nav_menu"
-        app:menu="@menu/navigation_menu"
-        app:headerLayout="@layout/navigation_header">
-    </android.support.design.widget.NavigationView>
+        app:headerLayout="@layout/navigation_header"
+        app:menu="@menu/navigation_menu"></android.support.design.widget.NavigationView>
 
 </android.support.v4.widget.DrawerLayout>
