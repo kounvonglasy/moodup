@@ -5,7 +5,7 @@ package isep.moodup;
  */
 
 public class Config {
-    //Address of our scripts of the CRUD
+    //Address of our scripts of the CRUD (for incidents)
     //en local => http://10.0.2.2:8888/addIncident
     public static final String URL_ADD_INCIDENT = "http://10.0.2.2:8888/addIncident";
     //en local => http://10.0.2.2:8888/getAllIncidents
@@ -23,12 +23,16 @@ public class Config {
     //en local => http://10.0.2.2:8888/deleteIncident?id=
     public static final String URL_DELETE_INCIDENT = "http://10.0.2.2:8888/deleteIncident?id=";
 
-    //en local => http://10.0.2.2:8888/addUser
+    //Address for the likes
     public static final String URL_ADD_USER = "http://10.0.2.2:8888/addUser";
     //en local => http://10.0.2.2:8888/addLike
     public static final String URL_ADD_LIKE = "http://10.0.2.2:8888/addLike";
     //en local => http://10.0.2.2:8888/checkLike
     public static final String URL_CHECK_LIKE = "http://10.0.2.2:8888/checkLike";
+
+    //Adress for the account
+    //en local => http://10.0.2.2:8888/login
+    public static final String LOGIN_URL = "http://10.0.2.2:8888/login";
 
     //Keys that will be used to send the request to the server
     //Incident

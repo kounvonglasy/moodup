@@ -1,6 +1,7 @@
 package isep.moodup;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -46,12 +47,6 @@ public class RegistrationUser extends AppCompatActivity implements View.OnClickL
         }
     }
 
-    /*
-        public void ReturnHome(View view) {
-            super.onBackPressed();
-            startActivity(new Intent(this, ViewProfile.class));
-        }
-    */
     //Adding a user
     private void addProfile() {
         final String name = editTextName.getText().toString().trim();
@@ -97,5 +92,8 @@ public class RegistrationUser extends AppCompatActivity implements View.OnClickL
         ai.execute();
     }
 
-
+    public void ReturnHome(View view) {
+        super.onBackPressed();
+        startActivity(new Intent(this, MainActivity.class));
+    }
 }

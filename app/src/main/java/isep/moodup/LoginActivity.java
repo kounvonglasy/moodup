@@ -19,8 +19,6 @@ import java.util.HashMap;
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener {
 
     public static final String USER_NAME = "USER_NAME";
-    public static final String PASSWORD = "PASSWORD";
-    private static final String LOGIN_URL = "http://10.0.2.2:8888/login";
 
     private EditText editTextUserName;
     private EditText editTextPassword;
@@ -61,8 +59,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 super.onPostExecute(s);
                 loading.dismiss();
                 if (s.equalsIgnoreCase("success")) {
-                    Intent intent = new Intent(LoginActivity.this, UserProfile.class);
-                    intent.putExtra(USER_NAME, username);
+                    Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                    //intent.putExtra(USER_NAME, username);
                     startActivity(intent);
                 } else {
                     Toast.makeText(LoginActivity.this, s, Toast.LENGTH_LONG).show();
@@ -77,7 +75,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
                 HttpHandler sh = new HttpHandler();
 
-                String result = sh.sendPostRequest(LOGIN_URL, data);
+                String result = sh.sendPostRequest(Config.LOGIN_URL, data);
 
                 return result;
             }

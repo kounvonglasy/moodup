@@ -1,18 +1,26 @@
 package isep.moodup;
 
-import android.view.View;
+import android.content.Intent;
+import android.support.design.widget.NavigationView;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.widget.Button;
-import android.content.Intent;
+import android.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.app.FragmentTransaction;
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
+    private DrawerLayout mDrawerLayout;
+    private ActionBarDrawerToggle mToggle;
 
-    private Button buttonAddIncident;
-    private Button buttonView;
-    private Button buttonMap;
-    private Button buttonAddUser;
-    private Button buttonLogin;
+    private Toolbar mToolBar;
+
+    private NavigationView mNavigationView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -20,36 +28,70 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         //Set content view
         setContentView(R.layout.activity_main);
 
-        buttonAddIncident = (Button) findViewById(R.id.buttonAddIncident);
-        buttonView = (Button) findViewById(R.id.buttonView);
-        buttonMap = (Button) findViewById(R.id.buttonMap);
-        buttonAddUser = (Button) findViewById(R.id.buttonAddUser);
-        buttonLogin = (Button)  findViewById(R.id.buttonLogin);
+        mToolBar = (Toolbar) findViewById(R.id.nav_action);
+        setSupportActionBar(mToolBar);
 
-        //Setting listeners to button
-        buttonAddIncident.setOnClickListener(this);
-        buttonView.setOnClickListener(this);
-        buttonMap.setOnClickListener(this);
-        buttonAddUser.setOnClickListener(this);
-        buttonLogin.setOnClickListener(this);
+        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawerLayout);
+        mToggle = new ActionBarDrawerToggle(this, mDrawerLayout, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+
+        mDrawerLayout.addDrawerListener(mToggle);
+        mToggle.syncState();
+
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        mNavigationView = (NavigationView) findViewById(R.id.id_nav_menu);
+        if (mNavigationView != null){
+            mNavigationView.setNavigationItemSelectedListener(this);
+        }
     }
 
     @Override
-    public void onClick(View v) {
-        if (v == buttonAddIncident) {
-            startActivity(new Intent(this, AddIncident.class));
-        }
-        else if (v == buttonView) {
-            startActivity(new Intent(this, ViewAllIncident.class));
-        }
-        else if (v == buttonMap) {
-            startActivity(new Intent(this, MapsActivity.class));
-        }
-        else if (v == buttonAddUser) {
-            startActivity(new Intent(this, RegistrationUser.class));
-        }
-        else if (v == buttonLogin) {
-            startActivity(new Intent(this, LoginActivity.class));
-        }
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.navigation_menu, menu);
+        return true;
     }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item){
+        int id = item.getItemId();
+        if(mToggle.onOptionsItemSelected(item)) {
+            return true;
+        }
+        else if (id ==  R.id.new_account) {
+                Intent intent = new Intent(this, AddIncident.class);
+                this.startActivity(intent);
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public boolean onNavigationItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        item.setChecked(true);
+        Intent intent;
+        switch(id){
+            case R.id.add_incident:
+                intent = new Intent(this, AddIncident.class);
+                this.startActivity(intent);
+                break;
+            case R.id.view_map:
+                intent = new Intent(this, MapsActivity.class);
+                this.startActivity(intent);
+                break;
+            case R.id.view_incidents:
+                intent = new Intent(this, ViewAllIncident.class);
+                this.startActivity(intent);
+                break;
+            case R.id.add_user:
+                intent = new Intent(this, RegistrationUser.class);
+                this.startActivity(intent);
+                break;
+
+        }
+        mDrawerLayout.closeDrawers();
+        return true;
+    }
+
 }

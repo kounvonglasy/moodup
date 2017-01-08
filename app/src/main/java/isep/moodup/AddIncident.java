@@ -227,6 +227,6 @@ public class AddIncident extends AppCompatActivity implements View.OnClickListen
 
     public void ReturnHome(View view) {
         super.onBackPressed();
-        startActivity(new Intent(this, ViewAllIncident.class));
+        startActivity(new Intent(this, MainActivity.class));
     }
 }

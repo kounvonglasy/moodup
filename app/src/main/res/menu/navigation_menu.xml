@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/new_account"
+            android:icon="@mipmap/ic_person_black_24dp"
+            android:title="My account (WIP)" />
+        <item
+            android:id="@+id/view_incidents"
+            android:icon="@mipmap/ic_format_list_bulleted_black_24dp"
+            android:title="Voir les incidents" />
+        <item
+            android:id="@+id/view_map"
+            android:icon="@mipmap/ic_place_black_24dp"
+            android:title="Voir la Carte des Incident" />
+        <item
+            android:id="@+id/add_incident"
+            android:icon="@mipmap/ic_add_black_24dp"
+            android:title="Ajouter un incident" />
+        <item
+            android:id="@+id/add_user"
+            android:icon="@mipmap/ic_create_black_24dp"
+            android:title="Ajouter un utilisateur" />
+        <item
+            android:id="@+id/nav_settings"
+            android:icon="@mipmap/ic_settings_black_24dp"
+            android:title="Paramètres" />
+        <item
+            android:id="@+id/log_out"
+            android:title="Déconnexion" />
+    </group>
+</menu>
