@@ -310,13 +310,14 @@ app.post("/addUser", function(request, response) {
 		if(request.body.password === request.body.passwordConfirm){
 		 var password = saltHashPassword(request.body.password);
 		 console.log("password"+password.passwordHash);
-			var query = connection.query('INSERT INTO user(name,firstName,email,login,password)  VALUES (?,?,?,?,?)', [request.body.name, request.body.firstName,request.body.email,request.body.login,password.passwordHash], function(error, result) {
+			var query = connection.query('INSERT INTO user(name,firstName,email,login,password,salt)  VALUES (?,?,?,?,?,?)', [request.body.name, request.body.firstName,request.body.email,request.body.login,password.passwordHash,password.salt], function(error, result) {
 				if (!!error){
+					console.log(error);
 					console.log('Could not add the account. It already exists.');
 					response.writeHead(200, {'Content-Type': 'text/plain'});
 					response.end('Could not add the account. It already exists.');
 				}else{
-					console.log('Account added succesfully. It already exists.');
+					console.log('Account added succesfully.');
 					response.writeHead(200, {'Content-Type': 'text/plain'});
 					response.end('Account added succesfully.');
 				}
@@ -392,27 +393,38 @@ app.post("/addLike", function(request, response) {
 });
 
 app.post('/login',function(request,response){
-    //Comment requperer les username et password？
-
-     console.log(request.body);
     connection.getConnection(function(error,tempCont){
         if(!!error){
             tempCont.release();
             console.log('ERROR');
         }else{
             console.log('Connected');
-
-            var query = connection.query('SELECT * FROM user WHERE login=? and password=?', [request.body.username,request.body.password]
-   , function(err, result) {
+            var query = connection.query('SELECT * FROM user WHERE login=?', [request.body.username] , function(err, result) {
             console.log(result);
-           var login = JSON.parse(JSON.stringify(result))[0].login;
-           var password = JSON.parse(JSON.stringify(result))[0].password;
-                   if(login&&password)     {
-                        console.log('success');
-                        response.writeHead(200, {'Content-Type': 'text/plain'});
-                        response.end('success');
-                   }                                       	  // Neat!
-                                                                   	});
+			//Check whether the login exists or not
+			try {
+				var login = JSON.parse(JSON.stringify(result))[0].login;
+				var password = JSON.parse(JSON.stringify(result))[0].password;
+				var salt = JSON.parse(JSON.stringify(result))[0].salt;
+		    } catch (err){
+				console.log('error');
+				response.writeHead(200, {'Content-Type': 'text/plain'});
+				response.end('Impossible de se connecter');
+		    }
+		    var combine = request.body.password+salt;
+		    var passwordData = sha256(request.body.password, salt);
+			//If the login exist => Check the password
+            if(login&& (password== passwordData.passwordHash)){
+				console.log('success');
+				response.writeHead(200, {'Content-Type': 'text/plain'});
+				response.end('success');
+			} else {
+				console.log('error');
+				response.writeHead(200, {'Content-Type': 'text/plain'});
+				response.end('Impossible de se connecter');
+			}
+				   // Neat!
+        });
 
         }
 
@@ -423,7 +435,7 @@ app.post('/login',function(request,response){
 //For batch
 function deleteIncident()
 {
-	console.log("Check every 2 seconds")
+	console.log("Check every 2 seconds");
 		connection.getConnection(function(error,tempCont){
 		if(!!error){
 			tempCont.release();

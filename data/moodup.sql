@@ -36,9 +36,6 @@ CREATE TABLE `incident` (
   `isConfirmed` tinyint(1) DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
-INSERT INTO `incident` (`idIncident`, `idUser`, `title`, `creationDate`, `duration`, `description`, `address`, `idSeverite`, `idType`, `isConfirmed`) VALUES
-(2, 1, 'yy', '2016-12-12 21:36:41', 5777, 'tt', NULL, 1, 1, 0);
-
 CREATE TABLE `like` (
   `idLike` int(11) NOT NULL,
   `idIncident` int(11) NOT NULL,
@@ -72,17 +69,18 @@ CREATE TABLE `user` (
   `firstName` varchar(45) DEFAULT NULL,
   `email` varchar(45) DEFAULT NULL,
   `login` varchar(45) DEFAULT NULL,
-  `password` varchar(45) DEFAULT NULL,
+  `password` varchar(255) DEFAULT NULL,
   `status` varchar(45) DEFAULT NULL,
-  `idImage` int(11) DEFAULT NULL
+  `idImage` int(11) DEFAULT NULL,
+  `salt` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
-INSERT INTO `user` (`idUser`, `name`, `firstName`, `email`, `login`, `password`, `status`, `idImage`) VALUES
-(1, 'kounvonglasy', 'kevin', 'kounvonglaskevin@gmail.com', 'kkounvonglasy', 'test', NULL, NULL),
-(2, 'talhaoui', 'hassan', 'hassan.talhaoui@gmail.com', 'htalhaoui', 'test', NULL, NULL),
-(3, 'Liu', 'Hang', 'liu.hang@gmail.com', 'liuhang', 'test', NULL, NULL),
-(4, 'Berrahil', 'Karim', 'karim.berrahil@gmail.com', 'kberrahil', 'test', NULL, NULL),
-(5, 'simion', 'evy', 'evy.simion@gmail.com', 'esimion', 'test', NULL, NULL);
+INSERT INTO `user` (`idUser`, `name`, `firstName`, `email`, `login`, `password`, `status`, `idImage`, `salt`) VALUES
+(10, 'kounvonglasy', 'kevin', 'kouvonglasykevin@gmail.com', 'kkounvonglasy', 'ea6c5e90ccad7f0d1c03d32aaa402d79a5bb112f97fe06faca30dc55d4c77ae8', NULL, NULL, 'fecd8a259b1392a3'),
+(11, 'Talhaoui', 'Hassan', 'htalhaoui@gmail.com', 'htalhaoui', 'f7bd1c37b5f2eb0f195d2adc53945c242b05d9bd928c0abc4bc0b298752064c7', NULL, NULL, 'c3037c85c04efdfd'),
+(12, 'Liu', 'Hang', 'lhang@gmail.com', 'liuhang', '534497d9d9fb00a35744b61c538f899957d369fee12a79c51aea8ffa77a970a5', NULL, NULL, '44c545cf7bf7774d'),
+(13, 'Berrahil', 'Karim', 'karim.berrahil@gmail.com', 'kberrahil', 'df48b43030f63df21d1627a9efb5d70331bf565470fb504aab056bf165337c6c', NULL, NULL, '94a7d8c47394adb6'),
+(14, 'Simion', 'Evy', 'esimion@gmail.com', 'esimion', 'db2d744056a919941c9ceba4a47f1ac917cb899ce82b5c72eb69e66197c4e457', NULL, NULL, '6d5e41bf9d3311a1');
 
 
 ALTER TABLE `categorie`
@@ -123,13 +121,13 @@ ALTER TABLE `image`
 ALTER TABLE `incident`
   MODIFY `idIncident` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 ALTER TABLE `like`
-  MODIFY `idLike` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `idLike` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=70;
 ALTER TABLE `severity`
   MODIFY `idSeverite` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 ALTER TABLE `type`
   MODIFY `idType` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 ALTER TABLE `user`
-  MODIFY `idUser` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `idUser` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 ALTER TABLE `incident`
   ADD CONSTRAINT `fk_Incident_Severite1` FOREIGN KEY (`idSeverite`) REFERENCES `severity` (`idSeverite`) ON DELETE NO ACTION ON UPDATE NO ACTION,
