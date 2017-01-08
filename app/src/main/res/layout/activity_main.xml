@@ -4,7 +4,7 @@
     android:id="@+id/drawerLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="isep.moodup.MainActivity">
+    tools:context="isep.moodup.BaseActivity">
 
     <!-- The main content view -->
 
@@ -15,14 +15,11 @@
         android:orientation="vertical">
 
         <include layout="@layout/navigation_action" android:layout_width="match_parent" android:layout_height="wrap_content"/>
-        <TextView
-            android:id="@+id/textView5"
+
+        <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Main Layout à choisir (maps ou liste des incidents?)"
-            android:textAlignment="center"
-            android:textSize="24dp" />
+            android:layout_height="match_parent"
+            android:id="@+id/content_frame"/>
     </LinearLayout>
     <!-- The navigation drawer -->
     <android.support.design.widget.NavigationView

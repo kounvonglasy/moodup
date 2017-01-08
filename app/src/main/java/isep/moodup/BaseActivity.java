@@ -1,20 +1,16 @@
 package isep.moodup;
-
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
-import android.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.view.GravityCompat;
-import android.support.v4.app.FragmentTransaction;
 
-public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
+public class BaseActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
+
     private DrawerLayout mDrawerLayout;
     private ActionBarDrawerToggle mToggle;
 
@@ -25,7 +21,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //Set content view
         setContentView(R.layout.activity_main);
 
         mToolBar = (Toolbar) findViewById(R.id.nav_action);
@@ -43,7 +38,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         if (mNavigationView != null){
             mNavigationView.setNavigationItemSelectedListener(this);
         }
+
     }
+
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -59,9 +57,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             return true;
         }
         else if (id ==  R.id.new_account) {
-                Intent intent = new Intent(this, AddIncident.class);
-                this.startActivity(intent);
-                return true;
+            Intent intent = new Intent(this, AddIncident.class);
+            this.startActivity(intent);
+            return true;
         }
         return super.onOptionsItemSelected(item);
     }

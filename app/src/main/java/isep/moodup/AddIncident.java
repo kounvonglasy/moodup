@@ -6,11 +6,14 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -25,7 +28,7 @@ import java.util.HashMap;
  * Created by Kevin on 04/12/2016.
  */
 
-public class AddIncident extends AppCompatActivity implements View.OnClickListener {
+public class AddIncident extends BaseActivity implements View.OnClickListener {
     private String TAG = ViewAllIncident.class.getSimpleName();
 
     //Defining lists
@@ -44,7 +47,9 @@ public class AddIncident extends AppCompatActivity implements View.OnClickListen
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.add_incident);
+
+        FrameLayout contentFrameLayout = (FrameLayout) findViewById(R.id.content_frame); //Remember this is the FrameLayout area within your activity_main.xml
+        getLayoutInflater().inflate(R.layout.add_incident, contentFrameLayout);
 
         //Get user list
         MyTaskParams params = new MyTaskParams(Config.URL_GET_ALL_USERS, userList, R.id.editSpinnerUser);
@@ -225,8 +230,4 @@ public class AddIncident extends AppCompatActivity implements View.OnClickListen
         }
     }
 
-    public void ReturnHome(View view) {
-        super.onBackPressed();
-        startActivity(new Intent(this, MainActivity.class));
-    }
 }

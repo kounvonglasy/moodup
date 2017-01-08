@@ -59,7 +59,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 super.onPostExecute(s);
                 loading.dismiss();
                 if (s.equalsIgnoreCase("success")) {
-                    Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                    Intent intent = new Intent(LoginActivity.this, ViewAllIncident.class);
                     //intent.putExtra(USER_NAME, username);
                     startActivity(intent);
                 } else {
