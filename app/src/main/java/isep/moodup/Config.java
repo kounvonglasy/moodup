@@ -7,32 +7,30 @@ package isep.moodup;
 public class Config {
     //Address of our scripts of the CRUD (for incidents)
     //en local => http://10.0.2.2:8888/addIncident
-    public static final String URL_ADD_INCIDENT = "http://10.0.2.2:8888/addIncident";
+    public static final String URL_ADD_INCIDENT = "https://young-journey-48135.herokuapp.com/addIncident";
     //en local => http://10.0.2.2:8888/getAllIncidents
-    public static final String URL_GET_ALL_INCIDENTS = "http://10.0.2.2:8888/getAllIncidents";
+    public static final String URL_GET_ALL_INCIDENTS = "https://young-journey-48135.herokuapp.com/getAllIncidents";
     //en local => http://10.0.2.2:8888/getAllUsers
-    public static final String URL_GET_ALL_USERS = "http://10.0.2.2:8888/getAllUsers";
+    public static final String URL_GET_ALL_USERS = "https://young-journey-48135.herokuapp.com/getAllUsers";
     //en local => http://10.0.2.2:8888/getAllSeverites
-    public static final String URL_GET_ALL_SEVERITES = "http://10.0.2.2:8888/getAllSeverites";
+    public static final String URL_GET_ALL_SEVERITES = "http://young-journey-48135.herokuapp.com/getAllSeverites";
     //en local => http://10.0.2.2:8888/getAllTypes
-    public static final String URL_GET_ALL_TYPES = "http://10.0.2.2:8888/getAllTypes";
+    public static final String URL_GET_ALL_TYPES = "http://young-journey-48135.herokuapp.com/getAllTypes";
     //en local => http://10.0.2.2:8888/getIncident?id=
-    public static final String URL_GET_INCIDENT = "http://10.0.2.2:8888/getIncident?id=";
+    public static final String URL_GET_INCIDENT = "http://young-journey-48135.herokuapp.com/getIncident?id=";
     //en local => http://10.0.2.2:8888/updateIncident
-    public static final String URL_UPDATE_INCIDENT = "http://10.0.2.2:8888/updateIncident";
+    public static final String URL_UPDATE_INCIDENT = "http://young-journey-48135.herokuapp.com/updateIncident";
     //en local => http://10.0.2.2:8888/deleteIncident?id=
-    public static final String URL_DELETE_INCIDENT = "http://10.0.2.2:8888/deleteIncident?id=";
+    public static final String URL_DELETE_INCIDENT = "http://young-journey-48135.herokuapp.com/deleteIncident?id=";
 
     //Address for the likes
-    public static final String URL_ADD_USER = "http://10.0.2.2:8888/addUser";
+    public static final String URL_ADD_USER = "http://young-journey-48135.herokuapp.com/addUser";
     //en local => http://10.0.2.2:8888/addLike
-    public static final String URL_ADD_LIKE = "http://10.0.2.2:8888/addLike";
-    //en local => http://10.0.2.2:8888/checkLike
-    public static final String URL_CHECK_LIKE = "http://10.0.2.2:8888/checkLike";
+    public static final String URL_ADD_LIKE = "http://young-journey-48135.herokuapp.com/addLike";
 
     //Adress for the account
     //en local => http://10.0.2.2:8888/login
-    public static final String LOGIN_URL = "http://10.0.2.2:8888/login";
+    public static final String LOGIN_URL = "http://young-journey-48135.herokuapp.com/login";
 
     //Keys that will be used to send the request to the server
     //Incident
