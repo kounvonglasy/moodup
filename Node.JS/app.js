@@ -406,32 +406,28 @@ app.post('/login',function(request,response){
 				var login = JSON.parse(JSON.stringify(result))[0].login;
 				var password = JSON.parse(JSON.stringify(result))[0].password;
 				var salt = JSON.parse(JSON.stringify(result))[0].salt;
+				var combine = request.body.password+salt;
+				var passwordData = sha256(request.body.password, salt);
+				//If the login exist => Check the password
+				if(login&& (password== passwordData.passwordHash)){
+					console.log('success');
+					response.writeHead(200, {'Content-Type': 'text/plain'});
+					response.end('success');
+				} else {
+					throw err;
+				}
 		    } catch (err){
 				console.log('error');
 				response.writeHead(200, {'Content-Type': 'text/plain'});
 				response.end('Impossible de se connecter');
 		    }
-		    var combine = request.body.password+salt;
-		    var passwordData = sha256(request.body.password, salt);
-			//If the login exist => Check the password
-            if(login&& (password== passwordData.passwordHash)){
-				console.log('success');
-				response.writeHead(200, {'Content-Type': 'text/plain'});
-				response.end('success');
-			} else {
-				console.log('error');
-				response.writeHead(200, {'Content-Type': 'text/plain'});
-				response.end('Impossible de se connecter');
-			}
+
 				   // Neat!
         });
-
         }
-
-
     });
-
 });
+
 //For batch
 function deleteIncident()
 {

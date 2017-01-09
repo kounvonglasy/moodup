@@ -24,11 +24,14 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     private EditText editTextPassword;
     private Button buttonLogin;
 
+    // Session Manager Class
+    SessionManager session;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login_view);
-
+        session = new SessionManager(getApplicationContext());
         editTextUserName = (EditText) findViewById(R.id.username);
         editTextPassword = (EditText) findViewById(R.id.password);
 
@@ -59,8 +62,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 super.onPostExecute(s);
                 loading.dismiss();
                 if (s.equalsIgnoreCase("success")) {
+                    session.createLoginSession(username);
                     Intent intent = new Intent(LoginActivity.this, ViewAllIncident.class);
-                    //intent.putExtra(USER_NAME, username);
                     startActivity(intent);
                 } else {
                     Toast.makeText(LoginActivity.this, s, Toast.LENGTH_LONG).show();

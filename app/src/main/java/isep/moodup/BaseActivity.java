@@ -8,6 +8,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import java.util.HashMap;
 
 public class BaseActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
 
@@ -18,10 +23,33 @@ public class BaseActivity extends AppCompatActivity implements NavigationView.On
 
     private NavigationView mNavigationView;
 
+    // Session Manager Class
+    SessionManager session;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        // Session class instance
+        session = new SessionManager(getApplicationContext());
+
+        /**
+         * Call this function whenever you want to check user login
+         * This will redirect user to LoginActivity is he is not
+         * logged in
+         * */
+        session.checkLogin();
+
+        // get user data from session
+        HashMap<String, String> user = session.getUserDetails();
+
+        // name
+        String name = user.get(SessionManager.KEY_NAME);
+
+        NavigationView navigationView = (NavigationView) findViewById(R.id.id_nav_menu);
+        View hView =  navigationView.getHeaderView(0);
+        TextView nav_user = (TextView)hView.findViewById(R.id.nav_header);
+        nav_user.setText("Bonjour " + name);
 
         mToolBar = (Toolbar) findViewById(R.id.nav_action);
         setSupportActionBar(mToolBar);
@@ -40,8 +68,6 @@ public class BaseActivity extends AppCompatActivity implements NavigationView.On
         }
 
     }
-
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -86,6 +112,11 @@ public class BaseActivity extends AppCompatActivity implements NavigationView.On
                 intent = new Intent(this, RegistrationUser.class);
                 this.startActivity(intent);
                 break;
+            case R.id.log_out:
+                session.logoutUser();
+                break;
+            default:
+                return super.onOptionsItemSelected(item);
 
         }
         mDrawerLayout.closeDrawers();
