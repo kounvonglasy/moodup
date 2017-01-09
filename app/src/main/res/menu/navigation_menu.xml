@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <group android:checkableBehavior="single">
         <item
-            android:id="@+id/new_account"
+            android:id="@+id/edit_profile"
             android:icon="@mipmap/ic_person_black_24dp"
             android:title="My account (WIP)" />
         <item
@@ -18,10 +18,6 @@
             android:id="@+id/add_incident"
             android:icon="@mipmap/ic_add_black_24dp"
             android:title="Ajouter un incident" />
-        <item
-            android:id="@+id/add_user"
-            android:icon="@mipmap/ic_create_black_24dp"
-            android:title="Ajouter un utilisateur" />
         <item
             android:id="@+id/nav_settings"
             android:icon="@mipmap/ic_settings_black_24dp"

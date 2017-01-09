@@ -18,12 +18,10 @@ import java.util.HashMap;
 
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener {
 
-    public static final String USER_NAME = "USER_NAME";
-
     private EditText editTextUserName;
     private EditText editTextPassword;
     private Button buttonLogin;
-
+    private Button buttonRegister;
     // Session Manager Class
     SessionManager session;
 
@@ -36,8 +34,10 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         editTextPassword = (EditText) findViewById(R.id.password);
 
         buttonLogin = (Button) findViewById(R.id.buttonUserLogin);
+        buttonRegister = (Button) findViewById(R.id.buttonUserRegistration);
 
         buttonLogin.setOnClickListener(this);
+        buttonRegister.setOnClickListener(this);
     }
 
     private void login() {
@@ -91,6 +91,9 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     public void onClick(View v) {
         if (v == buttonLogin) {
             login();
+        } else if(v == buttonRegister){
+            Intent intent = new Intent(this, RegistrationUser.class);
+            this.startActivity(intent);
         }
     }
 

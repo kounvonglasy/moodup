@@ -6,9 +6,18 @@
     android:orientation="vertical"
     tools:context="isep.moodup.ViewIncident">
 
+    <TextView
+        android:id="@+id/mytext"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="Modifier ou supprimer un incident"
+        android:textSize="18sp" />
+
     <ScrollView
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp">
 
         <LinearLayout
             android:layout_width="fill_parent"

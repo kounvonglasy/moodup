@@ -10,7 +10,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.HashMap;
 
@@ -78,13 +77,7 @@ public class BaseActivity extends AppCompatActivity implements NavigationView.On
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item){
-        int id = item.getItemId();
         if(mToggle.onOptionsItemSelected(item)) {
-            return true;
-        }
-        else if (id ==  R.id.new_account) {
-            Intent intent = new Intent(this, AddIncident.class);
-            this.startActivity(intent);
             return true;
         }
         return super.onOptionsItemSelected(item);
@@ -96,6 +89,11 @@ public class BaseActivity extends AppCompatActivity implements NavigationView.On
         item.setChecked(true);
         Intent intent;
         switch(id){
+            /*To complete
+            case R.id.edit_profile:
+                intent = new Intent(this, EditProfile.class);
+                this.startActivity(intent);
+                break;*/
             case R.id.add_incident:
                 intent = new Intent(this, AddIncident.class);
                 this.startActivity(intent);
@@ -106,10 +104,6 @@ public class BaseActivity extends AppCompatActivity implements NavigationView.On
                 break;
             case R.id.view_incidents:
                 intent = new Intent(this, ViewAllIncident.class);
-                this.startActivity(intent);
-                break;
-            case R.id.add_user:
-                intent = new Intent(this, RegistrationUser.class);
                 this.startActivity(intent);
                 break;
             case R.id.log_out:

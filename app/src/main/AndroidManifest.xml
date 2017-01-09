@@ -15,8 +15,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".ViewAllIncident"
-            android:noHistory="true">
+            android:name=".ViewAllIncident" android:noHistory="true">
             <intent-filter>
                 <action android:name="isep.moodup.ViewAllIncident" />
                 <category android:name="android.intent.category.DEFAULT" />

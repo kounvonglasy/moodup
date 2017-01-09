@@ -6,7 +6,6 @@ package isep.moodup;
 
 import android.app.ProgressDialog;
 import android.os.AsyncTask;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.FrameLayout;
 import android.widget.ListView;
@@ -21,12 +20,10 @@ import java.util.HashMap;
 
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.content.Intent;
 
 public class ViewAllIncident extends BaseActivity {
     private IncidentListAdapter adapter;
-    private ListView listView;
     private String TAG = ViewAllIncident.class.getSimpleName();
     ArrayList<HashMap<String, String>> incidentList;
     private String JSON_STRING;
@@ -37,10 +34,8 @@ public class ViewAllIncident extends BaseActivity {
         FrameLayout contentFrameLayout = (FrameLayout) findViewById(R.id.content_frame); //Remember this is the FrameLayout area within your activity_main.xml
         getLayoutInflater().inflate(R.layout.activity_view_all_incident, contentFrameLayout);
         incidentList = new ArrayList<>();
-        listView = (ListView) findViewById(R.id.listView);
         setupListViewAdapter();
         getIncidents();
-
     }
 
     private void showIncident() {

@@ -1,20 +1,18 @@
 package isep.moodup;
 
 import android.app.ProgressDialog;
-import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.FrameLayout;
 import android.widget.Toast;
 
 import java.util.HashMap;
 
 
-public class RegistrationUser extends BaseActivity implements View.OnClickListener {
+public class RegistrationUser extends AppCompatActivity implements View.OnClickListener {
 
     //Defining views
     private EditText editTextName;
@@ -27,8 +25,7 @@ public class RegistrationUser extends BaseActivity implements View.OnClickListen
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        FrameLayout contentFrameLayout = (FrameLayout) findViewById(R.id.content_frame); //Remember this is the FrameLayout area within your activity_main.xml
-        getLayoutInflater().inflate(R.layout.register, contentFrameLayout);
+        setContentView(R.layout.register);
 
         editTextName = (EditText) findViewById(R.id.editTextName);
         editTextFirstname = (EditText) findViewById(R.id.editTextFirstname);
