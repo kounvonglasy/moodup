@@ -1,6 +1,7 @@
 package isep.moodup;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -91,4 +92,12 @@ public class RegistrationUser extends AppCompatActivity implements View.OnClickL
         ai.execute();
     }
 
+    @Override
+    public void onBackPressed() {
+        // Launched from notification, handle as special case
+        Intent intent = new Intent(this, LoginActivity.class);
+        this.startActivity(intent);
+        finish();
+
+    }
 }

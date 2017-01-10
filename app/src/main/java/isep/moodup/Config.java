@@ -33,7 +33,7 @@ public class Config {
     //en local => http://10.0.2.2:8888/login
     public static final String LOGIN_URL = "http://young-journey-48135.herokuapp.com/login";
     //en local =>http://10.0.2.2:8888/profile
-    public static final String URL_GET_PROFILE ="http://10.0.2.2:8888/getProfile";
+    public static final String URL_GET_PROFILE ="http://young-journey-48135.herokuapp.com/getProfile";
     //Keys that will be used to send the request to the server
     //Incident
     public static final String KEY_INCIDENT_ID = "idIncident";
