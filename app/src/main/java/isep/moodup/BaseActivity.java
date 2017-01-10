@@ -89,11 +89,11 @@ public class BaseActivity extends AppCompatActivity implements NavigationView.On
         item.setChecked(true);
         Intent intent;
         switch(id){
-            /*To complete
+            //To complete
             case R.id.edit_profile:
-                intent = new Intent(this, EditProfile.class);
+                intent = new Intent(this, ViewProfile.class);
                 this.startActivity(intent);
-                break;*/
+                break;
             case R.id.add_incident:
                 intent = new Intent(this, AddIncident.class);
                 this.startActivity(intent);

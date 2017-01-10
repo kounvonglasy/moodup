@@ -5,7 +5,7 @@
         <item
             android:id="@+id/edit_profile"
             android:icon="@mipmap/ic_person_black_24dp"
-            android:title="My account (WIP)" />
+            android:title="My account" />
         <item
             android:id="@+id/view_incidents"
             android:icon="@mipmap/ic_format_list_bulleted_black_24dp"
