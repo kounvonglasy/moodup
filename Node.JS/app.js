@@ -478,6 +478,29 @@ function getDateTime() {
 	return now;
 }
 
+
+app.post('/getProfile', function(request,response){
+	//about mysql
+	connection.getConnection(function(error,tempCont){
+		if(!!error){
+			tempCont.release();
+			console.log('ERROR');
+		} else{
+			console.log('Connected');
+			console.log('test');
+			tempCont.query('SELECT * FROM user where login =?',request.body.login, function(error,rows,fields){
+				tempCont.release();
+				if(!!error){
+					console.log('Error in the query');
+					response.writeHead(200, {'Content-Type': 'text/plain'});
+					response.end('Error in the query \n');
+				} else{
+					response.json({"result":rows});
+				}
+			});
+		}
+	});
+});
 app.listen(8888);
 
 console.log("Server is running...");
