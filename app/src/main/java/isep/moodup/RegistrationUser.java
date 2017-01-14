@@ -76,12 +76,12 @@ public class RegistrationUser extends AppCompatActivity implements View.OnClickL
             @Override
             protected String doInBackground(Void... v) {
                 HashMap<String, String> params = new HashMap<>();
-                params.put(Config.KEY_USERNAME_NAME, name);
-                params.put(Config.KEY_USERNAME_FIRSTNAME, firstname);
-                params.put(Config.KEY_USERNAME_EMAIL, email);
-                params.put(Config.KEY_USERNAME_LOGIN, login);
-                params.put(Config.KEY_USERNAME_PASSWORD, password);
-                params.put(Config.KEY_USERNAME_PASSWORD_CONFIRM, confirmpassword);
+                params.put(Config.KEY_USER_NAME, name);
+                params.put(Config.KEY_USER_FIRSTNAME, firstname);
+                params.put(Config.KEY_USER_EMAIL, email);
+                params.put(Config.KEY_USER_LOGIN, login);
+                params.put(Config.KEY_USER_PASSWORD, password);
+                params.put(Config.KEY_USER_PASSWORD_CONFIRM, confirmpassword);
                 HttpHandler rh = new HttpHandler();
                 String res = rh.sendPostRequest(Config.URL_ADD_USER, params);
                 return res;

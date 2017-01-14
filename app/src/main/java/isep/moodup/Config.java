@@ -34,6 +34,7 @@ public class Config {
     public static final String LOGIN_URL = "http://young-journey-48135.herokuapp.com/login";
     //en local =>http://10.0.2.2:8888/profile
     public static final String URL_GET_PROFILE ="http://young-journey-48135.herokuapp.com/getProfile";
+
     //Keys that will be used to send the request to the server
     //Incident
     public static final String KEY_INCIDENT_ID = "idIncident";
@@ -46,12 +47,13 @@ public class Config {
     public static final String KEY_INCIDENT_ID_USER = "idUser";
 
     //User
-    public static final String KEY_USERNAME_NAME = "name";
-    public static final String KEY_USERNAME_FIRSTNAME = "firstName";
-    public static final String KEY_USERNAME_EMAIL = "email";
-    public static final String KEY_USERNAME_LOGIN = "login";
-    public static final String KEY_USERNAME_PASSWORD = "password";
-    public static final String KEY_USERNAME_PASSWORD_CONFIRM = "passwordConfirm";
+    public static final String KEY_USER_ID  = "idUser";
+    public static final String KEY_USER_NAME = "name";
+    public static final String KEY_USER_FIRSTNAME = "firstName";
+    public static final String KEY_USER_EMAIL = "email";
+    public static final String KEY_USER_LOGIN = "login";
+    public static final String KEY_USER_PASSWORD = "password";
+    public static final String KEY_USER_PASSWORD_CONFIRM = "passwordConfirm";
 
     //JSON tags
     public static final String TAG_JSON_ARRAY = "result";

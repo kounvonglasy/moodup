@@ -43,12 +43,12 @@ public class BaseActivity extends AppCompatActivity implements NavigationView.On
         HashMap<String, String> user = session.getUserDetails();
 
         // name
-        String name = user.get(SessionManager.KEY_NAME);
+        String name = user.get(Config.KEY_USER_NAME);
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.id_nav_menu);
         View hView =  navigationView.getHeaderView(0);
         TextView nav_user = (TextView)hView.findViewById(R.id.nav_header);
-        nav_user.setText("Bonjour " + name);
+        nav_user.setText("Bienvenue " + name);
 
         mToolBar = (Toolbar) findViewById(R.id.nav_action);
         setSupportActionBar(mToolBar);

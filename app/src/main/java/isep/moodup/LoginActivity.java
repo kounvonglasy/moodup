@@ -10,6 +10,10 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.HashMap;
 
 /**
@@ -47,7 +51,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     }
 
 
-    private void userLogin(final String username, final String password) {
+    private void userLogin(final String login, final String password) {
         class UserLoginClass extends AsyncTask<String, Void, String> {
             ProgressDialog loading;
 
@@ -62,7 +66,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 super.onPostExecute(s);
                 loading.dismiss();
                 if (s.equalsIgnoreCase("success")) {
-                    session.createLoginSession(username);
+                   // session.createLoginSession(username);
+                    getProfile(login);
                     Intent intent = new Intent(LoginActivity.this, ViewAllIncident.class);
                     startActivity(intent);
                 } else {
@@ -84,7 +89,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             }
         }
         UserLoginClass ulc = new UserLoginClass();
-        ulc.execute(username, password);
+        ulc.execute(login, password);
     }
 
     @Override
@@ -95,6 +100,55 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             Intent intent = new Intent(this, RegistrationUser.class);
             this.startActivity(intent);
         }
+    }
+
+    private void getProfile(String login) {
+        class GetProfile extends AsyncTask<Object, Void, String> {
+            private String login;
+            @Override
+            protected void onPostExecute(String s) {
+                super.onPostExecute(s);
+                if (s != null) {
+                    try {
+                        JSONObject jsonObj = new JSONObject(s);
+                        // Getting JSON Array node
+                        JSONArray profiles = jsonObj.getJSONArray(Config.TAG_JSON_ARRAY);
+                        // looping through All Incidents
+                        String idUser= "";
+                        String name = "";
+                        String firstName= "";
+                        String email = "";
+                        String login = "";
+                        for (int i = 0; i < profiles.length(); i++) {
+                            JSONObject c = profiles.getJSONObject(i);
+                            login = c.getString(Config.KEY_USER_LOGIN);
+                            name = c.getString(Config.KEY_USER_NAME);
+                            firstName = c.getString(Config.KEY_USER_FIRSTNAME);
+                            idUser =  c.getString(Config.KEY_USER_ID);
+                            email =  c.getString(Config.KEY_USER_EMAIL);
+                        }
+                        session.createLoginSession(login,name,firstName,email,idUser);
+                    } catch (final JSONException e) {
+                        System.out.println("Json parsing error: " + e.getMessage());
+                    }
+                } else {
+                    System.out.println("Couldn't get json from server. Check LogCat for possible errors!");
+                }
+            }
+
+            @Override
+            protected String doInBackground(Object... params) {
+                HashMap<String,String> param = new HashMap<>();
+                login = (String) params[0];
+                param.put(Config.KEY_USER_LOGIN,login);
+                HttpHandler sh = new HttpHandler();
+                // Making a request to url and getting response
+                String jsonStr = sh.sendPostRequest(Config.URL_GET_PROFILE,param);
+                return jsonStr;
+            }
+        }
+        GetProfile gi = new GetProfile();
+        gi.execute(login);
     }
 
 }
