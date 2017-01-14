@@ -1,6 +1,9 @@
 package isep.moodup;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 
@@ -10,12 +13,13 @@ import java.util.HashMap;
  * Created by h on 10/01/2017.
  */
 
-public class ViewProfile extends BaseActivity {
+public class ViewProfile extends BaseActivity implements View.OnClickListener {
 
     private EditText editTextName;
     private EditText editTextFirstName;
     private EditText editTextMail;
     private EditText editTextLogin;
+    private Button buttonEditProfile;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,10 +42,35 @@ public class ViewProfile extends BaseActivity {
         editTextMail =(EditText) findViewById(R.id.editTextMail);
         editTextLogin =(EditText) findViewById(R.id.editTextLogin);
 
+        buttonEditProfile = (Button) findViewById(R.id.editProfile);
+        buttonEditProfile.setOnClickListener(this);
+
+
         editTextName.setText(name);
         editTextFirstName.setText(firstName);
         editTextMail.setText(email);
         editTextLogin.setText(login);
+
+    }
+
+    @Override
+    public void onClick(View v) {
+        if (v == buttonEditProfile) {
+            intent = new Intent(this, ViewProfile.class);
+            this.startActivity(intent);
+        }
+    }
+
+    private void EditProfile(){
+
+    }
+
+    @Override
+    public void onBackPressed() {
+        // Launched from notification, handle as special case
+        Intent intent = new Intent(this, LoginActivity.class);
+        this.startActivity(intent);
+        finish();
 
     }
 

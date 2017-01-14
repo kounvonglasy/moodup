@@ -99,6 +99,12 @@
             android:layout_height="wrap_content"
             android:id="@+id/editTextLogin"/>
 
+        <Button
+            android:id="@+id/editProfile"
+            android:layout_width="120dp"
+            android:layout_height="wrap_content"
+            android:text="Edit Profile"/>
+
        <!-- <TextView
             android:id="@+id/userPassword"
             android:layout_width="wrap_content"
