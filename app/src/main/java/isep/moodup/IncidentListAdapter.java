@@ -4,6 +4,7 @@ package isep.moodup;
  * Created by Kevin on 12/12/2016.
  */
 
+import java.util.HashMap;
 import java.util.List;
 
 import android.app.Activity;
@@ -47,8 +48,19 @@ public class IncidentListAdapter extends ArrayAdapter<Incident> {
         holder.creationDate = (TextView) row.findViewById(R.id.creationDate);
         holder.title = (TextView) row.findViewById(R.id.title);
         holder.description = (TextView) row.findViewById(R.id.description);
+        holder.login = (TextView) row.findViewById(R.id.userLogin);
+        // Session class instance
+        SessionManager session = new SessionManager(this.context);
+        // get user data from session
+        HashMap<String, String> user = session.getUserDetails();
+        // login
+        String login = user.get(Config.KEY_USER_LOGIN);
+        //Hide the button from other users
+        if(!holder.incident.getUserLogin().equals(login)) {
+            View b = row.findViewById(R.id.incident);
+            b.setVisibility(View.GONE);
+        }
         row.setTag(holder);
-
         setupItem(holder);
         return row;
     }
@@ -57,6 +69,7 @@ public class IncidentListAdapter extends ArrayAdapter<Incident> {
         holder.title.setText("Title: " + holder.incident.getTitle());
         holder.description.setText("Description: " + holder.incident.getDescription());
         holder.creationDate.setText("Creation Date: " + holder.incident.getCreationDate());
+        holder.login.setText("User login: "+ holder.incident.getUserLogin());
     }
 
     public static class IncidentHolder {
@@ -65,6 +78,7 @@ public class IncidentListAdapter extends ArrayAdapter<Incident> {
         TextView creationDate;
         TextView title;
         TextView description;
+        TextView login;
         ImageButton addLikeButton;
         Button addGetIncidentButton;
     }

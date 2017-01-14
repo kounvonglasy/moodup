@@ -53,7 +53,8 @@ public class ViewAllIncident extends BaseActivity {
                     String description = c.getString(Config.TAG_INCIDENT_DESCRIPTION);
                     String title = c.getString(Config.TAG_INCIDENT_TITLE);
                     String creationDate = c.getString(Config.TAG_INCIDENT_CREATION_DATE);
-                    Incident incident = new Incident(id, title, description, creationDate);
+                    String userLogin = c.getString(Config.TAG_INCIDENT_USER_LOGIN);
+                    Incident incident = new Incident(id, title, description, creationDate, userLogin);
                     adapter.add(incident);
                 }
             } catch (final JSONException e) {

@@ -118,7 +118,7 @@ public class ViewIncident extends AppCompatActivity implements View.OnClickListe
             String title = c.getString(Config.TAG_INCIDENT_TITLE);
             String description = c.getString(Config.TAG_INCIDENT_DESCRIPTION);
             String duration = c.getString(Config.TAG_INCIDENT_DURATION);
-            String userName = c.getString(Config.TAG_INCIDENT_USER);
+            String userName = c.getString(Config.TAG_INCIDENT_USER_NAME);
             String severiteName = c.getString(Config.TAG_INCIDENT_SEVERITE);
             String typeName = c.getString(Config.TAG_INCIDENT_TYPE);
 

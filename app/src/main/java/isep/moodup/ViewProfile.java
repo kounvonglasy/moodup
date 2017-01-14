@@ -56,7 +56,7 @@ public class ViewProfile extends BaseActivity implements View.OnClickListener {
     @Override
     public void onClick(View v) {
         if (v == buttonEditProfile) {
-            intent = new Intent(this, ViewProfile.class);
+            Intent intent = new Intent(this, ViewProfile.class);
             this.startActivity(intent);
         }
     }
