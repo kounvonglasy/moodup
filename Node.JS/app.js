@@ -407,39 +407,47 @@ app.post("/addLike", function(request, response) {
 });
 
 app.post('/login',function(request,response){
-    connection.getConnection(function(error,tempCont){
-        if(!!error){
-            tempCont.release();
-            console.log('ERROR');
-        }else{
-            console.log('Connected');
-            var query = connection.query('SELECT * FROM user WHERE login=?', [request.body.username] , function(err, result) {
-            console.log(result);
-			//Check whether the login exists or not
-			try {
-				var login = JSON.parse(JSON.stringify(result))[0].login;
-				var password = JSON.parse(JSON.stringify(result))[0].password;
-				var salt = JSON.parse(JSON.stringify(result))[0].salt;
-				var combine = request.body.password+salt;
-				var passwordData = sha256(request.body.password, salt);
-				//If the login exist => Check the password
-				if(login&& (password== passwordData.passwordHash)){
-					console.log('success');
-					response.writeHead(200, {'Content-Type': 'text/plain'});
-					response.end('success');
-				} else {
-					throw err;
-				}
-		    } catch (err){
-				console.log('error');
-				response.writeHead(200, {'Content-Type': 'text/plain'});
-				response.end('Impossible de se connecter');
-		    }
-
-				   // Neat!
-        });
-        }
-    });
+	try{
+		if(!request.body.username || !request.body.password){
+			var err = new Error('The fields must not be empty.')
+			throw err
+		}
+		connection.getConnection(function(error,tempCont){
+			if(!!error){
+				tempCont.release();
+				console.log('ERROR');
+			}else{
+				console.log('Connected');
+				var query = connection.query('SELECT * FROM user WHERE login=?', [request.body.username] , function(err, result) {
+					//Check whether the login exists or not
+					try {
+						var login = JSON.parse(JSON.stringify(result))[0].login;
+						var password = JSON.parse(JSON.stringify(result))[0].password;
+						var salt = JSON.parse(JSON.stringify(result))[0].salt;
+						var combine = request.body.password+salt;
+						var passwordData = sha256(request.body.password, salt);
+						//If the login exist => Check the password
+						if(login&& (password== passwordData.passwordHash)){
+							console.log('success');
+							response.writeHead(200, {'Content-Type': 'text/plain'});
+							response.end('success');
+						} else {
+							throw err;
+						}
+					} catch (err){
+						console.log('error');
+						response.writeHead(200, {'Content-Type': 'text/plain'});
+						response.end('Impossible de se connecter');
+					}
+				});
+			}
+		});
+	}catch (err) {
+		// handle the error safely
+		response.writeHead(200, {'Content-Type': 'text/plain'});
+		console.log(err);
+		response.end(err.message);
+	}
 });
 
 //For batch
@@ -468,7 +476,7 @@ function deleteIncident()
 						var diffHrs = Math.round((diffMs % 86400000) / 3600000); // hours
 						var diffMins = ((diffMs % 86400000) % 3600000) / 60000; // minutes
 						totalDiff = diffHrs * 60 + diffMins ;
-						if(totalDiff > 0 && totalDiff > duration){
+						if(totalDiff > 0 && totalDiff > duration){//Delete the 
 							tempCont.query("DELETE FROM incident WHERE idIncident=?",idIncident, function(error,rows,fields){
 							if(!!error){
 									console.log('Error in delete the query');
@@ -489,7 +497,6 @@ function deleteIncident()
 			});
 		}
 	});
-
 }
 
 setInterval(deleteIncident,2000);
@@ -498,7 +505,6 @@ function getDateTime() {
 	var now = dateFormat(new Date(),"yyyy-mm-dd HH:MM:ss");
 	return now;
 }
-
 
 app.post('/getProfile', function(request,response){
 	//about mysql

@@ -33,7 +33,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login_view);
-        session = new SessionManager(getApplicationContext());
+
         editTextUserName = (EditText) findViewById(R.id.username);
         editTextPassword = (EditText) findViewById(R.id.password);
 
@@ -45,9 +45,10 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     }
 
     private void login() {
-        String username = editTextUserName.getText().toString().trim();
+        session = new SessionManager(getApplicationContext());
+        String login = editTextUserName.getText().toString().trim();
         String password = editTextPassword.getText().toString().trim();
-        userLogin(username, password);
+        userLogin(login, password);
     }
 
     private void userLogin(final String login, final String password) {
@@ -65,10 +66,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 super.onPostExecute(s);
                 loading.dismiss();
                 if (s.equalsIgnoreCase("success")) {
-                    // session.createLoginSession(username);
-                    getProfile(login);
-                    Intent intent = new Intent(LoginActivity.this, ViewAllIncident.class);
-                    startActivity(intent);
+                    createSession(login);
                 } else {
                     Toast.makeText(LoginActivity.this, s, Toast.LENGTH_LONG).show();
                 }
@@ -79,11 +77,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 HashMap<String, String> data = new HashMap<>();
                 data.put("username", params[0]);
                 data.put("password", params[1]);
-
                 HttpHandler sh = new HttpHandler();
-
                 String result = sh.sendPostRequest(Config.LOGIN_URL, data);
-
                 return result;
             }
         }
@@ -101,9 +96,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         }
     }
 
-    private void getProfile(String login) {
+    private void createSession(String login) {
         class GetProfile extends AsyncTask<Object, Void, String> {
-            private String login;
 
             @Override
             protected void onPostExecute(String s) {
@@ -121,6 +115,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                         String idUser = c.getString(Config.KEY_USER_ID);
                         String email = c.getString(Config.KEY_USER_EMAIL);
                         session.createLoginSession(login, name, firstName, email, idUser);
+                        Intent intent = new Intent(LoginActivity.this, ViewAllIncident.class);
+                        startActivity(intent);
                     } catch (final JSONException e) {
                         System.out.println("Json parsing error: " + e.getMessage());
                     }
@@ -132,7 +128,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             @Override
             protected String doInBackground(Object... params) {
                 HashMap<String, String> param = new HashMap<>();
-                login = (String) params[0];
+                String login = (String) params[0];
                 param.put(Config.KEY_USER_LOGIN, login);
                 HttpHandler sh = new HttpHandler();
                 // Making a request to url and getting response

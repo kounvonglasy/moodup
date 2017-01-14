@@ -1,4 +1,5 @@
 package isep.moodup;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
@@ -13,7 +14,7 @@ import android.widget.TextView;
 
 import java.util.HashMap;
 
-public class BaseActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
+public class BaseActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     private DrawerLayout mDrawerLayout;
     private ActionBarDrawerToggle mToggle;
@@ -32,23 +33,16 @@ public class BaseActivity extends AppCompatActivity implements NavigationView.On
         // Session class instance
         session = new SessionManager(getApplicationContext());
 
-        /**
-         * Call this function whenever you want to check user login
-         * This will redirect user to LoginActivity is he is not
-         * logged in
-         * */
-        session.checkLogin();
-
         // get user data from session
         HashMap<String, String> user = session.getUserDetails();
 
         // name
-        String name = user.get(Config.KEY_USER_NAME);
+        String login = user.get(Config.KEY_USER_LOGIN);
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.id_nav_menu);
-        View hView =  navigationView.getHeaderView(0);
-        TextView nav_user = (TextView)hView.findViewById(R.id.nav_header);
-        nav_user.setText("Bienvenue " + name);
+        View hView = navigationView.getHeaderView(0);
+        TextView nav_user = (TextView) hView.findViewById(R.id.nav_header);
+        nav_user.setText("Bienvenue " + login);
 
         mToolBar = (Toolbar) findViewById(R.id.nav_action);
         setSupportActionBar(mToolBar);
@@ -62,7 +56,7 @@ public class BaseActivity extends AppCompatActivity implements NavigationView.On
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         mNavigationView = (NavigationView) findViewById(R.id.id_nav_menu);
-        if (mNavigationView != null){
+        if (mNavigationView != null) {
             mNavigationView.setNavigationItemSelectedListener(this);
         }
 
@@ -76,8 +70,8 @@ public class BaseActivity extends AppCompatActivity implements NavigationView.On
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item){
-        if(mToggle.onOptionsItemSelected(item)) {
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (mToggle.onOptionsItemSelected(item)) {
             return true;
         }
         return super.onOptionsItemSelected(item);
@@ -88,7 +82,7 @@ public class BaseActivity extends AppCompatActivity implements NavigationView.On
         int id = item.getItemId();
         item.setChecked(true);
         Intent intent;
-        switch(id){
+        switch (id) {
             case R.id.edit_profile:
                 intent = new Intent(this, ViewProfile.class);
                 this.startActivity(intent);
