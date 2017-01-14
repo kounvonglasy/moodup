@@ -347,18 +347,30 @@ app.post("/addLike", function(request, response) {
 						var errorMessage = error.message.slice(0, 12);
 						if(errorMessage === 'ER_DUP_ENTRY'){
 							var query = tempCont.query('DELETE FROM `like` WHERE idIncident = ? and idUser = ?', [request.body.idIncident, request.body.idUser], function(error, result) {
-							  tempCont.release();
-							  if (!!error){				
+							  if (!!error){		
+								tempCont.release();							  
 								console.log('Could not like this incident.');
 								response.writeHead(200, {'Content-Type': 'text/plain'});
 								response.end('Could not like this incident.');
 							  }else{
-								console.log('Incident unliked.');
-								response.writeHead(200, {'Content-Type': 'text/plain'});
-								response.end('Incident unliked.');
+								var query = tempCont.query('SELECT COUNT(*) as nbLike FROM `like` WHERE idIncident = ? GROUP BY idIncident', [request.body.idIncident], function(error, result) {
+									tempCont.release();
+									try{
+										var nbLike = JSON.parse(JSON.stringify(result))[0].nbLike;
+										console.log('Incident unliked. Total of:' +nbLike);
+										response.writeHead(200, {'Content-Type': 'text/plain'});
+										response.end('Incident unliked. Total of:' +nbLike);
+									} catch(err){
+										// handle the error safely
+										console.log('Incident unliked. Total of: 0');
+										response.writeHead(200, {'Content-Type': 'text/plain'});
+										response.end('Incident unliked. Total of: 0');
+									}
+								});
 							  } 
 							});
 						} else {
+							tempCont.release();
 							response.writeHead(200, {'Content-Type': 'text/plain'});
 							console.log(error);
 							response.end(error.message);
@@ -367,18 +379,20 @@ app.post("/addLike", function(request, response) {
 						//Check whether the incident need to be confirm
 						var query = tempCont.query('SELECT idIncident, COUNT(*) as nbLike FROM `like` WHERE idIncident = ? GROUP BY idIncident', [request.body.idIncident], function(error, result) {
 							var nbLike = JSON.parse(JSON.stringify(result))[0].nbLike;
-							if(nbLike < 5 ){	
-								tempCont.release();
-							} else {//If the number of like > 5 then we set isConfirmed to true
-								var query = tempCont.query('UPDATE incident SET isConfirmed = true WHERE idIncident =?', [request.body.idIncident], function(error, result) {
-									tempCont.release();
+							if(nbLike >= 5 ){	
+						//If the number of like > 5 then we set isConfirmed to true
+								var query = tempCont.query('UPDATE incident SET isConfirmed = true WHERE idIncident =?', [request.body.idIncident], function(error, result) {								
 									console.log('isConfirmed updated to true');
 								});
 							}
 						});
-						console.log('Incident liked.');
-						response.writeHead(200, {'Content-Type': 'text/plain'});
-						response.end('Incident liked.');
+						var query = tempCont.query('SELECT COUNT(*) as nbLike FROM `like` WHERE idIncident = ? GROUP BY idIncident', [request.body.idIncident], function(error, result) {
+							tempCont.release();
+							var nbLike = JSON.parse(JSON.stringify(result))[0].nbLike;
+							console.log('Incident liked. Total of:' +nbLike);
+							response.writeHead(200, {'Content-Type': 'text/plain'});
+						    response.end('Incident liked. Total of:' +nbLike);
+						});
 					}
 				});
 				console.log(query.sql);
@@ -462,6 +476,13 @@ function deleteIncident()
 									console.log('Incident succesfully deleted');
 								}
 							});
+							tempCont.query("DELETE FROM `like` WHERE idIncident=?",idIncident, function(error,rows,fields){
+							if(!!error){
+									console.log('Error in delete the query');
+								} else{
+									console.log('like succesfully deleted');
+								}
+							});
 						}
 					});
 				}
@@ -501,6 +522,7 @@ app.post('/getProfile', function(request,response){
 		}
 	});
 });
+
 app.listen(8888);
 
 console.log("Server is running...");

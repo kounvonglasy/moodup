@@ -127,7 +127,11 @@ public class ViewAllIncident extends BaseActivity {
     public void addLikeOnClickHandler(View v) {
         //Working in Progress => need to manage user session
         Incident item = (Incident) v.getTag();
-        final String idUser = "1";
+        // Session class instance
+        session = new SessionManager(getApplicationContext());
+        // get user data from session
+        HashMap<String, String> user = session.getUserDetails();
+        final String idUser = user.get(Config.KEY_USER_ID);
         final String idIncident = item.getId();
         addLike(idIncident, idUser);
     }
