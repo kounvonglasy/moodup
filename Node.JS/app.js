@@ -341,7 +341,7 @@ app.post("/addUser", function(request, response) {
 		response.end(err.message);
 	}
 });
------------------------------------------------------------------------------------------------------------------------------------------------------
+
 app.post("/updateProfile", function(request, response) {
 	console.log('Connected');
 	try {
@@ -391,7 +391,7 @@ app.post("/updateProfile", function(request, response) {
 		response.end(err.message);
 	}
 });
--------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
 
 app.post("/addLike", function(request, response) {
 	try {
