@@ -57,7 +57,6 @@ public class ViewAllIncident extends BaseActivity {
                     String userLogin = c.getString(Config.TAG_INCIDENT_USER_LOGIN);
                     String nbLike =  c.getString(Config.TAG_INCIDENT_NB_LIKE);
                     Incident incident = new Incident(id, title, description, creationDate, userLogin, nbLike);
-                    adapter.clearAdapter();
                     adapter.add(incident);
                     //adapter.notifyDataSetChanged();
                 }

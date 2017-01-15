@@ -85,9 +85,5 @@ public class IncidentListAdapter extends ArrayAdapter<Incident> {
         ImageButton addLikeButton;
         Button addGetIncidentButton;
     }
-    public void clearAdapter(){
-        items.clear();
-        notifyDataSetChanged();
-    }
 
 }
