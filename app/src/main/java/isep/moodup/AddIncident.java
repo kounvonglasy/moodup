@@ -1,8 +1,15 @@
 package isep.moodup;
 
+import android.Manifest;
 import android.app.ProgressDialog;
+import android.content.pm.PackageManager;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -12,6 +19,15 @@ import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.Spinner;
 import android.widget.Toast;
+import android.location.Location;
+
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.location.LocationListener;
+import com.google.android.gms.location.LocationRequest;
+import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.model.Marker;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -24,7 +40,10 @@ import java.util.HashMap;
  * Created by Kevin on 04/12/2016.
  */
 
-public class AddIncident extends BaseActivity implements View.OnClickListener {
+public class AddIncident extends BaseActivity implements View.OnClickListener,
+        GoogleApiClient.ConnectionCallbacks,
+        GoogleApiClient.OnConnectionFailedListener,
+        LocationListener {
     private String TAG = ViewAllIncident.class.getSimpleName();
 
     //Defining lists
@@ -39,6 +58,16 @@ public class AddIncident extends BaseActivity implements View.OnClickListener {
     private String spinnerSeverite;
     private String spinnerType;
     private Button buttonAddIncident;
+
+    //Defining Google Maps data
+    private GoogleMap mMap;
+    GoogleApiClient mGoogleApiClient;
+    Location mLastLocation;
+    Marker mCurrLocationMarker;
+    LocationRequest mLocationRequest;
+    Double userLatitude = null;
+    Double userLongitude = null;
+
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -61,6 +90,21 @@ public class AddIncident extends BaseActivity implements View.OnClickListener {
         buttonAddIncident = (Button) findViewById(R.id.buttonAddIncident);
         //Setting listeners to button
         buttonAddIncident.setOnClickListener(this);
+
+        /*Google Map Permission
+        * Initialize Google Play Services
+        */
+        if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (ContextCompat.checkSelfPermission(this,
+                    Manifest.permission.ACCESS_FINE_LOCATION)
+                    == PackageManager.PERMISSION_GRANTED) {
+                buildGoogleApiClient();
+                //mMap.setMyLocationEnabled(true);
+            }
+        } else {
+            buildGoogleApiClient();
+            //mMap.setMyLocationEnabled(true);
+        }
     }
 
     @Override
@@ -77,6 +121,8 @@ public class AddIncident extends BaseActivity implements View.OnClickListener {
         final String duration = editTextDuration.getText().toString().trim();
         final String severite = spinnerSeverite;
         final String type = spinnerType;
+        final String latitude = userLatitude.toString().trim();
+        final String longitude = userLongitude.toString().trim();
 
         class AddIncidentTask extends AsyncTask<Void, Void, String> {
 
@@ -97,27 +143,66 @@ public class AddIncident extends BaseActivity implements View.OnClickListener {
 
             @Override
             protected String doInBackground(Void... v) {
-                HashMap<String, String> params = new HashMap<>();
-                params.put(Config.KEY_INCIDENT_TITLE, title);
-                params.put(Config.KEY_INCIDENT_DESCRIPTION, description);
-                params.put(Config.KEY_INCIDENT_DURATION, duration);
-                // Session class instance
-                SessionManager session = new SessionManager(getApplicationContext());
-                // get user data from session
-                HashMap<String, String> user = session.getUserDetails();
-                // name
-                String userName = user.get(Config.KEY_USER_NAME);
-                params.put(Config.KEY_INCIDENT_USER_NAME, userName);
-                params.put(Config.KEY_INCIDENT_SEVERITE_NAME, severite);
-                params.put(Config.KEY_INCIDENT_TYPE_NAME, type);
-                HttpHandler rh = new HttpHandler();
-                String res = rh.sendPostRequest(Config.URL_ADD_INCIDENT, params);
-                return res;
+                if(latitude != null || longitude != null) {
+                    HashMap<String, String> params = new HashMap<>();
+                    params.put(Config.KEY_INCIDENT_TITLE, title);
+                    params.put(Config.KEY_INCIDENT_DESCRIPTION, description);
+                    params.put(Config.KEY_INCIDENT_DURATION, duration);
+                    params.put(Config.KEY_INCIDENT_LATITUDE, latitude);
+                    params.put(Config.KEY_INCIDENT_LONGITUDE, longitude);
+                    // Session class instance
+                    SessionManager session = new SessionManager(getApplicationContext());
+                    // get user data from session
+                    HashMap<String, String> user = session.getUserDetails();
+                    // name
+                    String userName = user.get(Config.KEY_USER_NAME);
+                    params.put(Config.KEY_INCIDENT_USER_NAME, userName);
+                    params.put(Config.KEY_INCIDENT_SEVERITE_NAME, severite);
+                    params.put(Config.KEY_INCIDENT_TYPE_NAME, type);
+                    HttpHandler rh = new HttpHandler();
+                    String res = rh.sendPostRequest(Config.URL_ADD_INCIDENT, params);
+                    return res;
+                }else {
+                    return "Your location is not available";
+                }
             }
         }
 
         AddIncidentTask ai = new AddIncidentTask();
         ai.execute();
+    }
+
+    @Override
+    public void onConnected(@Nullable Bundle bundle) {
+        mLocationRequest = new LocationRequest();
+        mLocationRequest.setInterval(1000);
+        mLocationRequest.setFastestInterval(1000);
+        mLocationRequest.setPriority(LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY);
+        if (ContextCompat.checkSelfPermission(this,
+                Manifest.permission.ACCESS_FINE_LOCATION)
+                == PackageManager.PERMISSION_GRANTED) {
+            LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient, mLocationRequest, this);
+        }
+    }
+
+    @Override
+    public void onConnectionSuspended(int i) {
+
+    }
+
+    @Override
+    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
+
+    }
+
+    @Override
+    public void onLocationChanged(Location location) {
+        mLastLocation = location;
+        if (mCurrLocationMarker != null) {
+            mCurrLocationMarker.remove();
+        }
+        setUserLatitude(location);
+        setUserLongitude(location);
     }
 
     private static class MyTaskParams {
@@ -221,6 +306,93 @@ public class AddIncident extends BaseActivity implements View.OnClickListener {
 
             }
             return null;
+        }
+    }
+
+    protected synchronized void buildGoogleApiClient() {
+        mGoogleApiClient = new GoogleApiClient.Builder(this)
+                .addConnectionCallbacks(this)
+                .addOnConnectionFailedListener(this)
+                .addApi(LocationServices.API)
+                .build();
+        mGoogleApiClient.connect();
+    }
+
+    public double getUserLatitude(){
+        return this.userLatitude;
+    }
+
+    public double getUserLongitude(){
+        return this.userLongitude;
+    }
+
+    public void setUserLatitude(Location location){
+        this.userLatitude = location.getLatitude();
+    }
+
+    public void setUserLongitude(Location location){
+        this.userLongitude = location.getLongitude();
+    }
+
+    /*
+    * Requesting Location Permission
+    */
+    public static final int MY_PERMISSIONS_REQUEST_LOCATION = 99;
+
+    public boolean checkLocationPermission() {
+        if (ContextCompat.checkSelfPermission(this,
+                android.Manifest.permission.ACCESS_FINE_LOCATION)
+                != PackageManager.PERMISSION_GRANTED) {
+            // Asking user if explanation is needed
+            if (ActivityCompat.shouldShowRequestPermissionRationale(this,
+                    android.Manifest.permission.ACCESS_FINE_LOCATION)) {
+                // Show an expanation to the user *asynchronously* -- don't block
+                // this thread waiting for the user's response! After the user
+                // sees the explanation, try again to request the permission.
+
+                //Prompt the user once explanation has been shown
+                ActivityCompat.requestPermissions(this,
+                        new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION},
+                        MY_PERMISSIONS_REQUEST_LOCATION);
+            } else {
+                // No explanation needed, we can request the permission.
+                ActivityCompat.requestPermissions(this,
+                        new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION},
+                        MY_PERMISSIONS_REQUEST_LOCATION);
+            }
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    /*
+    * Handling permission request response
+    */
+    @Override
+    public void onRequestPermissionsResult(int requestCode,
+                                           String permissions[], int[] grantResults) {
+        switch (requestCode) {
+            case MY_PERMISSIONS_REQUEST_LOCATION: {
+                // If request is cancelled, the result arrays are empty.
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    // Permission was granted.
+                    if (ContextCompat.checkSelfPermission(this,
+                            android.Manifest.permission.ACCESS_FINE_LOCATION)
+                            == PackageManager.PERMISSION_GRANTED) {
+
+                        if (mGoogleApiClient == null) {
+                            buildGoogleApiClient();
+                        }
+                       // mMap.setMyLocationEnabled(true);
+                    }
+                } else {
+                    // Permission denied, Disable the functionality that depends on this permission.
+                    Toast.makeText(this, "permission denied", Toast.LENGTH_LONG).show();
+                }
+                return;
+            }
         }
     }
 

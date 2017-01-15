@@ -47,6 +47,8 @@ public class Config {
     public static final String KEY_INCIDENT_TYPE_NAME = "typeName";
     public static final String KEY_INCIDENT_DURATION = "duration";
     public static final String KEY_INCIDENT_ID_USER = "idUser";
+    public static final String KEY_INCIDENT_LATITUDE = "latitude";
+    public static final String KEY_INCIDENT_LONGITUDE = "longitude";
 
     //User
     public static final String KEY_USER_ID  = "idUser";
