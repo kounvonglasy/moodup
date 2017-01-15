@@ -54,6 +54,7 @@ var connection = mysql.createPool({
 });
 
 app.use(myParser.urlencoded({extended : true}));
+
 app.get('/getAllIncidents', function(request,response){
 	//about mysql
 	connection.getConnection(function(error,tempCont){
@@ -273,14 +274,14 @@ app.post("/updateIncident", function(request, response) {
 	}
 });
 
-app.get('/deleteIncident', function(request,response){
+app.post('/deleteIncident', function(request,response){
 	connection.getConnection(function(error,tempCont){
 		if(!!error){
 			tempCont.release();
 			console.log('ERROR');
 		} else{
 			console.log('Connected');
-			tempCont.query("DELETE FROM incident WHERE idIncident=?",request.query.id, function(error,rows,fields){
+			tempCont.query("DELETE FROM incident WHERE idIncident=?",request.body.idIncident, function(error,rows,fields){
 				tempCont.release();
 				if(!!error){
 					console.log('Error in the query');
@@ -290,6 +291,13 @@ app.get('/deleteIncident', function(request,response){
 					response.json({"result":rows});
 				}
 			});
+			tempCont.query("DELETE FROM `like` WHERE idIncident=?",request.body.idIncident, function(error,rows,fields){
+				if(!!error){
+						console.log('Error in delete the query');
+					} else{
+						console.log('like succesfully deleted');
+					}
+				});
 		}
 	});
 });

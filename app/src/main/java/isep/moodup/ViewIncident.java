@@ -309,8 +309,10 @@ public class ViewIncident extends AppCompatActivity implements View.OnClickListe
 
             @Override
             protected String doInBackground(Void... params) {
+                HashMap<String, String> hashMap = new HashMap<>();
+                hashMap.put(Config.KEY_INCIDENT_ID, id);
                 HttpHandler rh = new HttpHandler();
-                String s = rh.sendGetRequestParam(Config.URL_DELETE_INCIDENT, id);
+                String s = rh.sendPostRequest(Config.URL_DELETE_INCIDENT, hashMap);
                 return s;
             }
         }
