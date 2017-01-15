@@ -33,14 +33,26 @@ CREATE TABLE `incident` (
   `address` varchar(45) DEFAULT NULL,
   `idSeverite` int(11) NOT NULL,
   `idType` int(11) NOT NULL,
-  `isConfirmed` tinyint(1) DEFAULT '0'
+  `isConfirmed` tinyint(1) DEFAULT '0',
+  `longitude` double DEFAULT NULL,
+  `latitude` double DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+INSERT INTO `incident` (`idIncident`, `idUser`, `title`, `creationDate`, `duration`, `description`, `address`, `idSeverite`, `idType`, `isConfirmed`, `longitude`, `latitude`) VALUES
+(1, 11, 'test', '2016-12-08 00:00:00', 10, NULL, NULL, 1, 1, 0, NULL, NULL),
+(2, 13, 'fesfds', NULL, 10, NULL, NULL, 2, 2, 0, NULL, NULL);
 
 CREATE TABLE `like` (
   `idLike` int(11) NOT NULL,
   `idIncident` int(11) NOT NULL,
   `idUser` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+INSERT INTO `like` (`idLike`, `idIncident`, `idUser`) VALUES
+(4, 1, 11),
+(6, 1, 13),
+(5, 2, 11),
+(3, 3, 1);
 
 CREATE TABLE `severity` (
   `idSeverite` int(11) NOT NULL,
@@ -121,13 +133,13 @@ ALTER TABLE `image`
 ALTER TABLE `incident`
   MODIFY `idIncident` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 ALTER TABLE `like`
-  MODIFY `idLike` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=70;
+  MODIFY `idLike` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 ALTER TABLE `severity`
   MODIFY `idSeverite` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 ALTER TABLE `type`
   MODIFY `idType` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 ALTER TABLE `user`
-  MODIFY `idUser` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `idUser` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 ALTER TABLE `incident`
   ADD CONSTRAINT `fk_Incident_Severite1` FOREIGN KEY (`idSeverite`) REFERENCES `severity` (`idSeverite`) ON DELETE NO ACTION ON UPDATE NO ACTION,

@@ -61,6 +61,7 @@ public class Config {
     public static final String TAG_INCIDENT_DESCRIPTION = "description";
     public static final String TAG_INCIDENT_USER_NAME = "name";
     public static final String TAG_INCIDENT_USER_LOGIN = "login";
+    public static final String TAG_INCIDENT_NB_LIKE = "nbLike";
     public static final String TAG_INCIDENT_SEVERITE = "severiteName";
     public static final String TAG_INCIDENT_TYPE = "typeName";
     public static final String TAG_INCIDENT_CREATION_DATE = "creationDate";

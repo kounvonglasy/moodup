@@ -54,7 +54,6 @@ var connection = mysql.createPool({
 });
 
 app.use(myParser.urlencoded({extended : true}));
-
 app.get('/getAllIncidents', function(request,response){
 	//about mysql
 	connection.getConnection(function(error,tempCont){
@@ -63,7 +62,7 @@ app.get('/getAllIncidents', function(request,response){
 			console.log('ERROR');
 		} else{
 			console.log('Connected');
-			tempCont.query("SELECT i.idIncident,i.title, i.description, i.creationDate, u.login FROM incident as i LEFT JOIN user as u ON i.idUser = u.idUser", function(error,rows,fields){
+			tempCont.query("SELECT i.idIncident,i.title, i.description, i.creationDate, i.longitude, i.latitude, u.login, likes.nbLike  FROM incident as i LEFT JOIN user as u ON i.idUser = u.idUser LEFT JOIN (SELECT idIncident, idUser, COUNT(*) as nbLike FROM `like` GROUP BY idIncident) likes ON likes.idIncident = i.idIncident", function(error,rows,fields){
 				tempCont.release();
 				if(!!error){
 					console.log('Error in the query');

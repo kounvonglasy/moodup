@@ -7,6 +7,7 @@ package isep.moodup;
 import android.app.ProgressDialog;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.widget.BaseAdapter;
 import android.widget.FrameLayout;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -54,8 +55,11 @@ public class ViewAllIncident extends BaseActivity {
                     String title = c.getString(Config.TAG_INCIDENT_TITLE);
                     String creationDate = c.getString(Config.TAG_INCIDENT_CREATION_DATE);
                     String userLogin = c.getString(Config.TAG_INCIDENT_USER_LOGIN);
-                    Incident incident = new Incident(id, title, description, creationDate, userLogin);
+                    String nbLike =  c.getString(Config.TAG_INCIDENT_NB_LIKE);
+                    Incident incident = new Incident(id, title, description, creationDate, userLogin, nbLike);
+                    adapter.clearAdapter();
                     adapter.add(incident);
+                    //adapter.notifyDataSetChanged();
                 }
             } catch (final JSONException e) {
                 runOnUiThread(new Runnable() {
@@ -154,6 +158,8 @@ public class ViewAllIncident extends BaseActivity {
                 super.onPostExecute(s);
                 loading.dismiss();
                 Toast.makeText(ViewAllIncident.this, s, Toast.LENGTH_LONG).show();
+                setupListViewAdapter();
+                getIncidents();
             }
 
             @Override
