@@ -119,7 +119,7 @@ public class ViewAllIncident extends BaseActivity {
         gi.execute();
     }
 
-    protected void getIncidentOnClickHandler(View v) {
+    public void getIncidentOnClickHandler(View v) {
         Incident item = (Incident) v.getTag();
         Intent intent = new Intent(this, ViewIncident.class);
         String idIncident = item.getId();
@@ -127,7 +127,7 @@ public class ViewAllIncident extends BaseActivity {
         startActivity(intent);
     }
 
-    protected void addLikeOnClickHandler(View v) {
+    public void addLikeOnClickHandler(View v) {
         //Working in Progress => need to manage user session
         Incident item = (Incident) v.getTag();
         // Session class instance
@@ -139,7 +139,7 @@ public class ViewAllIncident extends BaseActivity {
         addLike(idIncident, idUser);
     }
 
-    protected void addLike(final String idIncidentParam, final String idUserParam) {
+    private void addLike(final String idIncidentParam, final String idUserParam) {
         class AddLikeTask extends AsyncTask<Void, Void, String> {
             String idIncident = idIncidentParam;
             String idUser = idUserParam;
