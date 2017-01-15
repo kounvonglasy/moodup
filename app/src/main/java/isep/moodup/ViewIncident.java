@@ -34,16 +34,15 @@ public class ViewIncident extends AppCompatActivity implements View.OnClickListe
     private EditText editTextTitle;
     private EditText editTextDescription;
     private EditText editTextDuration;
+
     private String id;
     private Button buttonUpdate;
     private Button buttonDelete;
 
-    private String spinnerUser;
     private String spinnerSeverite;
     private String spinnerType;
 
     //Defining lists
-    private ArrayList<String> userList = new ArrayList<>();
     private ArrayList<String> severiteList = new ArrayList<>();
     private ArrayList<String> typeList = new ArrayList<>();
 
@@ -60,12 +59,9 @@ public class ViewIncident extends AppCompatActivity implements View.OnClickListe
         editTextDescription = (EditText) findViewById(R.id.editTextDescription);
         editTextDuration = (EditText) findViewById(R.id.editTextDuration);
 
-        //Get user list
-        ViewIncident.MyTaskParams params = new ViewIncident.MyTaskParams(Config.URL_GET_ALL_USERS, userList, R.id.editSpinnerUser);
-        new ViewIncident.GetList().execute(params);
 
         //Get severite list
-        params = new ViewIncident.MyTaskParams(Config.URL_GET_ALL_SEVERITES, severiteList, R.id.editSpinnerSeverite);
+        ViewIncident.MyTaskParams params = new ViewIncident.MyTaskParams(Config.URL_GET_ALL_SEVERITES, severiteList, R.id.editSpinnerSeverite);
         new ViewIncident.GetList().execute(params);
 
         //Get type list
@@ -118,16 +114,14 @@ public class ViewIncident extends AppCompatActivity implements View.OnClickListe
             String title = c.getString(Config.TAG_INCIDENT_TITLE);
             String description = c.getString(Config.TAG_INCIDENT_DESCRIPTION);
             String duration = c.getString(Config.TAG_INCIDENT_DURATION);
-            String userName = c.getString(Config.TAG_INCIDENT_USER_NAME);
             String severiteName = c.getString(Config.TAG_INCIDENT_SEVERITE);
             String typeName = c.getString(Config.TAG_INCIDENT_TYPE);
 
             editTextTitle.setText(title);
             editTextDescription.setText(description);
             editTextDuration.setText(duration);
-            Spinner spinner = (Spinner) findViewById(R.id.editSpinnerUser);
-            selectSpinnerValue(spinner, userName);
-            spinner = (Spinner) findViewById(R.id.editSpinnerSeverite);
+
+            Spinner spinner = (Spinner) findViewById(R.id.editSpinnerSeverite);
             selectSpinnerValue(spinner, severiteName);
             spinner = (Spinner) findViewById(R.id.editSpinnerType);
             selectSpinnerValue(spinner, typeName);
@@ -185,9 +179,7 @@ public class ViewIncident extends AppCompatActivity implements View.OnClickListe
                 public void onItemSelected(AdapterView<?> parent, View view,
                                            int position, long id) {
                     Spinner spinner = (Spinner) parent;
-                    if (spinner.getId() == R.id.editSpinnerUser) {
-                        spinnerUser = spinner.getSelectedItem().toString();
-                    } else if (spinner.getId() == R.id.editSpinnerSeverite) {
+                    if (spinner.getId() == R.id.editSpinnerSeverite) {
                         spinnerSeverite = spinner.getSelectedItem().toString();
                     } else if (spinner.getId() == R.id.editSpinnerType) {
                         spinnerType = spinner.getSelectedItem().toString();
@@ -256,7 +248,6 @@ public class ViewIncident extends AppCompatActivity implements View.OnClickListe
         final String duration = editTextDuration.getText().toString().trim();
         final String severiteName = spinnerSeverite;
         final String typeName = spinnerType;
-        final String userName = spinnerUser;
 
         class UpdateIncident extends AsyncTask<Void, Void, String> {
             ProgressDialog loading;
@@ -282,6 +273,12 @@ public class ViewIncident extends AppCompatActivity implements View.OnClickListe
                 hashMap.put(Config.KEY_INCIDENT_DESCRIPTION, description);
                 hashMap.put(Config.KEY_INCIDENT_SEVERITE_NAME, severiteName);
                 hashMap.put(Config.KEY_INCIDENT_TYPE_NAME, typeName);
+                // Session class instance
+                SessionManager session = new SessionManager(getApplicationContext());
+                // get user data from session
+                HashMap<String, String> user = session.getUserDetails();
+                // name
+                String userName = user.get(Config.KEY_USER_NAME);
                 hashMap.put(Config.KEY_INCIDENT_USER_NAME, userName);
                 hashMap.put(Config.KEY_INCIDENT_DURATION, duration);
                 HttpHandler rh = new HttpHandler();
@@ -350,6 +347,7 @@ public class ViewIncident extends AppCompatActivity implements View.OnClickListe
     public void ReturnHome(View view) {
         super.onBackPressed();
         startActivity(new Intent(this, ViewAllIncident.class));
+        finish();
     }
 
     @Override

@@ -48,6 +48,7 @@ public class IncidentListAdapter extends ArrayAdapter<Incident> {
         holder.creationDate = (TextView) row.findViewById(R.id.creationDate);
         holder.title = (TextView) row.findViewById(R.id.title);
         holder.description = (TextView) row.findViewById(R.id.description);
+        holder.duration =  (TextView) row.findViewById(R.id.duration);
         holder.login = (TextView) row.findViewById(R.id.userLogin);
         holder.nbLike = (TextView) row.findViewById(R.id.nbLike);
         // Session class instance
@@ -71,6 +72,7 @@ public class IncidentListAdapter extends ArrayAdapter<Incident> {
         holder.description.setText("Description: " + holder.incident.getDescription());
         holder.creationDate.setText("Creation Date: " + holder.incident.getCreationDate());
         holder.login.setText("User login: "+ holder.incident.getUserLogin());
+        holder.duration.setText("Duration: "+ holder.incident.getDuration() +" min");
         holder.nbLike.setText("Likes: "+ holder.incident.getNbLike());
     }
 
@@ -80,6 +82,7 @@ public class IncidentListAdapter extends ArrayAdapter<Incident> {
         TextView creationDate;
         TextView title;
         TextView description;
+        TextView duration;
         TextView login;
         TextView nbLike;
         ImageButton addLikeButton;

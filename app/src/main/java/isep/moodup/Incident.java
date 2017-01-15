@@ -13,15 +13,17 @@ public class Incident implements Serializable {
     private String description;
     private String creationDate;
     private String id;
+    private String duration;
     private String userLogin;
     private String nbLike;
 
-    public Incident(String id, String title, String description, String creationDate, String userLogin, String nbLike) {
+    public Incident(String id, String title, String description, String creationDate, String duration, String userLogin, String nbLike) {
         this.setId(id);
         this.setTitle(title);
         this.setDescription(description);
         this.setCreationDate(creationDate);
         this.setUserLogin(userLogin);
+        this.setDuration(duration);
         this.setNbLike(nbLike);
     }
 
@@ -55,6 +57,14 @@ public class Incident implements Serializable {
 
     public void setCreationDate(String creationDate) {
         this.creationDate = creationDate;
+    }
+
+    public String getDuration() {
+        return duration;
+    }
+
+    public void setDuration(String duration) {
+        this.duration = duration;
     }
 
     public String getUserLogin() {

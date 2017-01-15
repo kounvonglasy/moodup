@@ -28,7 +28,6 @@ public class AddIncident extends BaseActivity implements View.OnClickListener {
     private String TAG = ViewAllIncident.class.getSimpleName();
 
     //Defining lists
-    private ArrayList<String> userList = new ArrayList<>();
     private ArrayList<String> severiteList = new ArrayList<>();
     private ArrayList<String> typeList = new ArrayList<>();
 
@@ -36,7 +35,7 @@ public class AddIncident extends BaseActivity implements View.OnClickListener {
     private EditText editTextTitle;
     private EditText editTextDescription;
     private EditText editTextDuration;
-    private String spinnerUser;
+
     private String spinnerSeverite;
     private String spinnerType;
     private Button buttonAddIncident;
@@ -47,12 +46,8 @@ public class AddIncident extends BaseActivity implements View.OnClickListener {
         FrameLayout contentFrameLayout = (FrameLayout) findViewById(R.id.content_frame); //Remember this is the FrameLayout area within your activity_main.xml
         getLayoutInflater().inflate(R.layout.add_incident, contentFrameLayout);
 
-        //Get user list
-        MyTaskParams params = new MyTaskParams(Config.URL_GET_ALL_USERS, userList, R.id.editSpinnerUser);
-        new GetList().execute(params);
-
         //Get severite list
-        params = new MyTaskParams(Config.URL_GET_ALL_SEVERITES, severiteList, R.id.editSpinnerSeverite);
+        MyTaskParams params = new MyTaskParams(Config.URL_GET_ALL_SEVERITES, severiteList, R.id.editSpinnerSeverite);
         new GetList().execute(params);
 
         //Get type list
@@ -80,7 +75,6 @@ public class AddIncident extends BaseActivity implements View.OnClickListener {
         final String title = editTextTitle.getText().toString().trim();
         final String description = editTextDescription.getText().toString().trim();
         final String duration = editTextDuration.getText().toString().trim();
-        final String user = spinnerUser;
         final String severite = spinnerSeverite;
         final String type = spinnerType;
 
@@ -107,7 +101,13 @@ public class AddIncident extends BaseActivity implements View.OnClickListener {
                 params.put(Config.KEY_INCIDENT_TITLE, title);
                 params.put(Config.KEY_INCIDENT_DESCRIPTION, description);
                 params.put(Config.KEY_INCIDENT_DURATION, duration);
-                params.put(Config.KEY_INCIDENT_USER_NAME, user);
+                // Session class instance
+                SessionManager session = new SessionManager(getApplicationContext());
+                // get user data from session
+                HashMap<String, String> user = session.getUserDetails();
+                // name
+                String userName = user.get(Config.KEY_USER_NAME);
+                params.put(Config.KEY_INCIDENT_USER_NAME, userName);
                 params.put(Config.KEY_INCIDENT_SEVERITE_NAME, severite);
                 params.put(Config.KEY_INCIDENT_TYPE_NAME, type);
                 HttpHandler rh = new HttpHandler();
@@ -161,9 +161,7 @@ public class AddIncident extends BaseActivity implements View.OnClickListener {
                 public void onItemSelected(AdapterView<?> parent, View view,
                                            int position, long id) {
                     Spinner spinner = (Spinner) parent;
-                    if (spinner.getId() == R.id.editSpinnerUser) {
-                        spinnerUser = spinner.getSelectedItem().toString();
-                    } else if (spinner.getId() == R.id.editSpinnerSeverite) {
+                    if (spinner.getId() == R.id.editSpinnerSeverite) {
                         spinnerSeverite = spinner.getSelectedItem().toString();
                     } else if (spinner.getId() == R.id.editSpinnerType) {
                         spinnerType = spinner.getSelectedItem().toString();
