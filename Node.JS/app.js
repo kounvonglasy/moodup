@@ -341,6 +341,57 @@ app.post("/addUser", function(request, response) {
 		response.end(err.message);
 	}
 });
+-----------------------------------------------------------------------------------------------------------------------------------------------------
+app.post("/updateProfile", function(request, response) {
+	console.log('Connected');
+	try {
+		if(!request.body.name || !request.body.firstName || !request.body.email || !request.body.login){
+			var err = new Error('Could not update the account. The fields must not be empty.')
+			throw err
+		}
+		if (validator.validate(request.body.email) == false){
+			var err = new Error('Could not update the account. Check the email format')
+			throw err
+		}
+		connection.getConnection(function(error,tempCont){
+			if(!!error){
+				tempCont.release();
+				console.log('ERROR');
+				response.writeHead(200, {'Content-Type': 'text/plain'});
+				response.end('ERROR \n');
+			} else{
+				tempCont.query('SELECT name,firstName,email from user WHERE login=? ;',[request.body.login, function(error, results) {
+					if(!!error){
+						tempCont.release();
+						console.log('ERROR');
+						response.writeHead(200, {'Content-Type': 'text/plain'});
+						response.end('ERROR \n');
+					} else {
+					var query = tempCont.query('UPDATE user SET name=?,firstName=?,email=? WHERE login=?', [request.body.name, request.body.firstName, request.body.email ,request.body.login], function(error, result) {
+					  tempCont.release();
+					  if (!!error){
+						console.log('Could not update the profile.');
+						response.writeHead(200, {'Content-Type': 'text/plain'});
+						response.end('Could not update the profile.');
+					  }else{
+						console.log('Profile updated succesfully.');
+						response.writeHead(200, {'Content-Type': 'text/plain'});
+						response.end('Profile updated succesfully.');
+					  } 
+					});
+					console.log(query.sql);
+					}
+				});			
+			}
+		});
+	} catch (err) {
+		// handle the error safely
+		response.writeHead(200, {'Content-Type': 'text/plain'});
+		console.log(err);
+		response.end(err.message);
+	}
+});
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 app.post("/addLike", function(request, response) {
 	try {

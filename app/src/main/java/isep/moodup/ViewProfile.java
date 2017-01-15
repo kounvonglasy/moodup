@@ -1,17 +1,15 @@
 package isep.moodup;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
-
+import android.widget.Toast;
 import java.util.HashMap;
-
-/**
- * Created by h on 10/01/2017.
- */
 
 public class ViewProfile extends BaseActivity implements View.OnClickListener {
 
@@ -56,13 +54,48 @@ public class ViewProfile extends BaseActivity implements View.OnClickListener {
     @Override
     public void onClick(View v) {
         if (v == buttonEditProfile) {
-            Intent intent = new Intent(this, ViewProfile.class);
-            this.startActivity(intent);
+            UpdateProfile();
         }
     }
 
-    private void EditProfile(){
+    //Adding a user
+    private void UpdateProfile() {
+        final String name = editTextName.getText().toString().trim();
+        final String firstname = editTextFirstName.getText().toString().trim();
+        final String login = editTextLogin.getText().toString().trim();
+        final String mail = editTextMail.getText().toString().trim();
 
+        class AddUserTask extends AsyncTask<Void, Void, String> {
+
+            ProgressDialog loading;
+
+            @Override
+            protected void onPreExecute() {
+                super.onPreExecute();
+                loading = ProgressDialog.show(ViewProfile.this, "Adding...", "Wait...", false, false);
+            }
+
+            @Override
+            protected void onPostExecute(String s) {
+                super.onPostExecute(s);
+                loading.dismiss();
+                Toast.makeText(ViewProfile.this, s, Toast.LENGTH_LONG).show();
+            }
+
+            @Override
+            protected String doInBackground(Void... v) {
+                HashMap<String, String> params = new HashMap<>();
+                params.put(Config.KEY_USER_NAME, name);
+                params.put(Config.KEY_USER_FIRSTNAME, firstname);
+                params.put(Config.KEY_USER_EMAIL, mail);
+                params.put(Config.KEY_USER_LOGIN, login);
+                HttpHandler rh = new HttpHandler();
+                String res = rh.sendPostRequest(Config.URL_ADD_USER, params);
+                return res;
+            }
+        }
+        AddUserTask ai = new AddUserTask();
+        ai.execute();
     }
 
     @Override
