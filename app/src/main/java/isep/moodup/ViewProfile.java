@@ -72,7 +72,7 @@ public class ViewProfile extends BaseActivity implements View.OnClickListener {
             @Override
             protected void onPreExecute() {
                 super.onPreExecute();
-                loading = ProgressDialog.show(ViewProfile.this, "Adding...", "Wait...", false, false);
+                loading = ProgressDialog.show(ViewProfile.this, "Updating...", "Wait...", false, false);
             }
 
             @Override
@@ -101,7 +101,7 @@ public class ViewProfile extends BaseActivity implements View.OnClickListener {
     @Override
     public void onBackPressed() {
         // Launched from notification, handle as special case
-        Intent intent = new Intent(this, LoginActivity.class);
+        Intent intent = new Intent(this, ViewAllIncident.class);
         this.startActivity(intent);
         finish();
 
