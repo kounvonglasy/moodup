@@ -99,11 +99,9 @@ public class AddIncident extends BaseActivity implements View.OnClickListener,
                     Manifest.permission.ACCESS_FINE_LOCATION)
                     == PackageManager.PERMISSION_GRANTED) {
                 buildGoogleApiClient();
-                //mMap.setMyLocationEnabled(true);
             }
         } else {
             buildGoogleApiClient();
-            //mMap.setMyLocationEnabled(true);
         }
     }
 
@@ -121,8 +119,6 @@ public class AddIncident extends BaseActivity implements View.OnClickListener,
         final String duration = editTextDuration.getText().toString().trim();
         final String severite = spinnerSeverite;
         final String type = spinnerType;
-        final String latitude = userLatitude.toString().trim();
-        final String longitude = userLongitude.toString().trim();
 
         class AddIncidentTask extends AsyncTask<Void, Void, String> {
 
@@ -143,7 +139,10 @@ public class AddIncident extends BaseActivity implements View.OnClickListener,
 
             @Override
             protected String doInBackground(Void... v) {
-                if(latitude != null || longitude != null) {
+                if(userLatitude != null || userLongitude != null) {
+                    final String latitude = userLatitude.toString().trim();
+                    final String longitude = userLongitude.toString().trim();
+
                     HashMap<String, String> params = new HashMap<>();
                     params.put(Config.KEY_INCIDENT_TITLE, title);
                     params.put(Config.KEY_INCIDENT_DESCRIPTION, description);
@@ -330,9 +329,7 @@ public class AddIncident extends BaseActivity implements View.OnClickListener,
         this.userLatitude = location.getLatitude();
     }
 
-    public void setUserLongitude(Location location){
-        this.userLongitude = location.getLongitude();
-    }
+    public void setUserLongitude(Location location){ this.userLongitude = location.getLongitude(); }
 
     /*
     * Requesting Location Permission
@@ -346,9 +343,6 @@ public class AddIncident extends BaseActivity implements View.OnClickListener,
             // Asking user if explanation is needed
             if (ActivityCompat.shouldShowRequestPermissionRationale(this,
                     android.Manifest.permission.ACCESS_FINE_LOCATION)) {
-                // Show an expanation to the user *asynchronously* -- don't block
-                // this thread waiting for the user's response! After the user
-                // sees the explanation, try again to request the permission.
 
                 //Prompt the user once explanation has been shown
                 ActivityCompat.requestPermissions(this,
@@ -385,7 +379,6 @@ public class AddIncident extends BaseActivity implements View.OnClickListener,
                         if (mGoogleApiClient == null) {
                             buildGoogleApiClient();
                         }
-                       // mMap.setMyLocationEnabled(true);
                     }
                 } else {
                     // Permission denied, Disable the functionality that depends on this permission.
