@@ -10,6 +10,8 @@ public class Config {
     public static final String URL_ADD_INCIDENT = "https://young-journey-48135.herokuapp.com/addIncident";
     //en local => http://10.0.2.2:8888/getAllIncidents
     public static final String URL_GET_ALL_INCIDENTS = "https://young-journey-48135.herokuapp.com/getAllIncidents";
+    //en local => http://10.0.2.2:8888/getIncidentsByCategory
+    public static final String URL_GET_INCIDENTS_BY_CATEGORY = "https://young-journey-48135.herokuapp.com/getIncidentsByCategory";
     //en local => http://10.0.2.2:8888/getAllUsers
     public static final String URL_GET_ALL_USERS = "https://young-journey-48135.herokuapp.com/getAllUsers";
     //en local => http://10.0.2.2:8888/getAllSeverites
@@ -59,7 +61,6 @@ public class Config {
     public static final String TAG_JSON_ARRAY = "result";
     public static final String TAG_INCIDENT_TITLE = "title";
     public static final String TAG_INCIDENT_DESCRIPTION = "description";
-    public static final String TAG_INCIDENT_USER_NAME = "name";
     public static final String TAG_INCIDENT_USER_LOGIN = "login";
     public static final String TAG_INCIDENT_NB_LIKE = "nbLike";
     public static final String TAG_INCIDENT_SEVERITE = "severiteName";
@@ -69,5 +70,6 @@ public class Config {
 
     //incident id to pass with intent
     public static final String INCIDENT_ID = "idIncident";
+    public static final String INCIDENT_CATEGORY = "idCategory";
 
 }

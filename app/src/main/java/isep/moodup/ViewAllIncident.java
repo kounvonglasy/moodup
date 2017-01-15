@@ -23,22 +23,22 @@ import android.view.View;
 import android.content.Intent;
 
 public class ViewAllIncident extends BaseActivity {
-    private IncidentListAdapter adapter;
-    private String TAG = ViewAllIncident.class.getSimpleName();
-    ArrayList<HashMap<String, String>> incidentList;
-    private String JSON_STRING;
+    protected IncidentListAdapter adapter;
+    protected String TAG = ViewAllIncident.class.getSimpleName();
+    protected ArrayList<HashMap<String, String>> incidentList;
+    protected String JSON_STRING;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         FrameLayout contentFrameLayout = (FrameLayout) findViewById(R.id.content_frame); //Remember this is the FrameLayout area within your activity_main.xml
-        getLayoutInflater().inflate(R.layout.activity_view_all_incident, contentFrameLayout);
+        getLayoutInflater().inflate(R.layout.activity_view_incidents, contentFrameLayout);
         incidentList = new ArrayList<>();
         setupListViewAdapter();
         getIncidents();
     }
 
-    private void showIncident() {
+    protected void showIncident() {
         if (JSON_STRING != null) {
             try {
                 JSONObject jsonObj = new JSONObject(JSON_STRING);
@@ -87,7 +87,7 @@ public class ViewAllIncident extends BaseActivity {
 
     }
 
-    private void getIncidents() {
+    protected void getIncidents() {
         class GetIncidents extends AsyncTask<Void, Void, String> {
 
             ProgressDialog loading;
@@ -119,7 +119,7 @@ public class ViewAllIncident extends BaseActivity {
         gi.execute();
     }
 
-    public void getIncidentOnClickHandler(View v) {
+    protected void getIncidentOnClickHandler(View v) {
         Incident item = (Incident) v.getTag();
         Intent intent = new Intent(this, ViewIncident.class);
         String idIncident = item.getId();
@@ -127,7 +127,7 @@ public class ViewAllIncident extends BaseActivity {
         startActivity(intent);
     }
 
-    public void addLikeOnClickHandler(View v) {
+    protected void addLikeOnClickHandler(View v) {
         //Working in Progress => need to manage user session
         Incident item = (Incident) v.getTag();
         // Session class instance
@@ -139,7 +139,7 @@ public class ViewAllIncident extends BaseActivity {
         addLike(idIncident, idUser);
     }
 
-    private void addLike(final String idIncidentParam, final String idUserParam) {
+    protected void addLike(final String idIncidentParam, final String idUserParam) {
         class AddLikeTask extends AsyncTask<Void, Void, String> {
             String idIncident = idIncidentParam;
             String idUser = idUserParam;
@@ -175,7 +175,7 @@ public class ViewAllIncident extends BaseActivity {
         al.execute();
     }
 
-    private void setupListViewAdapter() {
+    protected void setupListViewAdapter() {
         adapter = new IncidentListAdapter(ViewAllIncident.this, R.layout.list_incident, new ArrayList<Incident>());
         ListView incidentListView = (ListView) findViewById(R.id.listView);
         incidentListView.setAdapter(adapter);

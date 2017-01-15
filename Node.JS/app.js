@@ -77,7 +77,7 @@ app.get('/getAllIncidents', function(request,response){
 	});
 });
 
-app.get('/getAllUsers', function(request,response){
+app.post('/getIncidentsByCategory', function(request,response){
 	//about mysql
 	connection.getConnection(function(error,tempCont){
 		if(!!error){
@@ -85,7 +85,7 @@ app.get('/getAllUsers', function(request,response){
 			console.log('ERROR');
 		} else{
 			console.log('Connected');
-			tempCont.query("SELECT u.idUser as id, u.name  FROM user as u", function(error,rows,fields){
+			tempCont.query("SELECT i.idIncident,i.title, i.description, i.creationDate, i.longitude, i.latitude, i.duration, u.login, likes.nbLike  FROM incident as i LEFT JOIN type as t ON i.idType = t.idType LEFT JOIN categorie as c ON t.idCategorie = c.idCategorie LEFT JOIN user as u ON i.idUser = u.idUser LEFT JOIN (SELECT idIncident, idUser, COUNT(*) as nbLike FROM `like` GROUP BY idIncident) likes ON likes.idIncident = i.idIncident WHERE c.idCategorie=?",request.body.idIncident ,function(error,rows,fields){
 				tempCont.release();
 				if(!!error){
 					console.log('Error in the query');

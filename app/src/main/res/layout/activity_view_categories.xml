@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="isep.moodup.ViewIncident">
+
+    <TextView
+        android:id="@+id/mytext"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="Choix catégorie"
+        android:textSize="18sp" />
+
+    <Button
+        android:id="@+id/buttonCategoryTR"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Transport routier"
+        android:layout_below="@+id/buttonCategoryTC"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="43dp" />
+
+    <Button
+        android:id="@+id/buttonCategoryTC"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Transport en commun"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+</LinearLayout>

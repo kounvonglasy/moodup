@@ -19,9 +19,9 @@
             android:icon="@mipmap/ic_add_black_24dp"
             android:title="Ajouter un incident" />
         <item
-            android:id="@+id/nav_settings"
-            android:icon="@mipmap/ic_settings_black_24dp"
-            android:title="Paramètres" />
+            android:id="@+id/view_incidents_by_category"
+            android:icon="@mipmap/ic_loyalty_black_24dp"
+            android:title="Liste par catégories" />
         <item
             android:id="@+id/log_out"
             android:title="Déconnexion" />

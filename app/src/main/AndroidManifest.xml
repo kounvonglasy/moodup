@@ -22,6 +22,20 @@
             </intent-filter>
         </activity>
         <activity
+            android:name=".ViewIncidentsByCategory" android:noHistory="true">
+            <intent-filter>
+                <action android:name="isep.moodup.ViewIncidentByCategory" />
+                <category android:name="android.intent.category.VIEW_INCIDENTS_BY_CATEGORY" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".ViewCategories" android:noHistory="true">
+            <intent-filter>
+                <action android:name="isep.moodup.ViewCategories" />
+                <category android:name="android.intent.category.VIEW_CATEGORIES" />
+            </intent-filter>
+        </activity>
+        <activity
             android:name=".AddIncident"
             android:noHistory="true"
             android:screenOrientation="portrait">
@@ -74,10 +88,6 @@
                 <category android:name="android.intent.category.PROFILE" />
             </intent-filter>
         </activity>
-
-
-
-
         <uses-feature
             android:glEsVersion="0x00020000"
             android:required="true" />
