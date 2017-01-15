@@ -10,11 +10,80 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="isep.moodup.ViewProfile">
 
+    <LinearLayout
+        android:id="@+id/informations_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/logo"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/userLogin"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="User Login:"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/userName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="User Name" />
+
+
+        <EditText
+            android:id="@+id/editTextName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:id="@+id/userFirstname"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="User FirstName" />
+
+        <EditText
+            android:id="@+id/editTextFirstName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:id="@+id/userMail"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="User E-mail" />
+
+        <EditText
+            android:id="@+id/editTextMail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <Button
+            android:id="@+id/editProfile"
+            android:layout_width="180dp"
+            android:layout_height="wrap_content"
+            android:text="Update Profile" />
+
+    </LinearLayout>
+
     <FrameLayout
         android:id="@+id/logo"
         android:layout_width="50dp"
         android:layout_height="50dp"
-        >
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true">
+
+        <TextView
+            android:id="@+id/userProfileTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="Modifier mon profil"
+            android:textSize="18sp" />
 
         <TextView
             android:layout_width="40dp"
@@ -52,69 +121,5 @@
             android:layout_gravity="center"
             android:background="#ffffff" />
     </FrameLayout>
-
-    <LinearLayout
-        android:id="@+id/informations_container"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:layout_below="@id/logo"
-        >
-
-        <TextView
-            android:id="@+id/userName"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="User Name" />
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/editTextName"/>
-        <TextView
-            android:id="@+id/userFirstname"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="User FirstName" />
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/editTextFirstName"/>
-        <TextView
-            android:id="@+id/userMail"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="User E-mail" />
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/editTextMail"/>
-
-        <TextView
-            android:id="@+id/userLogin"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="User Login" />
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/editTextLogin"/>
-
-        <Button
-            android:id="@+id/editProfile"
-            android:layout_width="180dp"
-            android:layout_height="wrap_content"
-            android:text="Update Profile"/>
-
-       <!-- <TextView
-            android:id="@+id/userPassword"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="User Password" />
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/editTextPassword"/>-->
-
-    </LinearLayout>
 
 </RelativeLayout>

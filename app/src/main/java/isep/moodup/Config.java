@@ -36,6 +36,8 @@ public class Config {
     public static final String LOGIN_URL = "http://young-journey-48135.herokuapp.com/login";
     //en local =>http://10.0.2.2:8888/profile
     public static final String URL_GET_PROFILE ="http://young-journey-48135.herokuapp.com/getProfile";
+    //en local => http://10.0.2.2:8888/updateProfile
+    public static final String URL_UPDATE_USER = "http://young-journey-48135.herokuapp.com/updateProfile";
 
     //Keys that will be used to send the request to the server
     //Incident

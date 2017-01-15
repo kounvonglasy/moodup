@@ -360,7 +360,7 @@ app.post("/updateProfile", function(request, response) {
 				response.writeHead(200, {'Content-Type': 'text/plain'});
 				response.end('ERROR \n');
 			} else{
-				tempCont.query('SELECT name,firstName,email from user WHERE login=? ;',[request.body.login, function(error, results) {
+				tempCont.query('SELECT name,firstName,email from user WHERE login=? ;',[request.body.login], function(error, results) {
 					if(!!error){
 						tempCont.release();
 						console.log('ERROR');
