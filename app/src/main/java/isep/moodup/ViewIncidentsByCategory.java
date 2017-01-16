@@ -1,14 +1,10 @@
 package isep.moodup;
-
-/**
- * Created by Kevin on 28/11/2016.
- */
-
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.AsyncTask;
 
 import java.util.HashMap;
+
 
 public class ViewIncidentsByCategory extends ViewIncidents {
 

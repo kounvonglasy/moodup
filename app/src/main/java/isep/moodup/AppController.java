@@ -1,9 +1,4 @@
 package isep.moodup;
-
-/**
- * Created by Karim on 15/01/2017.
- */
-
 import android.app.Application;
 import android.text.TextUtils;
 
@@ -12,6 +7,7 @@ import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
 
 import static isep.moodup.Config.TAG;
+
 
 public class AppController extends Application {
 

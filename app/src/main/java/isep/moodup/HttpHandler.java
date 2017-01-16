@@ -1,5 +1,4 @@
 package isep.moodup;
-
 import android.util.Log;
 
 import java.io.BufferedInputStream;

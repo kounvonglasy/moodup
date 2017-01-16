@@ -27,7 +27,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Incident title" />
+                android:text="Titre de l'incident" />
 
             <EditText
                 android:id="@+id/editTextTitle"
@@ -37,7 +37,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Incident description" />
+                android:text="Description de l'incident" />
 
             <EditText
                 android:id="@+id/editTextDescription"
@@ -57,7 +57,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Severite" />
+                android:text="Impact sur le trafic" />
 
             <Spinner
                 android:id="@+id/editSpinnerSeverite"

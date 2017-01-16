@@ -40,13 +40,13 @@
 
         <Button
             android:id="@+id/incident"
-            android:layout_width="105dp"
+            android:layout_width="115dp"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:drawableRight="@android:drawable/ic_menu_edit"
             android:gravity="left|center_vertical"
             android:onClick="getIncidentOnClickHandler"
-            android:text="Edit this incident"
+            android:text="Modifier l'incident"
             android:textSize="10sp" />
 
         <ImageButton

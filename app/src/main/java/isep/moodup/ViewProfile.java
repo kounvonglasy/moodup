@@ -1,5 +1,4 @@
 package isep.moodup;
-
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -12,6 +11,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.HashMap;
+
 
 public class ViewProfile extends BaseActivity implements View.OnClickListener {
 

@@ -1,8 +1,5 @@
 package isep.moodup;
 
-/**
- * Created by Kevin on 03/12/2016.
- */
 
 public class Config {
     //Address of our scripts of the CRUD (for incidents)
@@ -92,12 +89,13 @@ public class Config {
     public static final String LOCATION = "location";
     public static final String LATITUDE = "lat";
     public static final String LONGITUDE = "lng";
-    public static final String ICON = "icon";
-    public static final String STATION_ID = "id";
     public static final String NAME = "name";
+
+    /*public static final String ICON = "icon";
+    public static final String STATION_ID = "id";
     public static final String PLACE_ID = "place_id";
     public static final String REFERENCE = "reference";
-    public static final String VICINITY = "vicinity";
+    public static final String VICINITY = "vicinity"; */
 
     public static final String GOOGLE_BROWSER_API_KEY =
 

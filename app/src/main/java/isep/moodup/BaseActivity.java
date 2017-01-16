@@ -1,5 +1,4 @@
 package isep.moodup;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
@@ -13,6 +12,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import java.util.HashMap;
+
 
 public class BaseActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 

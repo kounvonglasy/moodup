@@ -1,10 +1,6 @@
 package isep.moodup;
-
-/**
- * Created by Kevin on 12/12/2016.
- */
-
 import java.io.Serializable;
+
 
 public class Incident implements Serializable {
     private static final long serialVersionUID = -5435670920302756945L;

@@ -1,9 +1,4 @@
 package isep.moodup;
-
-/**
- * Created by Kevin on 05/12/2016.
- */
-
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -28,6 +23,7 @@ import android.view.View;
 import android.support.v7.app.AlertDialog;
 import android.content.DialogInterface;
 import android.widget.Spinner;
+
 
 public class ViewIncident extends AppCompatActivity implements View.OnClickListener {
     private String TAG = ViewIncident.class.getSimpleName();

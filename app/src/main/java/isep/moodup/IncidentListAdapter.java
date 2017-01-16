@@ -1,9 +1,4 @@
 package isep.moodup;
-
-/**
- * Created by Kevin on 12/12/2016.
- */
-
 import java.util.HashMap;
 import java.util.List;
 
@@ -16,6 +11,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Button;
+
 
 public class IncidentListAdapter extends ArrayAdapter<Incident> {
 

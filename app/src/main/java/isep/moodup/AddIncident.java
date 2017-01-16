@@ -1,5 +1,4 @@
 package isep.moodup;
-
 import android.Manifest;
 import android.app.ProgressDialog;
 import android.content.pm.PackageManager;
@@ -48,9 +47,6 @@ import static isep.moodup.Config.PROXIMITY_RADIUS;
 import static isep.moodup.Config.STATUS;
 import static isep.moodup.Config.ZERO_RESULTS;
 
-/**
- * Created by Kevin on 04/12/2016.
- */
 
 public class AddIncident extends BaseActivity implements View.OnClickListener,
         GoogleApiClient.ConnectionCallbacks,

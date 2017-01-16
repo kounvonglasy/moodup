@@ -1,15 +1,11 @@
 package isep.moodup;
-
-/**
- * Created by Kevin on 09/01/2017.
- */
-
 import java.util.HashMap;
 
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
+
 
 public class SessionManager {
     // Shared Preferences

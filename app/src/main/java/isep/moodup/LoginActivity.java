@@ -1,5 +1,4 @@
 package isep.moodup;
-
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -16,9 +15,7 @@ import org.json.JSONObject;
 
 import java.util.HashMap;
 
-/**
- * Created by h on 06/12/2016.
- */
+
 
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener {
 
