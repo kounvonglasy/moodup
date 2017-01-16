@@ -161,7 +161,7 @@ public class ViewAllIncident extends BaseActivity {
                 Incident incident = incidentParam;
                 incident.setNbLike(s.substring(s.lastIndexOf(":") + 1));
                 adapter.remove(incidentParam);
-                adapter.add(incidentParam);
+                adapter.insert(incident,0);
                 adapter.notifyDataSetChanged();
             }
 
