@@ -194,7 +194,7 @@ app.post("/addIncident", function(request, response) {
 					var idSeverite = JSON.parse(JSON.stringify(results[0]))[0].idSeverite;
 					var idType = JSON.parse(JSON.stringify(results[1]))[0].idType;
 					var idUser = JSON.parse(JSON.stringify(results[2]))[0].idUser;
-					var query = tempCont.query('INSERT INTO incident(title,description,idUser,idSeverite,idType,creationDate,duration)  VALUES (?,?,?,?,?,?,?)', [request.body.title, request.body.description, idUser ,idSeverite, idType,getDateTime(),parseInt(request.body.duration,10)], function(error, result) {
+					var query = tempCont.query('INSERT INTO incident(title,description,idUser,idSeverite,idType,creationDate,duration,longitude,latitude)  VALUES (?,?,?,?,?,?,?,?,?)', [request.body.title, request.body.description, idUser ,idSeverite, idType,getDateTime(),parseInt(request.body.duration,10),request.body.longitude,request.body.latitude], function(error, result) {
 						tempCont.release();
 						response.writeHead(200, {'Content-Type': 'text/plain'});
 						if (!!error){
