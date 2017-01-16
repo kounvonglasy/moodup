@@ -160,8 +160,9 @@ public class ViewAllIncident extends BaseActivity {
                 Toast.makeText(ViewAllIncident.this, s, Toast.LENGTH_LONG).show();
                 Incident incident = incidentParam;
                 incident.setNbLike(s.substring(s.lastIndexOf(":") + 1));
+                int position = adapter.getPosition(incidentParam);
                 adapter.remove(incidentParam);
-                adapter.insert(incident,0);
+                adapter.insert(incident,position);
                 adapter.notifyDataSetChanged();
             }
 
@@ -185,4 +186,5 @@ public class ViewAllIncident extends BaseActivity {
         ListView incidentListView = (ListView) findViewById(R.id.listView);
         incidentListView.setAdapter(adapter);
     }
+
 }
