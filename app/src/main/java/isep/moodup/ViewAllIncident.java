@@ -135,13 +135,12 @@ public class ViewAllIncident extends BaseActivity {
         // get user data from session
         HashMap<String, String> user = session.getUserDetails();
         final String idUser = user.get(Config.KEY_USER_ID);
-        final String idIncident = item.getId();
-        addLike(idIncident, idUser);
+        addLike(item, idUser);
     }
 
-    private void addLike(final String idIncidentParam, final String idUserParam) {
+    private void addLike(final Incident incidentParam, final String idUserParam) {
         class AddLikeTask extends AsyncTask<Void, Void, String> {
-            String idIncident = idIncidentParam;
+            String idIncident = incidentParam.getId();
             String idUser = idUserParam;
             ProgressDialog loading;
 
@@ -156,8 +155,11 @@ public class ViewAllIncident extends BaseActivity {
                 super.onPostExecute(s);
                 loading.dismiss();
                 Toast.makeText(ViewAllIncident.this, s, Toast.LENGTH_LONG).show();
-                setupListViewAdapter();
-                getIncidents();
+                Incident test = incidentParam;
+                test.setNbLike(s.substring(s.lastIndexOf(":") + 1));
+                adapter.remove(incidentParam);
+                adapter.add(incidentParam);
+                adapter.notifyDataSetChanged();
             }
 
             @Override
