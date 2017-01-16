@@ -52,10 +52,11 @@ public class ViewIncidents extends BaseActivity {
                     String userLogin = c.getString(Config.TAG_INCIDENT_USER_LOGIN);
                     String duration = c.getString(Config.TAG_INCIDENT_DURATION);
                     String nbLike = c.getString(Config.TAG_INCIDENT_NB_LIKE);
+                    String severite = c.getString(Config.TAG_INCIDENT_SEVERITE);
                     if (nbLike.equals("null")) {
                         nbLike = "0";
                     }
-                    Incident incident = new Incident(id, title, description, creationDate, duration, userLogin, nbLike);
+                    Incident incident = new Incident(id, title, description, creationDate, duration, userLogin, nbLike, severite);
                     adapter.add(incident);
                 }
             } catch (final JSONException e) {

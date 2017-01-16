@@ -12,8 +12,9 @@ public class Incident implements Serializable {
     private String duration;
     private String userLogin;
     private String nbLike;
+    private String severite;
 
-    public Incident(String id, String title, String description, String creationDate, String duration, String userLogin, String nbLike) {
+    public Incident(String id, String title, String description, String creationDate, String duration, String userLogin, String nbLike, String severite) {
         this.setId(id);
         this.setTitle(title);
         this.setDescription(description);
@@ -21,6 +22,7 @@ public class Incident implements Serializable {
         this.setUserLogin(userLogin);
         this.setDuration(duration);
         this.setNbLike(nbLike);
+        this.setSeverite(severite);
     }
 
     public String getId() {
@@ -45,6 +47,14 @@ public class Incident implements Serializable {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public String getSeverite() {
+        return severite;
+    }
+
+    public void setSeverite (String severite) {
+        this.severite = severite;
     }
 
     public String getCreationDate() {

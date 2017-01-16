@@ -25,7 +25,7 @@ public class RegistrationUser extends AppCompatActivity implements View.OnClickL
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.register);
+        setContentView(R.layout.activity_register_view);
 
         editTextName = (EditText) findViewById(R.id.editTextName);
         editTextFirstname = (EditText) findViewById(R.id.editTextFirstname);

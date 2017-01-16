@@ -46,6 +46,7 @@ public class IncidentListAdapter extends ArrayAdapter<Incident> {
         holder.description = (TextView) row.findViewById(R.id.description);
         holder.duration =  (TextView) row.findViewById(R.id.duration);
         holder.login = (TextView) row.findViewById(R.id.userLogin);
+        holder.severite = (TextView) row.findViewById(R.id.severite);
         holder.nbLike = (TextView) row.findViewById(R.id.nbLike);
         // Session class instance
         SessionManager session = new SessionManager(this.context);
@@ -64,11 +65,12 @@ public class IncidentListAdapter extends ArrayAdapter<Incident> {
     }
 
     private void setupItem(IncidentHolder holder) {
-        holder.title.setText("Title: " + holder.incident.getTitle());
+        holder.title.setText("Titre: " + holder.incident.getTitle());
         holder.description.setText("Description: " + holder.incident.getDescription());
-        holder.creationDate.setText("Creation Date: " + holder.incident.getCreationDate());
-        holder.login.setText("User login: "+ holder.incident.getUserLogin());
-        holder.duration.setText("Duration: "+ holder.incident.getDuration() +" min");
+        holder.severite.setText("Sévérité: " + holder.incident.getSeverite());
+        holder.creationDate.setText("Date de création: " + holder.incident.getCreationDate());
+        holder.login.setText("Login: "+ holder.incident.getUserLogin());
+        holder.duration.setText("Durée: "+ holder.incident.getDuration() +" min");
         holder.nbLike.setText("Likes: "+ holder.incident.getNbLike());
     }
 
@@ -81,6 +83,7 @@ public class IncidentListAdapter extends ArrayAdapter<Incident> {
         TextView duration;
         TextView login;
         TextView nbLike;
+        TextView severite;
         ImageButton addLikeButton;
         Button addGetIncidentButton;
     }

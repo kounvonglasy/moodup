@@ -18,7 +18,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Incident title" />
+        android:text="Titre" />
 
     <EditText
         android:id="@+id/editTextTitle"
@@ -28,7 +28,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Incident description" />
+        android:text="Description" />
 
     <EditText
         android:id="@+id/editTextDescription"

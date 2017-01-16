@@ -29,7 +29,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.login_view);
+        setContentView(R.layout.activity_login_view);
 
         editTextUserName = (EditText) findViewById(R.id.username);
         editTextPassword = (EditText) findViewById(R.id.password);

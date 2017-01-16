@@ -28,7 +28,6 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
-import com.google.android.gms.maps.GoogleMap;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -81,7 +80,7 @@ public class AddIncident extends BaseActivity implements View.OnClickListener,
         super.onCreate(savedInstanceState);
 
         FrameLayout contentFrameLayout = (FrameLayout) findViewById(R.id.content_frame); //Remember this is the FrameLayout area within your activity_main.xml
-        getLayoutInflater().inflate(R.layout.add_incident, contentFrameLayout);
+        getLayoutInflater().inflate(R.layout.activity_add_incident, contentFrameLayout);
 
         //Get severite list
         MyTaskParams params = new MyTaskParams(Config.URL_GET_ALL_SEVERITES, severiteList, R.id.editSpinnerSeverite);
