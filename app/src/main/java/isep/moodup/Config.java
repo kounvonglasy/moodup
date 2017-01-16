@@ -111,7 +111,7 @@ public class Config {
 
             "AIzaSyA3z2_mVDOmTMgTUqdyTPsX-9y4QW7GHbw";
     public static final int PLAY_SERVICES_RESOLUTION_REQUEST = 9000;
-    public static final int PROXIMITY_RADIUS = 2000;//Distance of the search for
+    public static final int PROXIMITY_RADIUS = 20;//Distance of the search for
 
     public static final long MIN_DISTANCE_CHANGE_FOR_UPDATES = 10; // 10 meters
     // The minimum time between updates in milliseconds
