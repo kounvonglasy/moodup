@@ -155,8 +155,8 @@ public class ViewAllIncident extends BaseActivity {
                 super.onPostExecute(s);
                 loading.dismiss();
                 Toast.makeText(ViewAllIncident.this, s, Toast.LENGTH_LONG).show();
-                Incident test = incidentParam;
-                test.setNbLike(s.substring(s.lastIndexOf(":") + 1));
+                Incident incident = incidentParam;
+                incident.setNbLike(s.substring(s.lastIndexOf(":") + 1));
                 adapter.remove(incidentParam);
                 adapter.add(incidentParam);
                 adapter.notifyDataSetChanged();
