@@ -85,12 +85,15 @@ public class ViewProfile extends BaseActivity implements View.OnClickListener {
             protected void onPostExecute(String s) {
                 super.onPostExecute(s);
                 loading.dismiss();
-                Toast.makeText(ViewProfile.this, s, Toast.LENGTH_LONG).show();
                 if (s.equals("Profile updated succesfully.")) {
                     // Clear old Session
                     session.clearSession();
                     // Create new Session
                     session.createLoginSession(login, name, firstName, email, idUser);
+                } else if (s.isEmpty()) {
+                    Toast.makeText(ViewProfile.this, "No Internet connection.", Toast.LENGTH_LONG).show();
+                } else {
+                    Toast.makeText(ViewProfile.this, s, Toast.LENGTH_LONG).show();
                 }
             }
 

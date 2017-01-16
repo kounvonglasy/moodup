@@ -70,7 +70,11 @@ public class RegistrationUser extends AppCompatActivity implements View.OnClickL
             protected void onPostExecute(String s) {
                 super.onPostExecute(s);
                 loading.dismiss();
-                Toast.makeText(RegistrationUser.this, s, Toast.LENGTH_LONG).show();
+                if (s.isEmpty()) {
+                    Toast.makeText(RegistrationUser.this, "No Internet connection.", Toast.LENGTH_LONG).show();
+                } else {
+                    Toast.makeText(RegistrationUser.this, s, Toast.LENGTH_LONG).show();
+                }
             }
 
             @Override
