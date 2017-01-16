@@ -67,7 +67,10 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 loading.dismiss();
                 if (s.equalsIgnoreCase("success")) {
                     createSession(login);
-                } else {
+                } else if (s.isEmpty()){
+                    Toast.makeText(LoginActivity.this, "No Internet connection.", Toast.LENGTH_LONG).show();
+                }
+                else {
                     Toast.makeText(LoginActivity.this, s, Toast.LENGTH_LONG).show();
                 }
             }

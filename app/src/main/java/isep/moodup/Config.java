@@ -12,8 +12,6 @@ public class Config {
     public static final String URL_GET_ALL_INCIDENTS = "https://young-journey-48135.herokuapp.com/getAllIncidents";
     //en local => http://10.0.2.2:8888/getIncidentsByCategory
     public static final String URL_GET_INCIDENTS_BY_CATEGORY = "https://young-journey-48135.herokuapp.com/getIncidentsByCategory";
-    //en local => http://10.0.2.2:8888/getAllUsers
-    public static final String URL_GET_ALL_USERS = "https://young-journey-48135.herokuapp.com/getAllUsers";
     //en local => http://10.0.2.2:8888/getAllSeverites
     public static final String URL_GET_ALL_SEVERITES = "http://young-journey-48135.herokuapp.com/getAllSeverites";
     //en local => http://10.0.2.2:8888/getAllTypes
@@ -49,7 +47,6 @@ public class Config {
     public static final String KEY_INCIDENT_TYPE_NAME = "typeName";
     public static final String KEY_INCIDENT_DURATION = "duration";
     public static final String KEY_INCIDENT_ID_USER = "idUser";
-
 
     //User
     public static final String KEY_USER_ID  = "idUser";

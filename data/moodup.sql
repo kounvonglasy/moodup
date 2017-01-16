@@ -38,21 +38,11 @@ CREATE TABLE `incident` (
   `latitude` double DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
-INSERT INTO `incident` (`idIncident`, `idUser`, `title`, `creationDate`, `duration`, `description`, `address`, `idSeverite`, `idType`, `isConfirmed`, `longitude`, `latitude`) VALUES
-(1, 11, 'test', '2016-12-08 00:00:00', 10, NULL, NULL, 1, 1, 0, NULL, NULL),
-(2, 13, 'fesfds', NULL, 10, NULL, NULL, 2, 2, 0, NULL, NULL);
-
 CREATE TABLE `like` (
   `idLike` int(11) NOT NULL,
   `idIncident` int(11) NOT NULL,
   `idUser` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
-INSERT INTO `like` (`idLike`, `idIncident`, `idUser`) VALUES
-(4, 1, 11),
-(6, 1, 13),
-(5, 2, 11),
-(3, 3, 1);
 
 CREATE TABLE `severity` (
   `idSeverite` int(11) NOT NULL,
@@ -103,6 +93,7 @@ ALTER TABLE `image`
 
 ALTER TABLE `incident`
   ADD PRIMARY KEY (`idIncident`,`idSeverite`,`idType`),
+  ADD UNIQUE KEY `title` (`title`),
   ADD KEY `fk_Incident_Utilisateur_idx` (`idUser`),
   ADD KEY `fk_Incident_Severite1_idx` (`idSeverite`),
   ADD KEY `fk_Incident_Type1_idx` (`idType`);
@@ -131,9 +122,9 @@ ALTER TABLE `categorie`
 ALTER TABLE `image`
   MODIFY `idImage` int(11) NOT NULL AUTO_INCREMENT;
 ALTER TABLE `incident`
-  MODIFY `idIncident` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `idIncident` int(11) NOT NULL AUTO_INCREMENT;
 ALTER TABLE `like`
-  MODIFY `idLike` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `idLike` int(11) NOT NULL AUTO_INCREMENT;
 ALTER TABLE `severity`
   MODIFY `idSeverite` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 ALTER TABLE `type`

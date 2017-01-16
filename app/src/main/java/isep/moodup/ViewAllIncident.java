@@ -56,6 +56,9 @@ public class ViewAllIncident extends BaseActivity {
                     String userLogin = c.getString(Config.TAG_INCIDENT_USER_LOGIN);
                     String duration = c.getString(Config.TAG_INCIDENT_DURATION);
                     String nbLike = c.getString(Config.TAG_INCIDENT_NB_LIKE);
+                    if(nbLike.equals("null")){
+                        nbLike = "0";
+                    }
                     Incident incident = new Incident(id, title, description, creationDate, duration, userLogin, nbLike);
                     adapter.add(incident);
                 }
@@ -135,13 +138,12 @@ public class ViewAllIncident extends BaseActivity {
         // get user data from session
         HashMap<String, String> user = session.getUserDetails();
         final String idUser = user.get(Config.KEY_USER_ID);
-        final String idIncident = item.getId();
-        addLike(idIncident, idUser);
+        addLike(item, idUser);
     }
 
-    private void addLike(final String idIncidentParam, final String idUserParam) {
+    private void addLike(final Incident incidentParam, final String idUserParam) {
         class AddLikeTask extends AsyncTask<Void, Void, String> {
-            String idIncident = idIncidentParam;
+            String idIncident = incidentParam.getId();
             String idUser = idUserParam;
             ProgressDialog loading;
 
@@ -156,8 +158,11 @@ public class ViewAllIncident extends BaseActivity {
                 super.onPostExecute(s);
                 loading.dismiss();
                 Toast.makeText(ViewAllIncident.this, s, Toast.LENGTH_LONG).show();
-                setupListViewAdapter();
-                getIncidents();
+                Incident incident = incidentParam;
+                incident.setNbLike(s.substring(s.lastIndexOf(":") + 1));
+                adapter.remove(incidentParam);
+                adapter.insert(incident,0);
+                adapter.notifyDataSetChanged();
             }
 
             @Override
