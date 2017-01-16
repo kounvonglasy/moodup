@@ -132,7 +132,7 @@ public class AddIncident extends BaseActivity implements View.OnClickListener,
     }
 
     //Adding an incident
-    private void addIncident() {
+    public void addIncident() {
         final String title = editTextTitle.getText().toString().trim();
         final String description = editTextDescription.getText().toString().trim();
         final String duration = editTextDuration.getText().toString().trim();
