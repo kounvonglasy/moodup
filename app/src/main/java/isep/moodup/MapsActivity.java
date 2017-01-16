@@ -56,8 +56,8 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     protected String JSON_STRING;
     protected String TAG = MapsActivity.class.getSimpleName();
 
-    double myLat=0;
-    double myLng=0;
+    public static double myLat=0;
+    public static double myLng=0;
     @Override
 
     protected void onCreate(Bundle savedInstanceState) {

@@ -138,8 +138,8 @@ public class AddIncident extends BaseActivity implements View.OnClickListener,
             @Override
             protected String doInBackground(Void... v) {
                 if(userLatitude != null || userLongitude != null) {
-                    final String latitude = userLatitude.toString().trim();
-                    final String longitude = userLongitude.toString().trim();
+                    final String latitude = MapsActivity.myLat+"";//userLatitude.toString().trim();
+                    final String longitude = MapsActivity.myLng+"";//userLongitude.toString().trim();
 
                     HashMap<String, String> params = new HashMap<>();
                     params.put(Config.KEY_INCIDENT_TITLE, title);
@@ -190,6 +190,8 @@ public class AddIncident extends BaseActivity implements View.OnClickListener,
 
     @Override
     public void onLocationChanged(Location location) {
+        location.setLatitude(MapsActivity.myLat);
+        location.setLongitude(MapsActivity.myLng);
         mLastLocation = location;
         setUserLatitude(location);
         setUserLongitude(location);
