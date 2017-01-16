@@ -1,7 +1,6 @@
 package isep.moodup;
 
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.os.Bundle;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -16,9 +15,12 @@ import android.support.v4.app.ActivityCompat;
 import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
+
 import android.location.LocationListener;
+
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.MarkerOptions;
+
 import android.location.Criteria;
 import android.location.LocationManager;
 import android.util.Log;
@@ -43,6 +45,7 @@ import org.json.JSONObject;
 
 import android.app.ProgressDialog;
 import android.os.AsyncTask;
+
 import static java.lang.Double.parseDouble;
 
 
@@ -57,8 +60,9 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     protected String JSON_STRING;
     protected String TAG = MapsActivity.class.getSimpleName();
 
-    public static double myLat=0;
-    public static double myLng=0;
+    public static double myLat = 0;
+    public static double myLng = 0;
+
     @Override
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -86,7 +90,8 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
 
                         Snackbar.LENGTH_LONG)
                 .setAction("Enable", new View.OnClickListener() {
-                    @Override                    public void onClick(View v) {
+                    @Override
+                    public void onClick(View v) {
 
                         startActivity(new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS));
                     }
@@ -150,7 +155,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     private void loadNearByPlaces(double latitude, double longitude) {
 //YOU Can change this type at your own will, e.g hospital, cafe, restaurant.... and see how it all works
 
-        String type="bus_station|train_station|subway_station|transit_station|airport";/*route new String[3];
+        String type = "bus_station|train_station|subway_station|transit_station|airport";/*route new String[3];
         type[0]="train_station";
         type[1]="bus_station";
         type[2]="subway_station";*///{"train_station or bus_station"};//"grocery_or_supermarket";
@@ -175,7 +180,8 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                     }
                 },
                 new Response.ErrorListener() {
-                    @Override                    public void onErrorResponse(VolleyError error) {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
                         Log.e(TAG, "onErrorResponse: Error= " + error);
                         Log.e(TAG, "onErrorResponse: Error= " + error.getMessage());
                     }
@@ -185,8 +191,6 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     }
 
     private void parseLocationResult(JSONObject result) {
-
-        String id, place_id, placeName = null, reference, icon, vicinity = null;
         double latitude, longitude;
 
         try {
@@ -194,59 +198,20 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
 
             if (result.getString(STATUS).equalsIgnoreCase(OK)) {
 
-                //mMap.clear();
+                JSONObject place = jsonArray.getJSONObject(0);
 
-                    JSONObject place = jsonArray.getJSONObject(0);
+                latitude = place.getJSONObject(GEOMETRY).getJSONObject(LOCATION)
 
-                    id = place.getString(STATION_ID);
-                    place_id = place.getString(PLACE_ID);
-                    if (!place.isNull(NAME)) {
-                        placeName = place.getString(NAME);
-                    }
-                    if (!place.isNull(VICINITY)) {
-                        vicinity = place.getString(VICINITY);
-                    }
-                    latitude = place.getJSONObject(GEOMETRY).getJSONObject(LOCATION)
+                        .getDouble(LATITUDE);
+                longitude = place.getJSONObject(GEOMETRY).getJSONObject(LOCATION)
 
-                            .getDouble(LATITUDE);
-                    longitude = place.getJSONObject(GEOMETRY).getJSONObject(LOCATION)
+                        .getDouble(LONGITUDE);
 
-                            .getDouble(LONGITUDE);
-                    reference = place.getString(REFERENCE);
-                    icon = place.getString(ICON);
-
-                    /*MarkerOptions markerOptions = new MarkerOptions();
-                    LatLng latLng = new LatLng(latitude, longitude);
-                    markerOptions.position(latLng);
-                    markerOptions.title(placeName + " : " + vicinity);
-
-                    mMap.addMarker(markerOptions);
-                    */
-                /*
-                JSONArray contacts =  result.getJSONArray("results");
-                String[] contactNames = new String[contacts.length()];
-                for(int i = 0 ; i < contactNames.length; i++) {
-                    contactNames[i] = contacts.getJSONObject(0).getString("lat");
-                }*/
-                //String coordonnates=jsonArray.getJSONObject(0).getString("lng").toString();
-                //JSONObject jObj=jsonArray.getJSONObject("location");
-
-                //JSONObject location=jObj.getJSONObject("geometry");
-                //JSONObject jObja=jObj.getJSONObject("location");
-
-                //JSONArray locationa=jObja.getJSONArray("location");
-                //JSONArray jobj2 = location.getJSONArray(0);//).getJSONObject(0);
-               // Toast.makeText(getBaseContext(), /*jsonArray.length() jsonArray.getJSONObject(0).get("lat").getDouble("lng")jsonArray.getJSONObject(0).getJSONArray("geometry").getJSONArray(0).getString(0)*/placeName+ " comme station de transport trouvé!",
-
-                 //       Toast.LENGTH_LONG).show();
-                myLat=latitude;
-                myLng=longitude;
+                myLat = latitude;
+                myLng = longitude;
             } else if (result.getString(STATUS).equalsIgnoreCase(ZERO_RESULTS)) {
-                //Toast.makeText(getBaseContext(), "Pas de station de transport trouvé!!!",
-                myLat=0;
-                myLng=0;
-
-                //      Toast.LENGTH_LONG).show();
+                myLat = 0;
+                myLng = 0;
             }
 
         } catch (JSONException e) {
@@ -261,19 +226,15 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     public void onLocationChanged(Location location) {
         double latitude;
         double longitude;
-        if(myLat!=0 && myLng!=0)
-        {
+        if (myLat != 0 && myLng != 0) {
             latitude = myLat;//location.getLatitude();
             longitude = myLng;//location.getLongitude();
-        }
-        else
-        {
+        } else {
             latitude = location.getLatitude();
             longitude = location.getLongitude();
         }
 
         LatLng latLng = new LatLng(latitude, longitude);
-        //mMap.addMarker(new MarkerOptions().position(latLng).title("Ma position"));
         mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
         mMap.animateCamera(CameraUpdateFactory.zoomTo(15));
 
@@ -362,16 +323,16 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                     String incidentSeverite = c.getString(Config.TAG_INCIDENT_SEVERITE);
 
                     //Place incident location marker
-                    if(incidentLatitude != null || incidentLongitude != null){
+                    if (incidentLatitude != null || incidentLongitude != null) {
                         LatLng latLng = new LatLng(parseDouble(incidentLatitude), parseDouble(incidentLongitude));
                         MarkerOptions markerOptions = new MarkerOptions();
                         markerOptions.position(latLng);
                         markerOptions.title(title);
-                        if(incidentSeverite.compareTo("Perturbation du trafic")==0)
+                        if (incidentSeverite.compareTo("Perturbation du trafic") == 0)
                             markerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.warning_green));
-                        else if(incidentSeverite.compareTo("Retard")==0)
+                        else if (incidentSeverite.compareTo("Retard") == 0)
                             markerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.warning_yellow));
-                        else if(incidentSeverite.compareTo("Interruption temporaire")==0)
+                        else if (incidentSeverite.compareTo("Interruption temporaire") == 0)
                             markerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.warning_red));
                         else
                             markerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.warning_stop));
@@ -407,7 +368,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     @Override
     public void onBackPressed() {
         // Launched from notification, handle as special case
-        Intent intent = new Intent(this, ViewAllIncident.class);
+        Intent intent = new Intent(this, ViewIncidents.class);
         this.startActivity(intent);
         finish();
     }

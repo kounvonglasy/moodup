@@ -50,10 +50,10 @@ CREATE TABLE `severity` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 INSERT INTO `severity` (`idSeverite`, `name`) VALUES
-(1, 'Faible'),
-(2, 'Moyen'),
-(3, 'Fort'),
-(4, 'Grave');
+(1, 'Perturbation du trafic'),
+(2, 'Retard'),
+(3, 'Interruption temporaire'),
+(4, 'Arrêt > 1 jour');
 
 CREATE TABLE `type` (
   `idType` int(11) NOT NULL,

@@ -40,18 +40,12 @@ import java.util.HashMap;
 
 import static isep.moodup.Config.GEOMETRY;
 import static isep.moodup.Config.GOOGLE_BROWSER_API_KEY;
-import static isep.moodup.Config.ICON;
 import static isep.moodup.Config.LATITUDE;
 import static isep.moodup.Config.LOCATION;
 import static isep.moodup.Config.LONGITUDE;
-import static isep.moodup.Config.NAME;
 import static isep.moodup.Config.OK;
-import static isep.moodup.Config.PLACE_ID;
 import static isep.moodup.Config.PROXIMITY_RADIUS;
-import static isep.moodup.Config.REFERENCE;
-import static isep.moodup.Config.STATION_ID;
 import static isep.moodup.Config.STATUS;
-import static isep.moodup.Config.VICINITY;
 import static isep.moodup.Config.ZERO_RESULTS;
 
 /**
@@ -62,7 +56,7 @@ public class AddIncident extends BaseActivity implements View.OnClickListener,
         GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener,
         LocationListener {
-    private String TAG = ViewAllIncident.class.getSimpleName();
+    private String TAG = ViewIncidents.class.getSimpleName();
 
     //Defining lists
     private ArrayList<String> severiteList = new ArrayList<>();
@@ -78,7 +72,6 @@ public class AddIncident extends BaseActivity implements View.OnClickListener,
     private Button buttonAddIncident;
 
     //Defining Google Maps data
-    private GoogleMap mMap;
     GoogleApiClient mGoogleApiClient;
     Location mLastLocation;
     LocationRequest mLocationRequest;
@@ -158,12 +151,12 @@ public class AddIncident extends BaseActivity implements View.OnClickListener,
 
             @Override
             protected String doInBackground(Void... v) {
-                if(userLatitude != null || userLongitude != null) {
+                if (userLatitude != null || userLongitude != null) {
                     String latitude = userLatitude.toString().trim();
                     String longitude = userLongitude.toString().trim();
-                    if(nearPlaceLatitude != null || nearPlaceLongitude != null) {
-                         latitude = nearPlaceLatitude.toString().trim();
-                         longitude = nearPlaceLongitude.toString().trim();
+                    if (nearPlaceLatitude != null || nearPlaceLongitude != null) {
+                        latitude = nearPlaceLatitude.toString().trim();
+                        longitude = nearPlaceLongitude.toString().trim();
                     }
                     HashMap<String, String> params = new HashMap<>();
                     params.put(Config.KEY_INCIDENT_TITLE, title);
@@ -183,7 +176,7 @@ public class AddIncident extends BaseActivity implements View.OnClickListener,
                     HttpHandler rh = new HttpHandler();
                     String res = rh.sendPostRequest(Config.URL_ADD_INCIDENT, params);
                     return res;
-                }else {
+                } else {
                     return "Your location is not available";
                 }
             }
@@ -207,10 +200,12 @@ public class AddIncident extends BaseActivity implements View.OnClickListener,
     }
 
     @Override
-    public void onConnectionSuspended(int i) {}
+    public void onConnectionSuspended(int i) {
+    }
 
     @Override
-    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {}
+    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
+    }
 
     @Override
     public void onLocationChanged(Location location) {
@@ -334,19 +329,21 @@ public class AddIncident extends BaseActivity implements View.OnClickListener,
         mGoogleApiClient.connect();
     }
 
-    public double getUserLatitude(){
+    public double getUserLatitude() {
         return this.userLatitude;
     }
 
-    public double getUserLongitude(){
+    public double getUserLongitude() {
         return this.userLongitude;
     }
 
-    public void setUserLatitude(Location location){
+    public void setUserLatitude(Location location) {
         this.userLatitude = location.getLatitude();
     }
 
-    public void setUserLongitude(Location location){ this.userLongitude = location.getLongitude(); }
+    public void setUserLongitude(Location location) {
+        this.userLongitude = location.getLongitude();
+    }
 
     /*
     * Requesting Location Permission
@@ -406,13 +403,13 @@ public class AddIncident extends BaseActivity implements View.OnClickListener,
         }
     }
 
-/*
-* Find the location of the nearest Station
-*/
+    /*
+    * Find the location of the nearest Station
+    */
     private void loadNearByPlaces(double latitude, double longitude) {
 //YOU Can change this type at your own will, e.g hospital, cafe, restaurant.... and see how it all works
 
-        String type="bus_station|train_station|subway_station|transit_station|airport";
+        String type = "bus_station|train_station|subway_station|transit_station|airport";
         StringBuilder googlePlacesUrl =
 
                 new StringBuilder("https://maps.googleapis.com/maps/api/place/nearbysearch/json?");
@@ -434,7 +431,8 @@ public class AddIncident extends BaseActivity implements View.OnClickListener,
                     }
                 },
                 new Response.ErrorListener() {
-                    @Override                    public void onErrorResponse(VolleyError error) {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
                         Log.e(TAG, "onErrorResponse: Error= " + error);
                         Log.e(TAG, "onErrorResponse: Error= " + error.getMessage());
                     }
@@ -444,68 +442,23 @@ public class AddIncident extends BaseActivity implements View.OnClickListener,
     }
 
     private void parseLocationResult(JSONObject result) {
-
-        String id, place_id, placeName = null, reference, icon, vicinity = null;
         double latitude, longitude;
-
         try {
             JSONArray jsonArray = result.getJSONArray("results");
 
             if (result.getString(STATUS).equalsIgnoreCase(OK)) {
-
-                //mMap.clear();
-
                 JSONObject place = jsonArray.getJSONObject(0);
-
-                id = place.getString(STATION_ID);
-                place_id = place.getString(PLACE_ID);
-                if (!place.isNull(NAME)) {
-                    placeName = place.getString(NAME);
-                }
-                if (!place.isNull(VICINITY)) {
-                    vicinity = place.getString(VICINITY);
-                }
                 latitude = place.getJSONObject(GEOMETRY).getJSONObject(LOCATION)
-
                         .getDouble(LATITUDE);
                 longitude = place.getJSONObject(GEOMETRY).getJSONObject(LOCATION)
 
                         .getDouble(LONGITUDE);
-                reference = place.getString(REFERENCE);
-                icon = place.getString(ICON);
 
-                    /*MarkerOptions markerOptions = new MarkerOptions();
-                    LatLng latLng = new LatLng(latitude, longitude);
-                    markerOptions.position(latLng);
-                    markerOptions.title(placeName + " : " + vicinity);
-
-                    mMap.addMarker(markerOptions);
-                    */
-                /*
-                JSONArray contacts =  result.getJSONArray("results");
-                String[] contactNames = new String[contacts.length()];
-                for(int i = 0 ; i < contactNames.length; i++) {
-                    contactNames[i] = contacts.getJSONObject(0).getString("lat");
-                }*/
-                //String coordonnates=jsonArray.getJSONObject(0).getString("lng").toString();
-                //JSONObject jObj=jsonArray.getJSONObject("location");
-
-                //JSONObject location=jObj.getJSONObject("geometry");
-                //JSONObject jObja=jObj.getJSONObject("location");
-
-                //JSONArray locationa=jObja.getJSONArray("location");
-                //JSONArray jobj2 = location.getJSONArray(0);//).getJSONObject(0);
-                // Toast.makeText(getBaseContext(), /*jsonArray.length() jsonArray.getJSONObject(0).get("lat").getDouble("lng")jsonArray.getJSONObject(0).getJSONArray("geometry").getJSONArray(0).getString(0)*/placeName+ " comme station de transport trouvé!",
-
-                //       Toast.LENGTH_LONG).show();
-                nearPlaceLatitude=latitude;
-                nearPlaceLongitude=longitude;
+                nearPlaceLatitude = latitude;
+                nearPlaceLongitude = longitude;
             } else if (result.getString(STATUS).equalsIgnoreCase(ZERO_RESULTS)) {
-                //Toast.makeText(getBaseContext(), "Pas de station de transport trouvé!!!",
                 nearPlaceLatitude = null;
                 nearPlaceLongitude = null;
-
-                //      Toast.LENGTH_LONG).show();
             }
 
         } catch (JSONException e) {

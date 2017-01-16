@@ -22,9 +22,9 @@ import android.util.Log;
 import android.view.View;
 import android.content.Intent;
 
-public class ViewAllIncident extends BaseActivity {
+public class ViewIncidents extends BaseActivity {
     protected IncidentListAdapter adapter;
-    protected String TAG = ViewAllIncident.class.getSimpleName();
+    protected String TAG = ViewIncidents.class.getSimpleName();
     protected ArrayList<HashMap<String, String>> incidentList;
     protected String JSON_STRING;
 
@@ -98,7 +98,7 @@ public class ViewAllIncident extends BaseActivity {
             @Override
             protected void onPreExecute() {
                 super.onPreExecute();
-                loading = ProgressDialog.show(ViewAllIncident.this, "Fetching Data", "Wait...", false, false);
+                loading = ProgressDialog.show(ViewIncidents.this, "Fetching Data", "Wait...", false, false);
             }
 
             @Override
@@ -150,7 +150,7 @@ public class ViewAllIncident extends BaseActivity {
             @Override
             protected void onPreExecute() {
                 super.onPreExecute();
-                loading = ProgressDialog.show(ViewAllIncident.this, "Liking...", "Wait...", false, false);
+                loading = ProgressDialog.show(ViewIncidents.this, "Liking...", "Wait...", false, false);
             }
 
             @Override
@@ -158,9 +158,9 @@ public class ViewAllIncident extends BaseActivity {
                 super.onPostExecute(s);
                 loading.dismiss();
                 if (s.isEmpty()) {
-                    Toast.makeText(ViewAllIncident.this, "No Internet connection.", Toast.LENGTH_LONG).show();
+                    Toast.makeText(ViewIncidents.this, "No Internet connection.", Toast.LENGTH_LONG).show();
                 } else {
-                    Toast.makeText(ViewAllIncident.this, s, Toast.LENGTH_LONG).show();
+                    Toast.makeText(ViewIncidents.this, s, Toast.LENGTH_LONG).show();
                     Incident incident = incidentParam;
                     incident.setNbLike(s.substring(s.lastIndexOf(":") + 1));
                     int position = adapter.getPosition(incidentParam);
@@ -186,7 +186,7 @@ public class ViewAllIncident extends BaseActivity {
     }
 
     protected void setupListViewAdapter() {
-        adapter = new IncidentListAdapter(ViewAllIncident.this, R.layout.list_incident, new ArrayList<Incident>());
+        adapter = new IncidentListAdapter(ViewIncidents.this, R.layout.list_incident, new ArrayList<Incident>());
         ListView incidentListView = (ListView) findViewById(R.id.listView);
         incidentListView.setAdapter(adapter);
     }

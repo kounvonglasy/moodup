@@ -96,7 +96,7 @@ public class BaseActivity extends AppCompatActivity implements NavigationView.On
                 this.startActivity(intent);
                 break;
             case R.id.view_incidents:
-                intent = new Intent(this, ViewAllIncident.class);
+                intent = new Intent(this, ViewIncidents.class);
                 this.startActivity(intent);
                 break;
             case R.id.view_incidents_by_category:

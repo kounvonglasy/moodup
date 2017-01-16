@@ -33,7 +33,7 @@ public class Config {
     //en local => http://10.0.2.2:8888/login
     public static final String LOGIN_URL = "http://young-journey-48135.herokuapp.com/login";
     //en local =>http://10.0.2.2:8888/profile
-    public static final String URL_GET_PROFILE ="http://young-journey-48135.herokuapp.com/getProfile";
+    public static final String URL_GET_PROFILE = "http://young-journey-48135.herokuapp.com/getProfile";
     //en local => http://10.0.2.2:8888/updateProfile
     public static final String URL_UPDATE_USER = "http://young-journey-48135.herokuapp.com/updateProfile";
 
@@ -49,7 +49,7 @@ public class Config {
     public static final String KEY_INCIDENT_ID_USER = "idUser";
 
     //User
-    public static final String KEY_USER_ID  = "idUser";
+    public static final String KEY_USER_ID = "idUser";
     public static final String KEY_USER_NAME = "name";
     public static final String KEY_USER_FIRSTNAME = "firstName";
     public static final String KEY_USER_EMAIL = "email";
@@ -82,18 +82,12 @@ public class Config {
 
     public static final String TAG = "gplaces";
 
-    public static final String RESULTS = "results";
     public static final String STATUS = "status";
 
     public static final String OK = "OK";
     public static final String ZERO_RESULTS = "ZERO_RESULTS";
-    public static final String REQUEST_DENIED = "REQUEST_DENIED";
-    public static final String OVER_QUERY_LIMIT = "OVER_QUERY_LIMIT";
-    public static final String UNKNOWN_ERROR = "UNKNOWN_ERROR";
-    public static final String INVALID_REQUEST = "INVALID_REQUEST";
 
     //    Key for nearby places json from google
-
     public static final String GEOMETRY = "geometry";
     public static final String LOCATION = "location";
     public static final String LATITUDE = "lat";
@@ -104,8 +98,6 @@ public class Config {
     public static final String PLACE_ID = "place_id";
     public static final String REFERENCE = "reference";
     public static final String VICINITY = "vicinity";
-    public static final String PLACE_NAME = "place_name";
-
 
     public static final String GOOGLE_BROWSER_API_KEY =
 

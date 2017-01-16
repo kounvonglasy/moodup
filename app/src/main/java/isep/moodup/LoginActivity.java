@@ -67,10 +67,9 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 loading.dismiss();
                 if (s.equalsIgnoreCase("success")) {
                     createSession(login);
-                } else if (s.isEmpty()){
+                } else if (s.isEmpty()) {
                     Toast.makeText(LoginActivity.this, "No Internet connection.", Toast.LENGTH_LONG).show();
-                }
-                else {
+                } else {
                     Toast.makeText(LoginActivity.this, s, Toast.LENGTH_LONG).show();
                 }
             }
@@ -118,7 +117,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                         String idUser = c.getString(Config.KEY_USER_ID);
                         String email = c.getString(Config.KEY_USER_EMAIL);
                         session.createLoginSession(login, name, firstName, email, idUser);
-                        Intent intent = new Intent(LoginActivity.this, ViewAllIncident.class);
+                        Intent intent = new Intent(LoginActivity.this, ViewIncidents.class);
                         startActivity(intent);
                     } catch (final JSONException e) {
                         System.out.println("Json parsing error: " + e.getMessage());

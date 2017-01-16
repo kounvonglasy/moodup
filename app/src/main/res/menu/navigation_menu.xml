@@ -13,7 +13,7 @@
         <item
             android:id="@+id/view_map"
             android:icon="@mipmap/ic_place_black_24dp"
-            android:title="Voir la Carte des Incident" />
+            android:title="Voir la Carte des incidents" />
         <item
             android:id="@+id/add_incident"
             android:icon="@mipmap/ic_add_black_24dp"

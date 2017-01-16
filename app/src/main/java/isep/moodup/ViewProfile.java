@@ -116,7 +116,7 @@ public class ViewProfile extends BaseActivity implements View.OnClickListener {
     @Override
     public void onBackPressed() {
         // Launched from notification, handle as special case
-        Intent intent = new Intent(this, ViewAllIncident.class);
+        Intent intent = new Intent(this, ViewIncidents.class);
         this.startActivity(intent);
         finish();
     }

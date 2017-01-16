@@ -10,7 +10,7 @@ import android.os.AsyncTask;
 
 import java.util.HashMap;
 
-public class ViewIncidentsByCategory extends ViewAllIncident {
+public class ViewIncidentsByCategory extends ViewIncidents {
 
     @Override
     protected void getIncidents() {

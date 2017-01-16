@@ -330,7 +330,7 @@ public class ViewIncident extends AppCompatActivity implements View.OnClickListe
                     @Override
                     public void onClick(DialogInterface arg0, int arg1) {
                         deleteIncident();
-                        startActivity(new Intent(ViewIncident.this, ViewAllIncident.class));
+                        startActivity(new Intent(ViewIncident.this, ViewIncidents.class));
                     }
                 });
 
@@ -348,7 +348,7 @@ public class ViewIncident extends AppCompatActivity implements View.OnClickListe
 
     public void ReturnHome(View view) {
         super.onBackPressed();
-        startActivity(new Intent(this, ViewAllIncident.class));
+        startActivity(new Intent(this, ViewIncidents.class));
         finish();
     }
 
