@@ -1,7 +1,6 @@
 package isep.moodup;
 
 import android.content.Intent;
-import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -10,115 +9,41 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 
-import android.Manifest;
 import android.content.pm.PackageManager;
 import android.location.Location;
-import android.os.Build;
 import android.support.v4.app.ActivityCompat;
-import android.support.v4.app.FragmentActivity;
-import android.os.Bundle;
-import android.support.v4.content.ContextCompat;
 import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.api.GoogleApiClient;
 import android.location.LocationListener;
-import com.google.android.gms.location.LocationRequest;
-import com.google.android.gms.location.LocationServices;
-import com.google.android.gms.maps.CameraUpdateFactory;
-import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.OnMapReadyCallback;
-import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
-import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.google.android.gms.maps.model.MarkerOptions;
-import android.content.pm.PackageManager;
 import android.location.Criteria;
-import android.location.Location;
 import android.location.LocationManager;
-import android.os.Bundle;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 
-import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
-import com.google.android.gms.maps.CameraUpdateFactory;
-import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.OnMapReadyCallback;
-import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.MarkerOptions;
 
-import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.graphics.Color;
-import android.location.Criteria;
-import android.location.Location;
-import android.location.LocationManager;
-import android.os.Bundle;
 import android.provider.Settings;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
-import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
-import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.GoogleApiAvailability;
-import com.google.android.gms.maps.CameraUpdateFactory;
-import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.OnMapReadyCallback;
-import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.MarkerOptions;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.app.ProgressDialog;
+import android.os.AsyncTask;
+import static java.lang.Double.parseDouble;
 
-import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.graphics.Color;
-import android.location.Criteria;
-import android.location.Location;
-import android.location.LocationListener;
-import android.location.LocationManager;
-import android.os.Bundle;
-import android.provider.Settings;
-import android.support.design.widget.CoordinatorLayout;
-import android.support.design.widget.Snackbar;
-import android.support.v4.app.ActivityCompat;
-import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
-import android.view.View;
-import android.widget.TextView;
-import android.widget.Toast;
-
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonObjectRequest;
-import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.GoogleApiAvailability;
-import com.google.android.gms.maps.CameraUpdateFactory;
-import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.OnMapReadyCallback;
-import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.MarkerOptions;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import static isep.moodup.Config.*;
 
@@ -127,6 +52,9 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     private GoogleMap mMap;
     LocationManager locationManager;
     CoordinatorLayout mainCoordinatorLayout;
+
+    protected String JSON_STRING;
+    protected String TAG = MapsActivity.class.getSimpleName();
 
     double myLat=0;
     double myLng=0;
@@ -193,6 +121,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         mMap.getUiSettings().setZoomControlsEnabled(true);
 
         showCurrentLocation();
+        getIncidents();
     }
 
     private void showCurrentLocation() {
@@ -378,5 +307,91 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
             return false;
         }
         return true;
+    }
+
+    /*
+    * Display All incidents
+    */
+    protected void getIncidents() {
+        class GetIncidents extends AsyncTask<Void, Void, String> {
+
+            ProgressDialog loading;
+
+            @Override
+            protected void onPreExecute() {
+                super.onPreExecute();
+                loading = ProgressDialog.show(MapsActivity.this, "Fetching Incidents", "Wait...", false, false);
+            }
+
+            @Override
+            protected void onPostExecute(String s) {
+                super.onPostExecute(s);
+                loading.dismiss();
+                JSON_STRING = s;
+                showIncident();
+            }
+
+
+            @Override
+            protected String doInBackground(Void... params) {
+                HttpHandler sh = new HttpHandler();
+                // Making a request to url and getting response
+                String jsonStr = sh.makeServiceCall(Config.URL_GET_ALL_INCIDENTS);
+                return jsonStr;
+            }
+        }
+        GetIncidents gi = new GetIncidents();
+        gi.execute();
+    }
+
+    protected void showIncident() {
+        if (JSON_STRING != null) {
+            try {
+                JSONObject jsonObj = new JSONObject(JSON_STRING);
+
+                // Getting JSON Array node
+                JSONArray incidents = jsonObj.getJSONArray(Config.TAG_JSON_ARRAY);
+
+                // looping through All Incidents
+                for (int i = 0; i < incidents.length(); i++) {
+                    JSONObject c = incidents.getJSONObject(i);
+                    String title = c.getString(Config.TAG_INCIDENT_TITLE);
+                    String incidentLatitude = c.getString(Config.TAG_INCIDENT_LATITUDE);
+                    String incidentLongitude = c.getString(Config.TAG_INCIDENT_LONGITUDE);
+
+                    //Place incident location marker
+                    if(incidentLatitude != null || incidentLongitude != null){
+                        LatLng latLng = new LatLng(parseDouble(incidentLatitude), parseDouble(incidentLongitude));
+                        MarkerOptions markerOptions = new MarkerOptions();
+                        markerOptions.position(latLng);
+                        markerOptions.title(title);
+                        markerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.warning));
+                        mMap.addMarker(markerOptions);
+                    }
+                }
+            } catch (final JSONException e) {
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Toast.makeText(getApplicationContext(),
+                                "Json parsing error: " + e.getMessage(),
+                                Toast.LENGTH_LONG)
+                                .show();
+                    }
+                });
+            }
+        } else {
+            Log.e(TAG, "Couldn't get json from server.");
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    Toast.makeText(getApplicationContext(),
+                            "Couldn't get json from server. Check LogCat for possible errors!",
+                            Toast.LENGTH_LONG)
+                            .show();
+                }
+            });
+
+        }
     }
 }

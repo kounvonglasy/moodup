@@ -36,6 +36,8 @@ public class Config {
     public static final String LOGIN_URL = "http://young-journey-48135.herokuapp.com/login";
     //en local =>http://10.0.2.2:8888/profile
     public static final String URL_GET_PROFILE ="http://young-journey-48135.herokuapp.com/getProfile";
+    //en local => http://10.0.2.2:8888/updateProfile
+    public static final String URL_UPDATE_USER = "http://young-journey-48135.herokuapp.com/updateProfile";
 
     //Keys that will be used to send the request to the server
     //Incident
@@ -68,6 +70,8 @@ public class Config {
     public static final String TAG_INCIDENT_TYPE = "typeName";
     public static final String TAG_INCIDENT_CREATION_DATE = "creationDate";
     public static final String TAG_INCIDENT_DURATION = "duration";
+    public static final String TAG_INCIDENT_LATITUDE = "latitude";
+    public static final String TAG_INCIDENT_LONGITUDE = "longitude";
 
     //incident id to pass with intent
     public static final String INCIDENT_ID = "idIncident";
