@@ -1,6 +1,7 @@
 package isep.moodup;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -272,7 +273,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         }
 
         LatLng latLng = new LatLng(latitude, longitude);
-        mMap.addMarker(new MarkerOptions().position(latLng).title("My Location"));
+        //mMap.addMarker(new MarkerOptions().position(latLng).title("Ma position"));
         mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
         mMap.animateCamera(CameraUpdateFactory.zoomTo(15));
 
@@ -358,6 +359,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                     String title = c.getString(Config.TAG_INCIDENT_TITLE);
                     String incidentLatitude = c.getString(Config.TAG_INCIDENT_LATITUDE);
                     String incidentLongitude = c.getString(Config.TAG_INCIDENT_LONGITUDE);
+                    String incidentSeverite = c.getString(Config.TAG_INCIDENT_SEVERITE);
 
                     //Place incident location marker
                     if(incidentLatitude != null || incidentLongitude != null){
@@ -365,7 +367,14 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                         MarkerOptions markerOptions = new MarkerOptions();
                         markerOptions.position(latLng);
                         markerOptions.title(title);
-                        markerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.warning));
+                        if(incidentSeverite.compareTo("Perturbation du trafic")==0)
+                            markerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.warning_green));
+                        else if(incidentSeverite.compareTo("Retard")==0)
+                            markerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.warning_yellow));
+                        else if(incidentSeverite.compareTo("Interruption temporaire")==0)
+                            markerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.warning_red));
+                        else
+                            markerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.warning_stop));
                         mMap.addMarker(markerOptions);
                     }
                 }
