@@ -196,13 +196,18 @@ app.post("/addIncident", function(request, response) {
 					var idUser = JSON.parse(JSON.stringify(results[2]))[0].idUser;
 					var query = tempCont.query('INSERT INTO incident(title,description,idUser,idSeverite,idType,creationDate,duration)  VALUES (?,?,?,?,?,?,?)', [request.body.title, request.body.description, idUser ,idSeverite, idType,getDateTime(),parseInt(request.body.duration,10)], function(error, result) {
 						tempCont.release();
+						response.writeHead(200, {'Content-Type': 'text/plain'});
 						if (!!error){
-							console.log('Could not add the incident.');
-							response.writeHead(200, {'Content-Type': 'text/plain'});
-							response.end('Could not add the incident.');
+							var errorMessage = error.message.slice(0, 12);
+							if(errorMessage === 'ER_DUP_ENTRY'){
+								console.log('Duplicate incident. Could not add the incident.');
+								response.end('Duplicate incident. Could not add the incident.');
+							} else {
+								console.log('Could not add the incident.');
+								response.end('Could not add the incident.');
+							}
 						}else{
 							console.log('Incident added succesfully.');
-							response.writeHead(200, {'Content-Type': 'text/plain'});
 							response.end('Incident added succesfully.');
 						}
 					});
