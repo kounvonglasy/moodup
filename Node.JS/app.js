@@ -62,13 +62,13 @@ app.get('/getAllIncidents', function(request,response){
 			tempCont.release();
 			console.log('ERROR');
 		} else{
-			console.log('Connected');
+			console.log('Connecté');
 			tempCont.query("SELECT i.idIncident,i.title, i.description, i.creationDate, i.longitude, i.latitude, i.duration, u.login, likes.nbLike, s.name as severiteName FROM incident as i LEFT JOIN severity as s ON s.idSeverite = i.idSeverite LEFT JOIN user as u ON i.idUser = u.idUser LEFT JOIN (SELECT idIncident, idUser, COUNT(*) as nbLike FROM `like` GROUP BY idIncident) likes ON likes.idIncident = i.idIncident", function(error,rows,fields){
 				tempCont.release();
 				if(!!error){
-					console.log('Error in the query');
+					console.log('Erreur dans la requête');
 					response.writeHead(200, {'Content-Type': 'text/plain'});
-					response.end('Error in the query \n');
+					response.end('Erreur dans la requête \n');
 				} else{
 					response.json({"result":rows});
 				}
@@ -84,13 +84,13 @@ app.post('/getIncidentsByCategory', function(request,response){
 			tempCont.release();
 			console.log('ERROR');
 		} else{
-			console.log('Connected');
+			console.log('Connecté');
 			tempCont.query("SELECT i.idIncident,i.title, i.description, i.creationDate, i.longitude, i.latitude, i.duration, u.login, likes.nbLike  FROM incident as i LEFT JOIN type as t ON i.idType = t.idType LEFT JOIN categorie as c ON t.idCategorie = c.idCategorie LEFT JOIN user as u ON i.idUser = u.idUser LEFT JOIN (SELECT idIncident, idUser, COUNT(*) as nbLike FROM `like` GROUP BY idIncident) likes ON likes.idIncident = i.idIncident WHERE c.idCategorie=?",request.body.idIncident ,function(error,rows,fields){
 				tempCont.release();
 				if(!!error){
-					console.log('Error in the query');
+					console.log('Erreur dans la requête');
 					response.writeHead(200, {'Content-Type': 'text/plain'});
-					response.end('Error in the query \n');
+					response.end('Erreur dans la requête \n');
 				} else{
 					response.json({"result":rows});
 				}
@@ -106,13 +106,13 @@ app.get('/getAllSeverites', function(request,response){
 			tempCont.release();
 			console.log('ERROR');
 		} else{
-			console.log('Connected');
+			console.log('Connecté');
 			tempCont.query("SELECT s.idSeverite as id, s.name  FROM severity as s", function(error,rows,fields){
 				tempCont.release();
 				if(!!error){
-					console.log('Error in the query');
+					console.log('Erreur dans la requête');
 					response.writeHead(200, {'Content-Type': 'text/plain'});
-					response.end('Error in the query \n');
+					response.end('Erreur dans la requête \n');
 				} else{
 					response.json({"result":rows});
 				}
@@ -128,13 +128,13 @@ app.get('/getAllTypes', function(request,response){
 			tempCont.release();
 			console.log('ERROR');
 		} else{
-			console.log('Connected');
+			console.log('Connecté');
 			tempCont.query("SELECT t.idType as id, t.name  FROM type as t", function(error,rows,fields){
 				tempCont.release();
 				if(!!error){
-					console.log('Error in the query');
+					console.log('Erreur dans la requête');
 					response.writeHead(200, {'Content-Type': 'text/plain'});
-					response.end('Error in the query \n');
+					response.end('Erreur dans la requête \n');
 				} else{
 					response.json({"result":rows});
 				}
@@ -150,13 +150,13 @@ app.get('/getIncident', function(request,response){
 			tempCont.release();
 			console.log('ERROR');
 		} else{
-			console.log('Connected');
+			console.log('Connecté');
 			tempCont.query("SELECT i.title, i.description, u.name as userName ,s.name as severiteName, t.name as typeName, creationDate, i.duration FROM incident i LEFT JOIN user u ON u.idUser = i.idUser LEFT JOIN severity s ON s.idSeverite = i.idSeverite LEFT JOIN type t ON t.idType = i.idType where i.idIncident=?",request.query.id, function(error,rows,fields){
 				tempCont.release();
 				if(!!error){
-					console.log('Error in the query');
+					console.log('Erreur dans la requête');
 					response.writeHead(200, {'Content-Type': 'text/plain'});
-					response.end('Error in the query \n');
+					response.end('Erreur dans la requête \n');
 				} else{
 					response.json({"result":rows});
 				}
@@ -166,15 +166,15 @@ app.get('/getIncident', function(request,response){
 });
 
 app.post("/addIncident", function(request, response) {
-  	console.log('Connected');
+  	console.log('Connecté');
 	try {
     // the synchronous code that we want to catch thrown errors on
 		if(!request.body.title || ! request.body.description){
-			var err = new Error('Could not update the incident. Title field and description field must not be empty.')
+			var err = new Error('Tous les champs doivent être remplis')
 			throw err
 		}
 		if (request.body.duration != parseInt(request.body.duration,10)){
-			var err = new Error('Could not update the incident. Parsing error. The duration must be a number.')
+			var err = new Error('La durée doit être un nombre de minutes')
 			throw err
 		}
 		connection.getConnection(function(error,tempCont){
@@ -186,9 +186,9 @@ app.post("/addIncident", function(request, response) {
 			} else{
 				tempCont.query('SELECT idSeverite from severity WHERE name=? ; SELECT idType from type WHERE name=?; SELECT idUser from user WHERE name=?', [request.body.severiteName, request.body.typeName, request.body.userName], function(error, results) {		
 				if(!!error){
-					console.log('Error in the query');
+					console.log('Erreur dans la requête');
 					response.writeHead(200, {'Content-Type': 'text/plain'});
-					response.end('Error in the query \n');
+					response.end('Erreur dans la requête \n');
 				} else {
 					  // `results` is an array with one element for every statement in the query:
 					var idSeverite = JSON.parse(JSON.stringify(results[0]))[0].idSeverite;
@@ -200,15 +200,15 @@ app.post("/addIncident", function(request, response) {
 						if (!!error){
 							var errorMessage = error.message.slice(0, 12);
 							if(errorMessage === 'ER_DUP_ENTRY'){
-								console.log('Duplicate incident. Could not add the incident.');
-								response.end('Duplicate incident. Could not add the incident.');
+								console.log('Incident déjà existant');
+								response.end('Incident déjà existant');
 							} else {
-								console.log('Could not add the incident.');
-								response.end('Could not add the incident.');
+								console.log('Ajout impossible');
+								response.end('Ajout impossible');
 							}
 						}else{
-							console.log('Incident added succesfully.');
-							response.end('Incident added succesfully.');
+							console.log('Incident ajouté avec succès');
+							response.end('Incident ajouté avec succès');
 						}
 					});
 					console.log(query.sql);
@@ -225,15 +225,15 @@ app.post("/addIncident", function(request, response) {
 });
 
 app.post("/updateIncident", function(request, response) {
-	console.log('Connected');
+	console.log('Connecté');
 	try {
     // the synchronous code that we want to catch thrown errors on
 		if(!request.body.title || ! request.body.description){
-			var err = new Error('Could not update the incident. Title field or description field must not be empty.')
+			var err = new Error('Tous les champs doivent être remplis')
 			throw err
 		}
 		if (request.body.duration != parseInt(request.body.duration,10)){
-			var err = new Error('Could not update the incident. Parsing error. The duration must be a number.')
+			var err = new Error('La durée doit être un nombre de minutes')
 			throw err
 		}
 		connection.getConnection(function(error,tempCont){
@@ -257,13 +257,13 @@ app.post("/updateIncident", function(request, response) {
 					var query = tempCont.query('UPDATE incident SET title=?,description=?,idUser=?,idSeverite=?,idType=?,creationDate=?,duration=? WHERE idIncident=?', [request.body.title, request.body.description, idUser ,idSeverite, idType,getDateTime(),parseInt(request.body.duration,10),request.body.idIncident], function(error, result) {
 					  tempCont.release();
 					  if (!!error){
-						console.log('Could not update the incident.');
+						console.log('Mise à jour impossible');
 						response.writeHead(200, {'Content-Type': 'text/plain'});
-						response.end('Could not update the incident.');
+						response.end('Mise à jour impossible');
 					  }else{
-						console.log('Incident updated succesfully.');
+						console.log('Mise à jour avec succès');
 						response.writeHead(200, {'Content-Type': 'text/plain'});
-						response.end('Incident updated succesfully.');
+						response.end('Mise à jour avec succès');
 					  } 
 					});
 					console.log(query.sql);
@@ -285,22 +285,22 @@ app.post('/deleteIncident', function(request,response){
 			tempCont.release();
 			console.log('ERROR');
 		} else{
-			console.log('Connected');
+			console.log('Connecté');
 			tempCont.query("DELETE FROM incident WHERE idIncident=?",request.body.idIncident, function(error,rows,fields){
 				tempCont.release();
 				if(!!error){
-					console.log('Error in the query');
+					console.log('Erreur dans la requête');
 					response.writeHead(200, {'Content-Type': 'text/plain'});
-					response.end('Error in the query \n');
+					response.end('Erreur dans la requête \n');
 				} else{
 					response.json({"result":rows});
 				}
 			});
 			tempCont.query("DELETE FROM `like` WHERE idIncident=?",request.body.idIncident, function(error,rows,fields){
 				if(!!error){
-						console.log('Error in delete the query');
+						console.log('Suppression non possible');
 					} else{
-						console.log('like succesfully deleted');
+						console.log('Like supprimé');
 					}
 				});
 		}
@@ -309,10 +309,10 @@ app.post('/deleteIncident', function(request,response){
 
 
 app.post("/addUser", function(request, response) {
-  	console.log('Connected');
+  	console.log('Connecté');
 	try {
 		if(!request.body.name || !request.body.firstName || !request.body.email || !request.body.login || !request.body.password ){
-			var err = new Error('Could not add the account. The fields must not be empty.')
+			var err = new Error('Tous les champs doivent être remplis')
 			throw err
 		}
 		if (validator.validate(request.body.email) == false){
@@ -325,18 +325,18 @@ app.post("/addUser", function(request, response) {
 			var query = connection.query('INSERT INTO user(name,firstName,email,login,password,salt)  VALUES (?,?,?,?,?,?)', [request.body.name, request.body.firstName,request.body.email,request.body.login,password.passwordHash,password.salt], function(error, result) {
 				if (!!error){
 					console.log(error);
-					console.log('Could not add the account. It already exists.');
+					console.log('Compte déjà existant');
 					response.writeHead(200, {'Content-Type': 'text/plain'});
-					response.end('Could not add the account. It already exists.');
+					response.end('Compte déjà existant');
 				}else{
-					console.log('Account added succesfully.');
+					console.log('Compte ajouté avec succès');
 					response.writeHead(200, {'Content-Type': 'text/plain'});
-					response.end('Account added succesfully.');
+					response.end('Compte ajouté avec succès');
 				}
 			});
 			console.log(query.sql);
 		} else {
-			var err = new Error('The password and the confirmation password does not match.')
+			var err = new Error('Les mots de passe ne correspondent pas')
 			throw err
 		}
 	} catch (err) {
@@ -348,14 +348,14 @@ app.post("/addUser", function(request, response) {
 });
 
 app.post("/updateProfile", function(request, response) {
-	console.log('Connected');
+	console.log('Connecté');
 	try {
 		if(!request.body.name || !request.body.firstName || !request.body.email || !request.body.login){
-			var err = new Error('Could not update the account. The fields must not be empty.')
+			var err = new Error('Tous les champs doivent être remplis')
 			throw err
 		}
 		if (validator.validate(request.body.email) == false){
-			var err = new Error('Could not update the account. Check the email format')
+			var err = new Error('Format du mail non correcte')
 			throw err
 		}
 		connection.getConnection(function(error,tempCont){
@@ -375,13 +375,13 @@ app.post("/updateProfile", function(request, response) {
 					var query = tempCont.query('UPDATE user SET name=?,firstName=?,email=? WHERE login=?', [request.body.name, request.body.firstName, request.body.email ,request.body.login], function(error, result) {
 					  tempCont.release();
 					  if (!!error){
-						console.log('Could not update the profile.');
+						console.log('Mise à jour impossible');
 						response.writeHead(200, {'Content-Type': 'text/plain'});
-						response.end('Could not update the profile.');
+						response.end('Mise à jour impossible');
 					  }else{
-						console.log('Profile updated succesfully.');
+						console.log('Profile mis à jour avec succès');
 						response.writeHead(200, {'Content-Type': 'text/plain'});
-						response.end('Profile updated succesfully.');
+						response.end('Profile mis à jour avec succès');
 					  } 
 					});
 					console.log(query.sql);
@@ -412,22 +412,22 @@ app.post("/addLike", function(request, response) {
 							var query = tempCont.query('DELETE FROM `like` WHERE idIncident = ? and idUser = ?', [request.body.idIncident, request.body.idUser], function(error, result) {
 							  if (!!error){		
 								tempCont.release();							  
-								console.log('Could not like this incident.');
+								console.log('Like non possible pour cet incident');
 								response.writeHead(200, {'Content-Type': 'text/plain'});
-								response.end('Could not like this incident.');
+								response.end('Like non possible pour cet incident');
 							  }else{
 								var query = tempCont.query('SELECT COUNT(*) as nbLike FROM `like` WHERE idIncident = ? GROUP BY idIncident', [request.body.idIncident], function(error, result) {
 									tempCont.release();
 									try{
 										var nbLike = JSON.parse(JSON.stringify(result))[0].nbLike;
-										console.log('Incident unliked. Total of:' +nbLike);
+										console.log('Incident non liké. Total of:' +nbLike);
 										response.writeHead(200, {'Content-Type': 'text/plain'});
-										response.end('Incident unliked. Total of:' +nbLike);
+										response.end('Incident non liké. Total of:' +nbLike);
 									} catch(err){
 										// handle the error safely
-										console.log('Incident unliked. Total of: 0');
+										console.log('Incident non liké. Total of: 0');
 										response.writeHead(200, {'Content-Type': 'text/plain'});
-										response.end('Incident unliked. Total of: 0');
+										response.end('Incident non liké. Total of: 0');
 									}
 								});
 							  } 
@@ -452,9 +452,9 @@ app.post("/addLike", function(request, response) {
 						var query = tempCont.query('SELECT COUNT(*) as nbLike FROM `like` WHERE idIncident = ? GROUP BY idIncident', [request.body.idIncident], function(error, result) {
 							tempCont.release();
 							var nbLike = JSON.parse(JSON.stringify(result))[0].nbLike;
-							console.log('Incident liked. Total of:' +nbLike);
+							console.log('Incident liké. Total of:' +nbLike);
 							response.writeHead(200, {'Content-Type': 'text/plain'});
-						    response.end('Incident liked. Total of:' +nbLike);
+						    response.end('Incident liké. Total of:' +nbLike);
 						});
 					}
 				});
@@ -472,7 +472,7 @@ app.post("/addLike", function(request, response) {
 app.post('/login',function(request,response){
 	try{
 		if(!request.body.username || !request.body.password){
-			var err = new Error('The fields must not be empty.')
+			var err = new Error('Tous les champs doivent être remplis')
 			throw err
 		}
 		connection.getConnection(function(error,tempCont){
@@ -480,7 +480,7 @@ app.post('/login',function(request,response){
 				tempCont.release();
 				console.log('ERROR');
 			}else{
-				console.log('Connected');
+				console.log('Connecté');
 				var query = connection.query('SELECT * FROM user WHERE login=?', [request.body.username] , function(err, result) {
 					//Check whether the login exists or not
 					try {
@@ -522,11 +522,11 @@ function deleteIncident()
 			tempCont.release();
 			console.log('ERROR');
 		} else{
-			console.log('Connected');
+			console.log('Connecté');
 			tempCont.query("SELECT i.idIncident, i.duration, i.creationDate FROM incident i", function(error,rows,fields){
 				tempCont.release();
 				if(!!error){
-					console.log('Error in the select query');
+					console.log('Erreur dans la requête');
 				} else{
 					rows.forEach(function(row) {
 						var idIncident = row.idIncident;
@@ -542,16 +542,16 @@ function deleteIncident()
 						if(totalDiff > 0 && totalDiff > duration){//Delete the 
 							tempCont.query("DELETE FROM incident WHERE idIncident=?",idIncident, function(error,rows,fields){
 							if(!!error){
-									console.log('Error in delete the query');
+									console.log('Erreur dans la suppression de la requête');
 								} else{
-									console.log('Incident succesfully deleted');
+									console.log('Incident supprimé avec succès');
 								}
 							});
 							tempCont.query("DELETE FROM `like` WHERE idIncident=?",idIncident, function(error,rows,fields){
 							if(!!error){
-									console.log('Error in delete the query');
+									console.log('Erreur dans la suppression de la requête');
 								} else{
-									console.log('like succesfully deleted');
+									console.log('Like supprimé avec succès');
 								}
 							});
 						}
@@ -576,14 +576,14 @@ app.post('/getProfile', function(request,response){
 			tempCont.release();
 			console.log('ERROR');
 		} else{
-			console.log('Connected');
+			console.log('Connecté');
 			console.log('test');
 			tempCont.query('SELECT * FROM user where login =?',request.body.login, function(error,rows,fields){
 				tempCont.release();
 				if(!!error){
-					console.log('Error in the query');
+					console.log('Erreur dans la requête');
 					response.writeHead(200, {'Content-Type': 'text/plain'});
-					response.end('Error in the query \n');
+					response.end('Erreur dans la requête \n');
 				} else{
 					response.json({"result":rows});
 				}
@@ -594,5 +594,5 @@ app.post('/getProfile', function(request,response){
 
 app.listen(8888);
 
-console.log("Server is running...");
+console.log("Serveur en cours d'utilisation...");
 
