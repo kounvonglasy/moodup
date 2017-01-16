@@ -56,7 +56,7 @@ public class ViewAllIncident extends BaseActivity {
                     String userLogin = c.getString(Config.TAG_INCIDENT_USER_LOGIN);
                     String duration = c.getString(Config.TAG_INCIDENT_DURATION);
                     String nbLike = c.getString(Config.TAG_INCIDENT_NB_LIKE);
-                    if(nbLike.equals("null")){
+                    if (nbLike.equals("null")) {
                         nbLike = "0";
                     }
                     Incident incident = new Incident(id, title, description, creationDate, duration, userLogin, nbLike);
@@ -157,13 +157,17 @@ public class ViewAllIncident extends BaseActivity {
             protected void onPostExecute(String s) {
                 super.onPostExecute(s);
                 loading.dismiss();
-                Toast.makeText(ViewAllIncident.this, s, Toast.LENGTH_LONG).show();
-                Incident incident = incidentParam;
-                incident.setNbLike(s.substring(s.lastIndexOf(":") + 1));
-                int position = adapter.getPosition(incidentParam);
-                adapter.remove(incidentParam);
-                adapter.insert(incident,position);
-                adapter.notifyDataSetChanged();
+                if (s.isEmpty()) {
+                    Toast.makeText(ViewAllIncident.this, "No Internet connection.", Toast.LENGTH_LONG).show();
+                } else {
+                    Toast.makeText(ViewAllIncident.this, s, Toast.LENGTH_LONG).show();
+                    Incident incident = incidentParam;
+                    incident.setNbLike(s.substring(s.lastIndexOf(":") + 1));
+                    int position = adapter.getPosition(incidentParam);
+                    adapter.remove(incidentParam);
+                    adapter.insert(incident, position);
+                    adapter.notifyDataSetChanged();
+                }
             }
 
             @Override

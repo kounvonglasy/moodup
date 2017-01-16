@@ -6,13 +6,62 @@
     android:background="@color/colorPrimary"
     android:padding="20dp">
 
+    <FrameLayout
+        android:id="@+id/logo"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:paddingTop="10dp">
+
+        <TextView
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_gravity="center"
+            android:background="#ff0000" />
+
+        <TextView
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_gravity="center"
+            android:background="#00ff00" />
+
+        <TextView
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_gravity="center"
+            android:background="#0000ff" />
+
+        <TextView
+            android:layout_width="16dp"
+            android:layout_height="16dp"
+            android:layout_gravity="center"
+            android:background="#ffff00" />
+
+        <TextView
+            android:layout_width="8dp"
+            android:layout_height="8dp"
+            android:layout_gravity="center"
+            android:background="#ff00ff" />
+
+        <TextView
+            android:layout_width="4dp"
+            android:layout_height="4dp"
+            android:layout_gravity="center"
+            android:background="#ffffff" />
+    </FrameLayout>
+
     <TextView
         android:id="@+id/nav_header"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
         android:padding="10dp"
-        android:text="Header Navigation"
+        android:text="Header Navigation Header Navigation Header Navigation Header Navigatio        "
         android:textColor="#fff"
-        android:textSize="20dp" />
+        android:textSize="20dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginStart="16dp"
+        android:layout_toRightOf="@+id/logo" />
+
 </RelativeLayout>
