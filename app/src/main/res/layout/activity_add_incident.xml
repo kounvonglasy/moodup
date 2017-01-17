@@ -5,7 +5,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="isep.moodup.AddIncident">
+    android:background="@color/white"
+    tools:context="isep.moodup.AddIncident"
+    android:weightSum="1">
 
     <TextView
         android:id="@+id/mytext"
@@ -13,43 +15,61 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:text="Ajouter un incident"
-        android:textSize="18sp" />
+        android:textSize="24sp"
+        android:layout_weight="0.13"
+        android:padding="5dp"/>
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Titre" />
-
+        android:textSize="18sp"
+        android:text="Titre de l'incident"
+        android:layout_weight="0.08"
+        android:id="@+id/textView" />
     <EditText
         android:id="@+id/editTextTitle"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        style="@style/editextgraybg"
+        android:layout_width="wrap_content"
+        android:layout_height="55dp"
+        android:layout_marginBottom="@dimen/pad_10dp">
+        <requestFocus />
+    </EditText>
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Description" />
-
+        android:textSize="18sp"
+        android:text="Description de l'incident"
+        android:layout_weight="0.08" />
     <EditText
         android:id="@+id/editTextDescription"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        style="@style/editextgraybg"
+        android:layout_width="wrap_content"
+        android:layout_height="55dp"
+        android:layout_marginBottom="@dimen/pad_10dp">
+        <requestFocus />
+    </EditText>
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Durée de l'incident (en minute)" />
-
+        android:textSize="18sp"
+        android:text="Durée de l'incident (en minutes)"
+        android:layout_weight="0.08" />
     <EditText
         android:id="@+id/editTextDuration"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        style="@style/editextgraybg"
+        android:layout_width="wrap_content"
+        android:layout_height="70dp"
+        android:layout_marginBottom="@dimen/pad_10dp">
+        <requestFocus />
+    </EditText>
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Severite" />
-
+        android:text="Impact sur le trafic"
+        android:textSize="18sp"/>
     <Spinner
         android:id="@+id/editSpinnerSeverite"
         android:layout_width="match_parent"
@@ -60,20 +80,33 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Type" />
-
+        android:text="Type"
+        android:textSize="18sp" />
     <Spinner
         android:id="@+id/editSpinnerType"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true" />
+        android:layout_centerVertical="true"
+        android:layout_marginBottom="5dp"/>
 
-    <Button
-        android:id="@+id/buttonAddIncident"
-        android:layout_width="match_parent"
+
+
+    <LinearLayout
+        android:id="@+id/main"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Ajouter l'incident" />
+        android:orientation="horizontal" >
+
+        <Button
+            android:id="@+id/buttonAddIncident"
+            style="@style/btn_white_large"
+            android:layout_width="wrap_content"
+            android:layout_height="60dp"
+            android:layout_marginLeft="@dimen/pad_10dp"
+            android:layout_marginRight="@dimen/pad_10dp"
+            android:text="Ajouter l'incident" />
+    </LinearLayout>
 
 </LinearLayout>
 

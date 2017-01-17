@@ -4,32 +4,112 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="isep.moodup.ViewIncident">
+    tools:context="isep.moodup.ViewIncident"
+    android:background="@color/white"
+    android:weightSum="1">
 
     <TextView
         android:id="@+id/mytext"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:text="Choix catégorie"
-        android:textSize="18sp" />
+        android:text="Choix type de transport"
+        android:textSize="24sp"
+        android:layout_weight="0.19"
+        android:layout_marginTop="20dp"/>
+
+    <LinearLayout
+        android:id="@+id/main"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal" >
+
+        <Button
+            android:id="@+id/buttonCategoryTR"
+            style="@style/btn_white_large"
+            android:layout_width="175dp"
+            android:layout_height="126dp"
+            android:layout_below="@+id/buttonCategoryTC"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:text="Taxi"
+            android:layout_marginLeft="@dimen/pad_10dp"/>
+
+        <Button
+            android:id="@+id/buttonCategoryTC"
+            style="@style/btn_white_large"
+            android:layout_width="175dp"
+            android:layout_height="126dp"
+            android:layout_below="@+id/buttonCategoryTC"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:text="Metro"
+            android:layout_marginLeft="@dimen/pad_10dp"/>
+
+
+    </LinearLayout>
+
+    <LinearLayout
+    android:id="@+id/main2"
+    android:layout_marginTop="20dp"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal" >
 
     <Button
-        android:id="@+id/buttonCategoryTR"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Transport routier"
+        android:id="@+id/buttonCategoryRER"
+        style="@style/btn_white_large"
+        android:layout_width="175dp"
+        android:layout_height="126dp"
         android:layout_below="@+id/buttonCategoryTC"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_marginTop="43dp" />
+        android:text="RER"
+        android:layout_marginLeft="@dimen/pad_10dp"/>
 
     <Button
-        android:id="@+id/buttonCategoryTC"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Transport en commun"
+        android:id="@+id/buttonCategorybus"
+        style="@style/btn_white_large"
+        android:layout_width="175dp"
+        android:layout_height="126dp"
+        android:layout_below="@+id/buttonCategoryTC"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:layout_alignParentStart="true"
+        android:text="BUS"
+        android:layout_marginLeft="@dimen/pad_10dp"/>
+
+
+</LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/main3"
+        android:layout_marginTop="20dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal" >
+
+        <Button
+            android:id="@+id/buttonCategoryTGV"
+            style="@style/btn_white_large"
+            android:layout_width="175dp"
+            android:layout_height="126dp"
+            android:layout_below="@+id/buttonCategoryTC"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:text="TGV"
+            android:layout_marginLeft="@dimen/pad_10dp"/>
+
+        <Button
+            android:id="@+id/buttonCategoryTRAM"
+            style="@style/btn_white_large"
+            android:layout_width="175dp"
+            android:layout_height="126dp"
+            android:layout_below="@+id/buttonCategoryTC"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:text="TRAM"
+            android:layout_marginLeft="@dimen/pad_10dp"/>
+
+    </LinearLayout>
 
 </LinearLayout>

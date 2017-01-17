@@ -2,82 +2,111 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:background="@color/white">
 
-    <TextView
-        android:id="@+id/mytext"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:text="Ajouter un utilisateur"
-        android:textSize="18sp" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Prénom" />
-
-    <EditText
-        android:id="@+id/editTextName"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="match_parent"
+        android:gravity="center_horizontal"
+        android:orientation="vertical"
+        android:paddingBottom="@dimen/pad_20dp"
+        android:paddingLeft="@dimen/pad_15dp"
+        android:paddingRight="@dimen/pad_15dp"
+        android:paddingTop="@dimen/pad_20dp"
+        android:weightSum="1">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Nom de famille" />
+        <ImageView
+            android:id="@+id/logo"
+            android:layout_width="189dp"
+            android:layout_height="72dp"
+            android:layout_marginBottom="@dimen/pad_20dp"
+            android:src="@drawable/logo_one" />
 
-    <EditText
-        android:id="@+id/editTextFirstname"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        <EditText
+            android:id="@+id/editTextName"
+            style="@style/editextgraybg"
+            android:layout_width="wrap_content"
+            android:layout_height="56dp"
+            android:drawableLeft="@drawable/ic_username"
+            android:hint="Prénom"
+            android:inputType="text" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="E-mail" />
+        <EditText
+            android:id="@+id/editTextFirstname"
+            style="@style/editextgraybg"
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:layout_marginTop="@dimen/pad_5dp"
+            android:drawableLeft="@drawable/ic_username"
+            android:hint="Nom de famille"
+            android:inputType="text" >
 
-    <EditText
-        android:id="@+id/editTextEmail"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+            <requestFocus />
+        </EditText>
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Identifiant" />
+        <EditText
+            android:id="@+id/editTextEmail"
+            style="@style/editextgraybg"
+            android:layout_width="wrap_content"
+            android:layout_height="56dp"
+            android:layout_marginTop="@dimen/pad_5dp"
+            android:drawableLeft="@drawable/ic_email"
+            android:hint="E-mail"
+            android:inputType="textEmailAddress" >
 
-    <EditText
-        android:id="@+id/editTextLogin"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+            <requestFocus />
+        </EditText>
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Mot de passe" />
+        <EditText
+            android:id="@+id/editTextLogin"
+            style="@style/editextgraybg"
+            android:layout_width="wrap_content"
+            android:layout_height="56dp"
+            android:layout_marginTop="@dimen/pad_5dp"
+            android:drawableLeft="@drawable/ic_username"
+            android:hint="Identifiant"
+            android:inputType="text" />
 
-    <EditText
-        android:id="@+id/editTextPassword"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:inputType="textPassword" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Mot de passe (Confirmer)" />
+        <EditText
+            android:id="@+id/editTextPassword"
+            style="@style/editextgraybg"
+            android:layout_width="wrap_content"
+            android:layout_height="56dp"
+            android:layout_marginTop="@dimen/pad_5dp"
+            android:drawableLeft="@drawable/ic_pwd"
+            android:hint="Mot de passe"
+            android:inputType="textPassword" >
+        </EditText>
 
-    <EditText
-        android:id="@+id/editTextConfirmPassword"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:inputType="textPassword" />
+        <EditText
+            android:id="@+id/editTextConfirmPassword"
+            style="@style/editextgraybg"
+            android:layout_width="wrap_content"
+            android:layout_height="56dp"
+            android:layout_marginBottom="@dimen/pad_20dp"
+            android:layout_marginTop="@dimen/pad_5dp"
+            android:drawableLeft="@drawable/ic_pwd"
+            android:hint="Mot de passe (Confirmation)"
+            android:inputType="textPassword" >
+        </EditText>
 
-    <Button
-        android:id="@+id/buttonAddProfile"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Valider l'inscription" />
+        <LinearLayout
+            android:id="@+id/main"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal" >
+
+            <Button
+                android:id="@+id/buttonAddProfile"
+                style="@style/btn_white_large"
+                android:layout_width="wrap_content"
+                android:layout_height="60dp"
+                android:layout_marginLeft="@dimen/pad_10dp"
+                android:layout_marginRight="10dp"
+                android:text="Inscription" />
+        </LinearLayout>
+    </LinearLayout>
 
 </LinearLayout>
