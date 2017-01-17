@@ -32,7 +32,7 @@ public class ViewIncidentsByCategory extends ViewIncidents {
             @Override
             protected String doInBackground(Void... params) {
                 Intent intent = getIntent();
-                String idCategory = intent.getStringExtra(Config.INCIDENT_CATEGORY);
+                String idCategory = intent.getStringExtra(Config.INCIDENT_TYPE);
                 // Making a request to url and getting response
                 HashMap<String, String> hashMap = new HashMap<>();
                 hashMap.put(Config.KEY_INCIDENT_ID, idCategory);
