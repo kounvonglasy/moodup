@@ -33,7 +33,7 @@
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
             android:text="Taxi"
-            android:layout_marginLeft="@dimen/pad_10dp"/>
+            android:layout_marginLeft="@dimen/pad_5dp"/>
 
         <Button
             android:id="@+id/buttonMetro"
@@ -44,7 +44,8 @@
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
             android:text="Metro"
-            android:layout_marginLeft="@dimen/pad_10dp"/>
+            android:layout_marginLeft="@dimen/pad_10dp"
+            android:layout_marginRight="@dimen/pad_5dp"/>
 
 
     </LinearLayout>
@@ -65,7 +66,7 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:text="RER"
-        android:layout_marginLeft="@dimen/pad_10dp"/>
+        android:layout_marginLeft="@dimen/pad_5dp"/>
 
     <Button
         android:id="@+id/buttonBUS"
@@ -76,7 +77,8 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:text="BUS"
-        android:layout_marginLeft="@dimen/pad_10dp"/>
+        android:layout_marginLeft="@dimen/pad_10dp"
+        android:layout_marginRight="@dimen/pad_5dp"/>
 
 
 </LinearLayout>
@@ -97,7 +99,7 @@
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
             android:text="TGV"
-            android:layout_marginLeft="@dimen/pad_10dp"/>
+            android:layout_marginLeft="@dimen/pad_5dp"/>
 
         <Button
             android:id="@+id/buttonTRAM"
@@ -108,7 +110,8 @@
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
             android:text="TRAM"
-            android:layout_marginLeft="@dimen/pad_10dp"/>
+            android:layout_marginLeft="@dimen/pad_10dp"
+            android:layout_marginRight="@dimen/pad_5dp"/>
 
     </LinearLayout>
 

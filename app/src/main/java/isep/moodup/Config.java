@@ -69,7 +69,7 @@ public class Config {
 
     //incident id to pass with intent
     public static final String INCIDENT_ID = "idIncident";
-    public static final String INCIDENT_CATEGORY = "idCategory";
+    public static final String INCIDENT_TYPE = "idType";
 
 
     //for the maps
