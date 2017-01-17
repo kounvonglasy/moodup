@@ -78,25 +78,25 @@ app.get('/getAllIncidents', function(request,response){
 });
 
 app.post('/getIncidentsByCategory', function(request,response){
-	//about mysql
-	connection.getConnection(function(error,tempCont){
-		if(!!error){
-			tempCont.release();
-			console.log('ERROR');
-		} else{
-			console.log('Connecté');
-			tempCont.query("SELECT i.idIncident,i.title, i.description, i.creationDate, i.longitude, i.latitude, i.duration, u.login, likes.nbLike, s.name as severiteName FROM incident as i LEFT JOIN severity as s ON s.idSeverite = i.idSeverite LEFT JOIN type as t ON i.idType = t.idType LEFT JOIN categorie as c ON t.idCategorie = c.idCategorie LEFT JOIN user as u ON i.idUser = u.idUser LEFT JOIN (SELECT idIncident, idUser, COUNT(*) as nbLike FROM `like` GROUP BY idIncident) likes ON likes.idIncident = i.idIncident WHERE c.idCategorie=?",request.body.idIncident ,function(error,rows,fields){
-				tempCont.release();
-				if(!!error){
-					console.log('Erreur dans la requête');
-					response.writeHead(200, {'Content-Type': 'text/plain'});
-					response.end('Erreur dans la requête \n');
-				} else{
-					response.json({"result":rows});
-				}
-			});
-		}
-	});
+ //about mysql
+ connection.getConnection(function(error,tempCont){
+  if(!!error){
+   tempCont.release();
+   console.log('ERROR');
+  } else{
+   console.log('Connecté');
+   tempCont.query("SELECT i.idIncident,i.title, i.description, i.creationDate, i.longitude, i.latitude, i.duration, u.login, likes.nbLike, s.name as severiteName FROM incident as i LEFT JOIN severity as s ON s.idSeverite = i.idSeverite LEFT JOIN type as t ON i.idType = t.idType LEFT JOIN user as u ON i.idUser = u.idUser LEFT JOIN (SELECT idIncident, idUser, COUNT(*) as nbLike FROM `like` GROUP BY idIncident) likes ON likes.idIncident = i.idIncident WHERE t.idType=?",request.body.idIncident ,function(error,rows,fields){
+    tempCont.release();
+    if(!!error){
+     console.log('Erreur dans la requête');
+     response.writeHead(200, {'Content-Type': 'text/plain'});
+     response.end('Erreur dans la requête \n');
+    } else{
+     response.json({"result":rows});
+    }
+   });
+  }
+ });
 });
 
 app.get('/getAllSeverites', function(request,response){

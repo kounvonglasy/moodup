@@ -25,7 +25,7 @@
         android:orientation="horizontal" >
 
         <Button
-            android:id="@+id/buttonCategoryTR"
+            android:id="@+id/buttonTaxi"
             style="@style/btn_white_large"
             android:layout_width="175dp"
             android:layout_height="126dp"
@@ -36,7 +36,7 @@
             android:layout_marginLeft="@dimen/pad_10dp"/>
 
         <Button
-            android:id="@+id/buttonCategoryTC"
+            android:id="@+id/buttonMetro"
             style="@style/btn_white_large"
             android:layout_width="175dp"
             android:layout_height="126dp"
@@ -57,7 +57,7 @@
     android:orientation="horizontal" >
 
     <Button
-        android:id="@+id/buttonCategoryRER"
+        android:id="@+id/buttonRER"
         style="@style/btn_white_large"
         android:layout_width="175dp"
         android:layout_height="126dp"
@@ -68,7 +68,7 @@
         android:layout_marginLeft="@dimen/pad_10dp"/>
 
     <Button
-        android:id="@+id/buttonCategorybus"
+        android:id="@+id/buttonBUS"
         style="@style/btn_white_large"
         android:layout_width="175dp"
         android:layout_height="126dp"
@@ -89,7 +89,7 @@
         android:orientation="horizontal" >
 
         <Button
-            android:id="@+id/buttonCategoryTGV"
+            android:id="@+id/buttonTGV"
             style="@style/btn_white_large"
             android:layout_width="175dp"
             android:layout_height="126dp"
@@ -100,7 +100,7 @@
             android:layout_marginLeft="@dimen/pad_10dp"/>
 
         <Button
-            android:id="@+id/buttonCategoryTRAM"
+            android:id="@+id/buttonTRAM"
             style="@style/btn_white_large"
             android:layout_width="175dp"
             android:layout_height="126dp"
