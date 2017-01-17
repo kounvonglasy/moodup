@@ -47,22 +47,19 @@
 
         <Button
             android:id="@+id/incident"
-            style="@style/btn_white_long"
-            android:layout_width="115dp"
-            android:layout_height="54dp"
+            android:text="Edit this incident"
+            android:textSize="10sp"
+            android:layout_width="105dp"
+            android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:drawableRight="@android:drawable/ic_menu_edit"
             android:gravity="left|center_vertical"
             android:onClick="getIncidentOnClickHandler"
-            android:text="Modifier l'incident"
-            android:textSize="15sp"
-            android:layout_weight="0.34"
-            android:layout_marginLeft="@dimen/pad_5dp"
-            android:padding="5dp"/>
+            android:src="@android:drawable/ic_menu_edit"
+            />
 
         <ImageButton
             android:id="@+id/like"
-            style="@style/btn_white_large"
             android:layout_alignParentRight="true"
             android:gravity="left|center_vertical"
             android:layout_width="45dp"
