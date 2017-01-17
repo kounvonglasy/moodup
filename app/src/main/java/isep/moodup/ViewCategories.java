@@ -40,22 +40,22 @@ public class ViewCategories extends BaseActivity implements View.OnClickListener
     public void onClick(View v) {
         Intent intent = new Intent(this, ViewIncidentsByCategory.class);
         if (v == buttonTaxi) {
-            intent.putExtra(Config.INCIDENT_CATEGORY, "1");
+            intent.putExtra(Config.INCIDENT_TYPE, "1");
         }
         if (v == buttonMetro) {
-            intent.putExtra(Config.INCIDENT_CATEGORY, "2");
+            intent.putExtra(Config.INCIDENT_TYPE, "2");
         }
         if (v == buttonRER) {
-            intent.putExtra(Config.INCIDENT_CATEGORY, "3");
+            intent.putExtra(Config.INCIDENT_TYPE, "3");
         }
         if (v == buttonBUS) {
-            intent.putExtra(Config.INCIDENT_CATEGORY, "4");
+            intent.putExtra(Config.INCIDENT_TYPE, "4");
         }
         if (v == buttonTGV) {
-            intent.putExtra(Config.INCIDENT_CATEGORY, "5");
+            intent.putExtra(Config.INCIDENT_TYPE, "5");
         }
         if (v == buttonTRAM) {
-            intent.putExtra(Config.INCIDENT_CATEGORY, "6");
+            intent.putExtra(Config.INCIDENT_TYPE, "6");
         }
         startActivity(intent);
 
