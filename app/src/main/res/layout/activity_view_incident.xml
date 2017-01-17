@@ -8,15 +8,6 @@
     android:background="@color/white"
     android:weightSum="1">
 
-    <TextView
-        android:id="@+id/mytext"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:text="Modifier/Supprimer un incident"
-        android:textSize="24sp"
-        android:layout_weight="0.37"
-        android:padding="5dp"/>
 
     <ScrollView
         android:layout_width="fill_parent"
@@ -34,8 +25,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="18sp"
-                android:text="Titre de l'incident"
-                android:layout_weight="0.42" />
+                android:text="Modifier le titre de l'incident"
+                android:layout_weight="0.42"
+                android:layout_marginTop="@dimen/pad_5dp"/>
             <EditText
                 android:id="@+id/editTextTitle"
                 style="@style/editextgraybg"
@@ -49,7 +41,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="18sp"
-                android:text="Description de l'incident"
+                android:text="Modifier la description de l'incident"
                 android:layout_weight="0.42" />
             <EditText
                 android:id="@+id/editTextDescription"
@@ -64,7 +56,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="18sp"
-                android:text="Durée de l'incident (en minutes)"
+                android:text="Modifier la durée de l'incident (en minutes)"
                 android:layout_weight="0.42" />
             <EditText
                 android:id="@+id/editTextDuration"

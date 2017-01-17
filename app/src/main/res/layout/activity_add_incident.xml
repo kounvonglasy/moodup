@@ -15,8 +15,8 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:text="Ajouter un incident"
-        android:textSize="24sp"
-        android:layout_weight="0.13"
+        android:textSize="18sp"
+        android:layout_weight="0.05"
         android:padding="5dp"/>
 
     <TextView
@@ -60,7 +60,7 @@
         android:id="@+id/editTextDuration"
         style="@style/editextgraybg"
         android:layout_width="wrap_content"
-        android:layout_height="70dp"
+        android:layout_height="55dp"
         android:layout_marginBottom="@dimen/pad_10dp">
         <requestFocus />
     </EditText>
