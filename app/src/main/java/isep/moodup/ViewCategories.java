@@ -45,14 +45,12 @@ public class ViewCategories extends BaseActivity implements View.OnClickListener
         if (v == buttonMetro) {
             intent.putExtra(Config.INCIDENT_CATEGORY, "2");
         }
-        startActivity(intent);
         if (v == buttonRER) {
             intent.putExtra(Config.INCIDENT_CATEGORY, "3");
         }
         if (v == buttonBUS) {
             intent.putExtra(Config.INCIDENT_CATEGORY, "4");
         }
-        startActivity(intent);
         if (v == buttonTGV) {
             intent.putExtra(Config.INCIDENT_CATEGORY, "5");
         }
